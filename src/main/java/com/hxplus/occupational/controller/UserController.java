@@ -1,0 +1,57 @@
+package com.hxplus.occupational.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hxplus.occupational.model.User;
+import com.hxplus.occupational.request.UserRequest;
+import com.hxplus.occupational.service.UserService;
+
+@Controller
+@RequestMapping(value="/user")
+public class UserController {
+	
+	@Autowired UserService userService;
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	public @ResponseBody User getUser(@PathVariable("id") Long id){
+		return userService.findById(id);
+	}
+	
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public @ResponseBody List<User> getUsers(){
+		return userService.findAll();
+	}
+	
+	@RequestMapping(value="",method=RequestMethod.POST)
+	public @ResponseBody User createUser(@RequestBody UserRequest userRequest){
+		return userService.saveUser(userRequest);
+	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	public @ResponseBody User updateUser(@PathVariable("id") Long id,@RequestBody UserRequest userRequest){
+		return userService.updateUser(id, userRequest);
+	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<Object> deleteUser(@PathVariable("id") Long id){
+		try{
+			userService.deleteUser(id);
+			return new ResponseEntity<Object>(null,HttpStatus.OK);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+
+}

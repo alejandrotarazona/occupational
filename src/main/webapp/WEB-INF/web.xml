@@ -26,4 +26,13 @@ version="3.0">
  	<servlet-name>occupational</servlet-name>	<!-- Modificado -->
         <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+   <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/config/occupational-servlet.xml</param-value>
+    </context-param>
+
+    <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

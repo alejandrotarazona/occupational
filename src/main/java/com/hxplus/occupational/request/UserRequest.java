@@ -1,15 +1,6 @@
-package com.hxplus.occupational.model;
+package com.hxplus.occupational.request;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "user")
-public class User extends BaseEntity {
+public class UserRequest {
 
 	private Long id;
 	private Long ci;
@@ -20,43 +11,34 @@ public class User extends BaseEntity {
 	private String nroTelefono;
 	private String email;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(name = "ci")
 	public Long getCi() {
 		return ci;
 	}
 
-	@Column(name = "rif")
 	public Long getRif() {
 		return rif;
 	}
 
-	@Column(name = "primerNombre")
 	public String getPrimerNombre() {
 		return primerNombre;
 	}
 
-	@Column(name = "primerApellido")
 	public String getPrimerApellido() {
 		return primerApellido;
 	}
-	
-	@Column(name = "direccionHabitacion")
+
 	public String getDireccionHabitacion() {
 		return direccionHabitacion;
 	}
 
-	@Column(name = "nroTelefono")
 	public String getNroTelefono() {
 		return nroTelefono;
 	}
-	
-	@Column(name = "email")
+
 	public String getEmail() {
 		return email;
 	}

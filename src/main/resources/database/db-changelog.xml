@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<preConditions>
+		<dbms type="mysql" />
+		<runningAs username="hxplus" />
+	</preConditions>
+
+	<changeSet author="hxplus" id="1">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="user" />
+			</not>
+		</preConditions>
+		<createTable tableName="user">
+			<column name="ci" type="BIGINT" />
+			<column name="primerNombre" type="VARCHAR(255)" />
+			<column name="primerApellido" type="VARCHAR(255)" />
+			<column name="email" type="VARCHAR(255)" />
+			<column name="rif" type="BIGINT" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="direccionHabitacion" type="VARCHAR(255)" />
+			<column name="nroTelefono" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>
