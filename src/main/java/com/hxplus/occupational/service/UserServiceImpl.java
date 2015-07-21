@@ -11,8 +11,8 @@ import com.hxplus.occupational.request.UserRequest;
 
 @Service
 public class UserServiceImpl implements UserService{
-	@Autowired UserRepository userRepository;
 
+	@Autowired UserRepository userRepository;
 	public User findById(Long id) {
 		return userRepository.findOne(id);
 	}
