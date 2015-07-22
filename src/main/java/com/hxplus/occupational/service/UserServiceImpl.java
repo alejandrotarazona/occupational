@@ -3,6 +3,8 @@ package com.hxplus.occupational.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.User;
@@ -13,6 +15,7 @@ import com.hxplus.occupational.request.UserRequest;
 public class UserServiceImpl implements UserService{
 
 	@Autowired UserRepository userRepository;
+	
 	public User findById(Long id) {
 		return userRepository.findOne(id);
 	}
@@ -20,11 +23,11 @@ public class UserServiceImpl implements UserService{
 	private User fromReq(User user, UserRequest userRequest){
 		user.setCi(userRequest.getCi());
 		user.setRif(userRequest.getRif());
-		user.setDireccionHabitacion(userRequest.getDireccionHabitacion());
+		user.setAddress(userRequest.getDireccionHabitacion());
 		user.setEmail(userRequest.getEmail());
-		user.setPrimerNombre(userRequest.getPrimerNombre());
-		user.setPrimerApellido(userRequest.getPrimerApellido());
-		user.setNroTelefono(userRequest.getNroTelefono());
+		user.setFirstName(userRequest.getPrimerNombre());
+		user.setLastName(userRequest.getPrimerApellido());
+		user.setPhoneNumber(userRequest.getNroTelefono());
 		
 		return user;
 	}
@@ -36,10 +39,10 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public User createUser(User user){
-		user.setPrimerNombre("Alejandro");
-		user.setPrimerApellido("Tarazona");
+		user.setFirstName("Alejandro");
+		user.setLastName("Tarazona");
 		user.setEmail("alejandrotarazona@gmail.com");
-		user.setNroTelefono("04121341842");
+		user.setPhoneNumber("04121341842");
 		return user;
 	}
 
@@ -54,8 +57,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void deleteUser(Long id) {
-		userRepository.delete(id);
+	public ResponseEntity<Object> deleteUser(Long id) {
+		try{
+			userRepository.delete(id);
+			return new ResponseEntity<Object>(null,HttpStatus.OK);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

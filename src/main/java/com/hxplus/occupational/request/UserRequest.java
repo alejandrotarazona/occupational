@@ -3,6 +3,7 @@ package com.hxplus.occupational.request;
 public class UserRequest {
 
 	private Long id;
+	private String password;
 	private Long ci;
 	private Long rif;
 	private String primerNombre;
@@ -13,6 +14,10 @@ public class UserRequest {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public Long getCi() {
@@ -45,6 +50,10 @@ public class UserRequest {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setCi(Long ci) {

@@ -3,7 +3,6 @@ package com.hxplus.occupational.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,41 +16,41 @@ import com.hxplus.occupational.request.UserRequest;
 import com.hxplus.occupational.service.UserService;
 
 @Controller
-@RequestMapping(value="/user")
+@RequestMapping(value = "/user")
 public class UserController {
-	
-	@Autowired UserService userService;
-	
-	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public @ResponseBody User getUser(@PathVariable("id") Long id){
+
+	@Autowired
+	UserService userService;
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	User getUser(@PathVariable("id") Long id) {
 		return userService.findById(id);
 	}
-	
-	@RequestMapping(value="",method=RequestMethod.GET)
-	public @ResponseBody List<User> getUsers(){
+
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public @ResponseBody
+	List<User> getUsers() {
 		return userService.findAll();
 	}
-	
-	@RequestMapping(value="",method=RequestMethod.POST)
-	public @ResponseBody User createUser(@RequestBody UserRequest userRequest){
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public @ResponseBody
+	User createUser(@RequestBody UserRequest userRequest) {
 		return userService.saveUser(userRequest);
 	}
-	
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public @ResponseBody User updateUser(@PathVariable("id") Long id,@RequestBody UserRequest userRequest){
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public @ResponseBody
+	User updateUser(@PathVariable("id") Long id,
+			@RequestBody UserRequest userRequest) {
 		return userService.updateUser(id, userRequest);
 	}
-	
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<Object> deleteUser(@PathVariable("id") Long id){
-		try{
-			userService.deleteUser(id);
-			return new ResponseEntity<Object>(null,HttpStatus.OK);
-		}catch (Exception ex){
-			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody
+	ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
+		return userService.deleteUser(id);
 	}
 
 }
