@@ -32,6 +32,11 @@ version="3.0">
         <param-value>/WEB-INF/config/occupational-servlet.xml</param-value>
     </context-param>
 
+	<filter>
+		<filter-name>CORSFilter</filter-name>
+		<filter-class>com.hxplus.occupational.filter.CORSFilter</filter-class>
+	</filter>
+
     <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

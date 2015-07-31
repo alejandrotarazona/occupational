@@ -2,11 +2,13 @@ package com.hxplus.occupational.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.User;
 import com.hxplus.occupational.repositories.UserRepository;
 import com.hxplus.occupational.request.LoginRequest;
 
+@Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@Autowired UserRepository userRepository;

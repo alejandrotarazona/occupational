@@ -22,18 +22,19 @@ public class UserServiceImpl implements UserService{
 	
 	private User fromReq(User user, UserRequest userRequest){
 		user.setCi(userRequest.getCi());
+		user.setPassword(userRequest.getPassword());
 		user.setRif(userRequest.getRif());
-		user.setAddress(userRequest.getDireccionHabitacion());
+		user.setAddress(userRequest.getAddress());
 		user.setEmail(userRequest.getEmail());
-		user.setFirstName(userRequest.getPrimerNombre());
-		user.setLastName(userRequest.getPrimerApellido());
-		user.setPhoneNumber(userRequest.getNroTelefono());
+		user.setFirstName(userRequest.getFirstName());
+		user.setLastName(userRequest.getLastName());
+		user.setPhoneNumber(userRequest.getPhoneNumber());
 		
 		return user;
 	}
 	
 	public User saveUser(UserRequest userRequest){
-		User user = fromReq(new User(), userRequest);		
+		User user = createUser(new User());//fromReq(new User(), userRequest);		
 		userRepository.save(user);
 		return user;
 	}
@@ -43,6 +44,11 @@ public class UserServiceImpl implements UserService{
 		user.setLastName("Tarazona");
 		user.setEmail("alejandrotarazona@gmail.com");
 		user.setPhoneNumber("04121341842");
+		user.setUsername("atarazona");
+		user.setPassword("4242");
+		user.setAddress("Caracas");
+		user.setCi(Long.valueOf("424242"));
+		user.setRif(Long.valueOf(21212121));
 		return user;
 	}
 
@@ -66,6 +72,4 @@ public class UserServiceImpl implements UserService{
 			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
 }
