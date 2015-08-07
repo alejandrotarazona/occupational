@@ -12,6 +12,7 @@ public class UserRequest {
 	private String address;
 	private String phoneNumber;
 	private String email;
+	
 	public Long getId() {
 		return id;
 	}
