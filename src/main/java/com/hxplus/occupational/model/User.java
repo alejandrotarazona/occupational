@@ -28,6 +28,7 @@ public class User extends BaseEntity {
 		return id;
 	}
 
+	@Column(name = "username")
 	public String getUsername() {
 		return username;
 	}

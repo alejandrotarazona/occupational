@@ -1,5 +1,7 @@
 package com.hxplus.occupational.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,10 +20,8 @@ public class AutenticationController {
 	@Autowired AuthenticationService authenticationService;
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public @ResponseBody String login(@RequestBody LoginRequest loginRequest){
-		String retorno =  authenticationService.login(loginRequest);
-		System.out.println(retorno);
-		return retorno;
+	public @ResponseBody Map<String, Object> login(@RequestBody LoginRequest loginRequest){
+		return authenticationService.login(loginRequest);
 	}
 	
 	public @ResponseBody ResponseEntity<Object> logout(){

@@ -16,6 +16,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- Spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -115,27 +116,35 @@
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>3.0-alpha-1</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 
 		<!-- Autenticación basada en fichas -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.auth0</groupId>
-			<artifactId>java-jwt</artifactId>
-			<version>2.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.4</version>
+			<version>0.5.1</version>
 		</dependency>
 
+		<!--dependency> <groupId>com.auth0</groupId> <artifactId>auth0-servlet</artifactId> 
+			<version>2.0</version> </dependency> <dependency> <groupId>com.auth0</groupId> 
+			<artifactId>java-jwt</artifactId> <version>2.1.0</version> </dependency> 
+			<dependency> <groupId>commons-codec</groupId> <artifactId>commons-codec</artifactId> 
+			<version>1.4</version> </dependency -->
+
+		<!-- Intento de hacer funcionar el CORS -->
+		<!-- dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>1.2.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>1.2.5.RELEASE</version>
+		</dependency-->
 
 	</dependencies>
 
