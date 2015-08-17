@@ -2,22 +2,18 @@ package com.hxplus.occupational.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="department")
-public class Department {
+@Table(name="background")
+public class Background {
 
 	private Long id;
 	private String name;
 	private String description;
-	private Company company;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -35,12 +31,6 @@ public class Department {
 		return description;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
-	public Company getCompany() {
-		return company;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -51,10 +41,6 @@ public class Department {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
 	}
 
 }

@@ -17,7 +17,7 @@ public class Company extends BaseEntity {
 	private String companyName;
 	private String rif;
 	private String description;
-	private String mainLocation;
+	private CostCenter mainLocation;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,7 +42,7 @@ public class Company extends BaseEntity {
 	
 	@OneToOne
 	@JoinColumn(name="id")
-	public String getMainLocation() {
+	public CostCenter getMainLocation() {
 		return mainLocation;
 	}
 
@@ -62,7 +62,7 @@ public class Company extends BaseEntity {
 		this.description = description;
 	}
 
-	public void setMainLocation(String mainLocation) {
+	public void setMainLocation(CostCenter mainLocation) {
 		this.mainLocation = mainLocation;
 	}
 	

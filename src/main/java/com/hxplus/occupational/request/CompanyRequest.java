@@ -1,12 +1,15 @@
 package com.hxplus.occupational.request;
 
+import com.hxplus.occupational.model.CostCenter;
+
 public class CompanyRequest {
 
 	private Long id;
 	private String companyName;
 	private String rif;
 	private String description;
-	private String mainLocation;
+	private CostCenter mainLocation;
+	
 	public Long getId() {
 		return id;
 	}
@@ -19,7 +22,7 @@ public class CompanyRequest {
 	public String getDescription() {
 		return description;
 	}
-	public String getMainLocation() {
+	public CostCenter getMainLocation() {
 		return mainLocation;
 	}
 	public void setId(Long id) {
@@ -34,7 +37,7 @@ public class CompanyRequest {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public void setMainLocation(String mainLocation) {
+	public void setMainLocation(CostCenter mainLocation) {
 		this.mainLocation = mainLocation;
 	}
 
