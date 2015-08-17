@@ -20,19 +20,6 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findOne(id);
 	}
 	
-	private User fromReq(User user, UserRequest userRequest){
-		user.setCi(userRequest.getCi());
-		user.setPassword(userRequest.getPassword());
-		user.setRif(userRequest.getRif());
-		user.setAddress(userRequest.getAddress());
-		user.setEmail(userRequest.getEmail());
-		user.setFirstName(userRequest.getFirstName());
-		user.setLastName(userRequest.getLastName());
-		user.setPhoneNumber(userRequest.getPhoneNumber());
-		
-		return user;
-	}
-	
 	public User saveUser(UserRequest userRequest){
 		User user = createUser(new User());//fromReq(new User(), userRequest);		
 		userRepository.save(user);
@@ -71,5 +58,19 @@ public class UserServiceImpl implements UserService{
 			ex.printStackTrace();
 			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	
+	private User fromReq(User user, UserRequest userRequest){
+		user.setCi(userRequest.getCi());
+		user.setPassword(userRequest.getPassword());
+		user.setRif(userRequest.getRif());
+		user.setAddress(userRequest.getAddress());
+		user.setEmail(userRequest.getEmail());
+		user.setFirstName(userRequest.getFirstName());
+		user.setLastName(userRequest.getLastName());
+		user.setPhoneNumber(userRequest.getPhoneNumber());
+		
+		return user;
 	}
 }
