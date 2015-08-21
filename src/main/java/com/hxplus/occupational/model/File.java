@@ -1,17 +1,26 @@
 package com.hxplus.occupational.model;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import java.io.Serializable;
 
-public class File {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="file")
+public class File implements Serializable{
 
 	private Consult consult;
 	private String fileName;
 	private java.io.File file;
 
+	@Id
 	@OneToOne(fetch=FetchType.LAZY)
-	@Column(name="id")
+	@JoinColumn(referencedColumnName="id")
 	public Consult getConsult() {
 		return consult;
 	}

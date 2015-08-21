@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.File;
 import com.hxplus.occupational.repositories.FileRepository;
 import com.hxplus.occupational.request.FileRequest;
 
+@Service
 public class FileServiceImpl implements FileService {
-@Autowired FileRepository fileRepository;
-	
+	@Autowired
+	FileRepository fileRepository;
+
 	@Override
 	public File findById(Long id) {
 		return fileRepository.findOne(id);
@@ -35,16 +38,17 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public ResponseEntity<Object> deleteFile(Long id) {
-		try{
+		try {
 			fileRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private File fromReq(File file, FileRequest fileRequest){
+
+	private File fromReq(File file, FileRequest fileRequest) {
 		file.setConsult(fileRequest.getConsult());
 		file.setFile(fileRequest.getFile());
 		file.setFileName(fileRequest.getFileName());

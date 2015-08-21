@@ -34,13 +34,13 @@ public class Instruction {
 	}
 
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(referencedColumnName="id")
 	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(referencedColumnName="id")
 	public Consult getConsult() {
 		return consult;
 	}

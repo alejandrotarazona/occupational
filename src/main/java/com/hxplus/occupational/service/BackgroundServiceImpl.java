@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Background;
 import com.hxplus.occupational.repositories.BackgroundRepository;
 import com.hxplus.occupational.request.BackgroundRequest;
 
+@Service
 public class BackgroundServiceImpl implements BackgroundService {
 
 	@Autowired

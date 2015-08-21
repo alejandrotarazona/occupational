@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Company;
 import com.hxplus.occupational.repositories.CompanyRepository;
 import com.hxplus.occupational.request.CompanyRequest;
 
+@Service
 public class CompanyServiceImpl implements CompanyService {
-	
-	@Autowired CompanyRepository companyRepository;
+
+	@Autowired
+	CompanyRepository companyRepository;
 
 	@Override
 	public Company findById(Long id) {
@@ -42,16 +45,17 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public ResponseEntity<Object> deleteCompany(Long id) {
-		try{
+		try {
 			companyRepository.delete(id);
-			return new ResponseEntity<Object>(null,HttpStatus.OK);
-		} catch (Exception ex){
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	private Company fromReq(Company company, CompanyRequest companyRequest){
+	private Company fromReq(Company company, CompanyRequest companyRequest) {
 		company.setCompanyName(companyRequest.getCompanyName());
 		company.setDescription(companyRequest.getDescription());
 		company.setRif(companyRequest.getRif());

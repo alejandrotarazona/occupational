@@ -29,32 +29,32 @@ public class History {
 		return id;
 	}
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public Background getBackground() {
 		return background;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Allergy> getAllergies() {
 		return allergies;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Vaccine> getVaccines() {
 		return vaccines;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Habit> getHabits() {
 		return habits;
 	}
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public User getUser() {
 		return user;
 	}

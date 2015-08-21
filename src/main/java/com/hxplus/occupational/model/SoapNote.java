@@ -1,23 +1,42 @@
 package com.hxplus.occupational.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "soapnote")
 public class SoapNote {
 
+	private Long id;
 	private Consult consult;
 	private String description;
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@Column(name="id")
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public Long getId() {
+		return id;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id")
 	public Consult getConsult() {
 		return consult;
 	}
 
-	@Column(name="description")
+	@Column(name = "description")
 	public String getDescription() {
 		return description;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setConsult(Consult consult) {

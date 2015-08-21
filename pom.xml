@@ -88,6 +88,8 @@
 			<artifactId>spring-context</artifactId>
 			<version>4.1.2.RELEASE</version>
 		</dependency>
+		
+		<!-- JPA -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>

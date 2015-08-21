@@ -42,13 +42,13 @@ public class Consult {
 		return consultDate;
 	}
 
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
 	public Prescription getPrescription() {
 		return prescription;
@@ -56,7 +56,7 @@ public class Consult {
 
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
-	public List<Instruction> getInstruction() {
+	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
@@ -66,7 +66,7 @@ public class Consult {
 		return vitalSigns;
 	}
 
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
 	public SoapNote getSoapNote() {
 		return soapNote;
@@ -74,13 +74,13 @@ public class Consult {
 
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
-	public List<File> getFile() {
+	public List<File> getFiles() {
 		return files;
 	}
 
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="id")
-	public List<Diagnostic> getDiagnostic() {
+	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
@@ -112,7 +112,7 @@ public class Consult {
 		this.prescription = prescription;
 	}
 
-	public void setInstruction(List<Instruction> instructions) {
+	public void setInstructions(List<Instruction> instructions) {
 		this.instructions = instructions;
 	}
 
@@ -124,19 +124,19 @@ public class Consult {
 		this.soapNote = soapNote;
 	}
 
-	public void setFile(List<File> files) {
+	public void setFiles(List<File> files) {
 		this.files = files;
 	}
 
-	public void setDiagnostic(List<Diagnostic> diagnostics) {
+	public void setDiagnostics(List<Diagnostic> diagnostics) {
 		this.diagnostics = diagnostics;
 	}
 
-	public void setRequestExam(List<Exam> requestExams) {
+	public void setRequestExams(List<Exam> requestExams) {
 		this.requestExams = requestExams;
 	}
 
-	public void setRecieveExam(List<Exam> recieveExams) {
+	public void setRecieveExams(List<Exam> recieveExams) {
 		this.recieveExams = recieveExams;
 	}
 

@@ -1,17 +1,26 @@
 package com.hxplus.occupational.model;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import java.io.Serializable;
 
-public class VitalSign {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="vitalsign")
+public class VitalSign implements Serializable {
 
 	private Consult consult;
 	private String name;
 	private String descripion;
 
+	@Id
 	@OneToOne(fetch=FetchType.LAZY)
-	@Column(name="id")
+	@JoinColumn(referencedColumnName="id")
 	public Consult getConsult() {
 		return consult;
 	}

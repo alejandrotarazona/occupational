@@ -36,7 +36,7 @@ public class Department {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(name="idcompany",referencedColumnName="id")
 	public Company getCompany() {
 		return company;
 	}

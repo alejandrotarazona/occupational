@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Habit;
 import com.hxplus.occupational.repositories.HabitRepository;
 import com.hxplus.occupational.request.HabitRequest;
 
+@Service
 public class HabitServiceImpl implements HabitService {
 
 	@Autowired HabitRepository habitRepository;

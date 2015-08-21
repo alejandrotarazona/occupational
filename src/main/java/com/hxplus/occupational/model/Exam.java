@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -39,8 +39,8 @@ public class Exam {
 		return orderedAt;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public Consult getOrdered() {
 		return ordered;
 	}
@@ -50,8 +50,8 @@ public class Exam {
 		return receivedAt;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public Consult getReceived() {
 		return received;
 	}
@@ -66,8 +66,8 @@ public class Exam {
 		return results;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Diagnostic> getDiagnostic() {
 		return diagnostics;
 	}

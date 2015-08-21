@@ -31,7 +31,7 @@ public class Drug {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@JoinColumn(referencedColumnName="id")
 	public Laboratory getLaboratory() {
 		return laboratory;
 	}

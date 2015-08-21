@@ -2,16 +2,19 @@ package com.hxplus.occupational.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseEntity {
 
 	private Long id;
@@ -24,10 +27,12 @@ public class User extends BaseEntity {
 	private String address;
 	private String phoneNumber;
 	private String email;
+	private CostCenter works;
+	private Company employer;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name = "id")
 	public Long getId() {
 		return id;
 	}
@@ -77,6 +82,18 @@ public class User extends BaseEntity {
 		return email;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = CostCenter.class)
+	@JoinColumn(nullable = false, name = "idcostcenter", referencedColumnName = "id")
+	public CostCenter getWorks() {
+		return works;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Company.class)
+	@JoinColumn(nullable = false, name = "idcompany", referencedColumnName = "id")
+	public Company getEmployer() {
+		return employer;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -115,6 +132,14 @@ public class User extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void setWorks(CostCenter works) {
+		this.works = works;
+	}
+
+	public void setEmployer(Company employer) {
+		this.employer = employer;
 	}
 
 }

@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Drug;
 import com.hxplus.occupational.repositories.DrugRepository;
 import com.hxplus.occupational.request.DrugRequest;
-
+@Service
 public class DrugServiceImpl implements DrugService {
 
 	@Autowired

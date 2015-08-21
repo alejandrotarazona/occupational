@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.CostCenter;
 import com.hxplus.occupational.repositories.CostCenterRepository;
 import com.hxplus.occupational.request.CostCenterRequest;
 
+@Service
 public class CostCenterServiceImpl implements CostCenterService {
 
 	@Autowired
@@ -35,7 +37,8 @@ public class CostCenterServiceImpl implements CostCenterService {
 	public CostCenter updateCostCenter(Long id,
 			CostCenterRequest costCenterRequest) {
 		// TODO Auto-generated method stub
-		return costCenterRepository.save(fromReq(findById(id),costCenterRequest));
+		return costCenterRepository.save(fromReq(findById(id),
+				costCenterRequest));
 	}
 
 	@Override
@@ -43,10 +46,11 @@ public class CostCenterServiceImpl implements CostCenterService {
 
 		try {
 			costCenterRepository.delete(id);
-			return new ResponseEntity<Object>(null,HttpStatus.OK);
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

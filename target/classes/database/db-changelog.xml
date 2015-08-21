@@ -8,6 +8,20 @@
 		<runningAs username="hxplus" />
 	</preConditions>
 
+	<!-- <changeSet id="" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="" />
+			</not>
+		</preConditions>
+		<createTable tableName="">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="" type=""/>
+		</createTable>
+	</changeSet> -->
+	
 	<changeSet author="hxplus" id="1">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -24,10 +38,434 @@
 			<column name="rif" type="BIGINT" />
 			<column name="firstName" type="VARCHAR(255)" />
 			<column name="lastName" type="VARCHAR(255)" />
-			<column name="email" type="VARCHAR(255)" /> 
+			<column name="email" type="VARCHAR(255)" />
 			<column name="address" type="VARCHAR(255)" />
 			<column name="phoneNumber" type="VARCHAR(255)" />
+			<column name="idpost" type="BIGINT" />						<!-- Falta FK -->
+			<column name="idcostcenter" type="BIGINT"/> <!-- works -->
+			<column name="idcompany" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="company" />
+			</not>
+		</preConditions>
+		<createTable tableName="company">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="companyname" type="VARCHAR(255)" />
+			<column name="rif" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="idcostcenter" type="BIGINT" />
 		</createTable>
 	</changeSet>
 
+	<changeSet id="3" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="costcenter" />
+			</not>
+		</preConditions>
+		<createTable tableName="costcenter">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="idcompany" type="BIGINT" />
+			<column name="address" type="VARCHAR(255)" />
+			<column name="phonenumber" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="4" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="department" />
+			</not>
+		</preConditions>
+		<createTable tableName="department">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="idcompany" type="BIGINT" /> 				<!-- department co. -->
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="5" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="post" />
+			</not>
+		</preConditions>
+		<createTable tableName="post">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="idcostcenter" type="BIGINT"/> <!-- centro de costos al que pertenece el cargo -->
+			<column name="iddepartment" type="BIGINT"/> <!-- dpto al que pertenece el cargo -->
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="6" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="habit" />
+			</not>
+		</preConditions>
+		<createTable tableName="habit">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="7" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="background" />
+			</not>
+		</preConditions>
+		<createTable tableName="background">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="8" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="allergy" />
+			</not>
+		</preConditions>
+		<createTable tableName="allergy">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="severity" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="9" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="vaccine" />
+			</not>
+		</preConditions>
+		<createTable tableName="vaccine">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="10" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="patient" />
+			</not>
+		</preConditions>
+		<createTable tableName="patient">
+			<column name="iduser" type="BIGINT" />
+			<column name="idhistory" type="BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="11" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="doctor" />
+			</not>
+		</preConditions>
+		<createTable tableName="doctor">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+
+		</createTable>
+	</changeSet>
+
+	<changeSet id="12" author="hxplus">
+		<addForeignKeyConstraint baseColumnNames="idcostcenter"
+			baseTableName="company" constraintName="fk_company__costcenter"
+			onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="costcenter" />
+	</changeSet>
+
+	<changeSet id="13" author="hxplus">
+		<addForeignKeyConstraint baseColumnNames="idcompany"
+			baseTableName="costcenter" constraintName="fk_costcenter__company"
+			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="company" />
+	</changeSet>
+
+	<changeSet id="14" author="hxplus">
+		<addForeignKeyConstraint baseColumnNames="idcompany"
+			baseTableName="department" constraintName="fk_department__company"
+			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="company" />
+	</changeSet>
+
+	<changeSet id="15" author="hxplus">
+		<addForeignKeyConstraint baseColumnNames="idpost"
+			baseTableName="user" constraintName="fk_user__post" onDelete="CASCADE"
+			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="post" />
+	</changeSet>
+
+	<changeSet id="16" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="vitalsigns" />
+			</not>
+		</preConditions>
+		<createTable tableName="vitalsigns">
+			<column name="idconsult" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="17" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="soapnote" />
+			</not>
+		</preConditions>
+		<createTable tableName="soapnote">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="idconsult" type="BIGINT"/>
+			<column name="description" type="VARCHAR(255)"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="18" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="file" />
+			</not>
+		</preConditions>
+		<createTable tableName="file">
+			<column name="idconsult" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="filename" type="VARCHAR(255)"/>
+			<column name="file" type="BLOB"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="19" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="diagnostic" />
+			</not>
+		</preConditions>
+		<createTable tableName="diagnostic">
+			<column name="idconsult" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="details" type="VARCHAR(255)"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="laboratory" />
+			</not>
+		</preConditions>
+		<createTable tableName="laboratory">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="phonenumber" type="VARCHAR(255)"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="21" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="drug" />
+			</not>
+		</preConditions>
+		<createTable tableName="drug">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="description" type="VARCHAR(255)"/>
+			<column name="iddescription" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="22" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="indication" />
+			</not>
+		</preConditions>
+		<createTable tableName="indication">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="description" type="VARCHAR(255)"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="23" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="prescription" />
+			</not>
+		</preConditions>
+		<createTable tableName="prescription">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="date" type="DATETIME"/>
+			<column name="iddoctor" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="24" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="instruction" />
+			</not>
+		</preConditions>
+		<createTable tableName="instruction">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="instruction" type="VARCHAR(255)"/>
+			<column name="idconsult" type="BIGINT"/>
+			<!-- Falta Lista de Diagnósticos -->
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="25" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="exam" />
+			</not>
+		</preConditions>
+		<createTable tableName="exam">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="orderedat" type="DATETIME"/>
+			<column name="ordered" type="BIGINT"/>
+			<column name="recievedat" type="DATETIME"/>
+			<column name="recieved" type="BIGINT"/>
+			<column name="type" type="VARCHAR(255)"/>
+			<column name="results" type="BIGINT"/>
+			<!-- Falta Lista de Diagnósticos -->
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="26" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="consult" />
+			</not>
+		</preConditions>
+		<createTable tableName="consult">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="consultdate" type="DATETIME"/>
+			<column name="idsoapnote" type="BIGINT"/>
+			<column name="idprescription" type="BIGINT"/>
+			<column name="iddoctor" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="27" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="attends" />
+			</not>
+		</preConditions>
+		<createTable tableName="attends">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="iddoctor" type="BIGINT"/>
+			<column name="idpatient" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="" />
+			</not>
+		</preConditions>
+		<createTable tableName="">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="" type=""/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="" />
+			</not>
+		</preConditions>
+		<createTable tableName="">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="" type=""/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="" />
+			</not>
+		</preConditions>
+		<createTable tableName="">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="" type=""/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="" />
+			</not>
+		</preConditions>
+		<createTable tableName="">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="" type=""/>
+		</createTable>
+	</changeSet>
+	
 </databaseChangeLog>

@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.request.ConsultRequest;
 
+@Service
 public class ConsultServiceImpl implements ConsultService {
 
-	@Autowired ConsultRepository consultRepository;
+	@Autowired
+	ConsultRepository consultRepository;
 
 	@Override
 	public Consult findById(Long id) {
@@ -36,27 +39,29 @@ public class ConsultServiceImpl implements ConsultService {
 
 	@Override
 	public ResponseEntity<Object> deleteConsult(Long id) {
-		try{
+		try {
 			consultRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Consult fromReq(Consult consult, ConsultRequest consultRequest){
+
+	private Consult fromReq(Consult consult, ConsultRequest consultRequest) {
 		consult.setConsultDate(consultRequest.getConsultDate());
-		consult.setDiagnostic(consultRequest.getDiagnostics());
+		consult.setDiagnostics(consultRequest.getDiagnostics());
 		consult.setDoctor(consultRequest.getDoctor());
-		consult.setFile(consultRequest.getFiles());
-		consult.setInstruction(consultRequest.getInstructions());
+		consult.setFiles(consultRequest.getFiles());
+		consult.setInstructions(consultRequest.getInstructions());
 		consult.setPrescription(consultRequest.getPrescription());
-		consult.setRecieveExam(consultRequest.getRecieveExams());
-		consult.setRequestExam(consultRequest.getRequestExams());
+		consult.setRecieveExams(consultRequest.getRecieveExams());
+		consult.setRequestExams(consultRequest.getRequestExams());
 		consult.setSoapNote(consultRequest.getSoapNote());
 		consult.setVitalSigns(consultRequest.getVitalSigns());
-		
-		return consult;	}
+
+		return consult;
+	}
 
 }

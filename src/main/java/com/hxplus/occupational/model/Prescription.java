@@ -30,20 +30,20 @@ public class Prescription {
 		return id;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Drug> getDrugs() {
 		return drugs;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="id")
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id")
 	public List<Indication> getIndications() {
 		return indications;
 	}

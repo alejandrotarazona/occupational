@@ -2,44 +2,70 @@ package com.hxplus.occupational.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="post")
+@Table(name = "post")
 public class Post {
-	
+
 	private Long id;
 	private String name;
 	private String description;
-	
+	private Department department;
+	private CostCenter costCenter;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
-	
-	@Column(name="description")
+
+	@Column(name = "description")
 	public String getDescription() {
 		return description;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "iddepartment", referencedColumnName="id")
+	public Department getDepartment() {
+		return department;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idcostcenter", referencedColumnName="id")
+	public CostCenter getCostCenter() {
+		return costCenter;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public void setCostCenter(CostCenter costCenter) {
+		this.costCenter = costCenter;
+	}
 
 }

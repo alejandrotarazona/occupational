@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.repositories.PostRepository;
 import com.hxplus.occupational.request.PostRequest;
-
+@Service
 public class PostServiceImpl implements PostService {
 
 	@Autowired PostRepository postRepository;

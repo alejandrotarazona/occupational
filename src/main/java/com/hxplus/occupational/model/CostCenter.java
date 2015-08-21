@@ -1,6 +1,6 @@
 package com.hxplus.occupational.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,16 +22,17 @@ public class CostCenter {
 	private Company company;
 	private String address;
 	private String phoneNumber;
-	private ArrayList<User> employees;
+	private List<User> employees;
+	private List<Post> posts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-	
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcompany	", referencedColumnName = "id")
 	public Company getCompany() {
 		return company;
 	}
@@ -44,10 +47,18 @@ public class CostCenter {
 		return phoneNumber;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
-	public ArrayList<User> getEmployees() {
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="user")
+	@JoinColumn(table = "user" ,referencedColumnName = "id")
+	public List<User> getEmployees() {
 		return employees;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="post")
+	@JoinColumn(referencedColumnName="idcostcenter")
+	public List<Post> getPosts() {
+		return posts;
 	}
 
 	public void setId(Long id) {
@@ -57,7 +68,7 @@ public class CostCenter {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -66,8 +77,12 @@ public class CostCenter {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void setEmployees(ArrayList<User> employees) {
+	public void setEmployees(List<User> employees) {
 		this.employees = employees;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 }

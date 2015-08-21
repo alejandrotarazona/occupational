@@ -2,9 +2,9 @@ package com.hxplus.occupational.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -23,8 +23,8 @@ public class Doctor extends User {
 		return regNumber;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id")
 	public List<Patient> getPatients() {
 		return patients;
 	}
