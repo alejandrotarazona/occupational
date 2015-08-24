@@ -8,19 +8,13 @@ import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Diagnostic;
 
 public class ExamRequest {
-	
-	private Long id;
 	private Date orderedAt;
 	private Consult ordered;
 	private Date receivedAt;
-	private Consult received;
+	private List<Consult> received;
 	private String type;
 	private File results;
 	private List<Diagnostic> diagnostics;
-
-	public Long getId() {
-		return id;
-	}
 
 	public Date getOrderedAt() {
 		return orderedAt;
@@ -34,7 +28,7 @@ public class ExamRequest {
 		return receivedAt;
 	}
 
-	public Consult getReceived() {
+	public List<Consult> getReceived() {
 		return received;
 	}
 
@@ -50,10 +44,6 @@ public class ExamRequest {
 		return diagnostics;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setOrderedAt(Date orderedAt) {
 		this.orderedAt = orderedAt;
 	}
@@ -66,7 +56,7 @@ public class ExamRequest {
 		this.receivedAt = receivedAt;
 	}
 
-	public void setReceived(Consult received) {
+	public void setReceived(List<Consult> received) {
 		this.received = received;
 	}
 

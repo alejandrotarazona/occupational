@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +27,7 @@ public class Exam {
 	private Date orderedAt;
 	private Consult ordered;
 	private Date receivedAt;
-	private Consult received;
+	private List<Consult> received;
 	private String type;
 	private File results;
 	private List<Diagnostic> diagnostics;
@@ -40,7 +44,7 @@ public class Exam {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@JoinColumn(name="idconsult",referencedColumnName="id")
 	public Consult getOrdered() {
 		return ordered;
 	}
@@ -50,9 +54,12 @@ public class Exam {
 		return receivedAt;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
-	public Consult getReceived() {
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "recieve_exam", 
+	inverseJoinColumns= { @JoinColumn(name = "idconsult", nullable = false, updatable = false) }, 
+	joinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false)}
+	)
+	public List<Consult> getReceived() {
 		return received;
 	}
 
@@ -66,8 +73,7 @@ public class Exam {
 		return results;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="exam")
 	public List<Diagnostic> getDiagnostic() {
 		return diagnostics;
 	}
@@ -88,7 +94,7 @@ public class Exam {
 		this.receivedAt = receivedAt;
 	}
 
-	public void setReceived(Consult received) {
+	public void setReceived(List<Consult> received) {
 		this.received = received;
 	}
 

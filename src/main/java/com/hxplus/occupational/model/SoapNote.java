@@ -19,13 +19,13 @@ public class SoapNote {
 	private String description;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name = "idconsult", referencedColumnName = "id")
 	public Consult getConsult() {
 		return consult;
 	}

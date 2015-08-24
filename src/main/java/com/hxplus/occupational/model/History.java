@@ -2,6 +2,7 @@ package com.hxplus.occupational.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,20 +36,17 @@ public class History {
 		return background;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Allergy> getAllergies() {
 		return allergies;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Vaccine> getVaccines() {
 		return vaccines;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Habit> getHabits() {
 		return habits;
 	}

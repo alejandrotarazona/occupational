@@ -8,20 +8,11 @@
 		<runningAs username="hxplus" />
 	</preConditions>
 
-	<!-- <changeSet id="" author="hxplus">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="" />
-			</not>
-		</preConditions>
-		<createTable tableName="">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-			<column name="" type=""/>
-		</createTable>
-	</changeSet> -->
-	
+	<!-- <changeSet id="" author="hxplus"> <preConditions onFail="MARK_RAN"> 
+		<not> <tableExists tableName="" /> </not> </preConditions> <createTable tableName=""> 
+		<column name="id" type="BIGINT"> <constraints nullable="false" primaryKey="true" 
+		/> </column> <column name="" type=""/> </createTable> </changeSet> -->
+
 	<changeSet author="hxplus" id="1">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -41,12 +32,12 @@
 			<column name="email" type="VARCHAR(255)" />
 			<column name="address" type="VARCHAR(255)" />
 			<column name="phoneNumber" type="VARCHAR(255)" />
-			<column name="idpost" type="BIGINT" />						<!-- Falta FK -->
-			<column name="idcostcenter" type="BIGINT"/> <!-- works -->
-			<column name="idcompany" type="BIGINT"/>
+			<column name="idpost" type="BIGINT" />
+			<column name="idcostcenter" type="BIGINT" /> <!-- works -->
+			<column name="idcompany" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="2" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -78,6 +69,14 @@
 			<column name="address" type="VARCHAR(255)" />
 			<column name="phonenumber" type="VARCHAR(255)" />
 		</createTable>
+		<addForeignKeyConstraint baseColumnNames="idcostcenter"
+			baseTableName="company" constraintName="fk_company__costcenter"
+			onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="costcenter" />
+		<addForeignKeyConstraint baseColumnNames="idcompany"
+			baseTableName="costcenter" constraintName="fk_costcenter__company"
+			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="company" />
 	</changeSet>
 
 	<changeSet id="4" author="hxplus">
@@ -94,8 +93,12 @@
 			<column name="description" type="VARCHAR(255)" />
 			<column name="idcompany" type="BIGINT" /> 				<!-- department co. -->
 		</createTable>
+		<addForeignKeyConstraint baseColumnNames="idcompany"
+			baseTableName="department" constraintName="fk_department__company"
+			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+			referencedTableName="company" />
 	</changeSet>
-	
+
 	<changeSet id="5" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -108,11 +111,27 @@
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
-			<column name="idcostcenter" type="BIGINT"/> <!-- centro de costos al que pertenece el cargo -->
-			<column name="iddepartment" type="BIGINT"/> <!-- dpto al que pertenece el cargo -->
+			<column name="idcostcenter" type="BIGINT" /> <!-- centro de costos al que pertenece el cargo -->
+			<column name="iddepartment" type="BIGINT" /> <!-- dpto al que pertenece el cargo -->
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="idpost"
+			baseTableName="user" constraintName="fk_user__post" onDelete="CASCADE"
+			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="post" />
+	</changeSet>
+	<changeSet id="12" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="history" />
+			</not>
+		</preConditions>
+		<createTable tableName="history">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="iduser" type="BIGINT" />
+			<column name="idbackground" type="BIGINT"/>
 		</createTable>
 	</changeSet>
-	
 	<changeSet id="6" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -124,9 +143,13 @@
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
+			<column name="idhistory" type="BIGINT" />
 		</createTable>
+		<addForeignKeyConstraint constraintName="fk_habit__history"
+			referencedTableName="history" baseColumnNames="idhistory"
+			baseTableName="habit" referencedColumnNames="id" />
 	</changeSet>
-	
+
 	<changeSet id="7" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -141,7 +164,7 @@
 			<column name="description" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="8" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -155,9 +178,13 @@
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
 			<column name="severity" type="VARCHAR(255)" />
+			<column name="idhistory" type="BIGINT" />
 		</createTable>
+		<addForeignKeyConstraint constraintName="fk_allergy__history"
+			referencedTableName="history" baseColumnNames="idhistory"
+			baseTableName="allergy" referencedColumnNames="id" />
 	</changeSet>
-	
+
 	<changeSet id="9" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -169,9 +196,13 @@
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
+			<column name="idhistory" type="BIGINT" />
 		</createTable>
+		<addForeignKeyConstraint constraintName="fk_vaccine__history"
+			referencedTableName="history" baseColumnNames="idhistory"
+			baseTableName="vaccine" referencedColumnNames="id" />
 	</changeSet>
-	
+
 	<changeSet id="10" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -183,7 +214,7 @@
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="11" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -196,33 +227,6 @@
 			</column>
 
 		</createTable>
-	</changeSet>
-
-	<changeSet id="12" author="hxplus">
-		<addForeignKeyConstraint baseColumnNames="idcostcenter"
-			baseTableName="company" constraintName="fk_company__costcenter"
-			onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="id"
-			referencedTableName="costcenter" />
-	</changeSet>
-
-	<changeSet id="13" author="hxplus">
-		<addForeignKeyConstraint baseColumnNames="idcompany"
-			baseTableName="costcenter" constraintName="fk_costcenter__company"
-			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
-			referencedTableName="company" />
-	</changeSet>
-
-	<changeSet id="14" author="hxplus">
-		<addForeignKeyConstraint baseColumnNames="idcompany"
-			baseTableName="department" constraintName="fk_department__company"
-			onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
-			referencedTableName="company" />
-	</changeSet>
-
-	<changeSet id="15" author="hxplus">
-		<addForeignKeyConstraint baseColumnNames="idpost"
-			baseTableName="user" constraintName="fk_user__post" onDelete="CASCADE"
-			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="post" />
 	</changeSet>
 
 	<changeSet id="16" author="hxplus">
@@ -239,7 +243,7 @@
 			<column name="description" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="17" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -250,11 +254,11 @@
 			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="idconsult" type="BIGINT"/>
-			<column name="description" type="VARCHAR(255)"/>
+			<column name="idconsult" type="BIGINT" />
+			<column name="description" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="18" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -265,11 +269,11 @@
 			<column name="idconsult" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="filename" type="VARCHAR(255)"/>
-			<column name="file" type="BLOB"/>
+			<column name="filename" type="VARCHAR(255)" />
+			<column name="file" type="BLOB" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="19" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -280,10 +284,10 @@
 			<column name="idconsult" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="details" type="VARCHAR(255)"/>
+			<column name="details" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="20" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -294,11 +298,11 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="name" type="VARCHAR(255)"/>
-			<column name="phonenumber" type="VARCHAR(255)"/>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="phonenumber" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="21" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -309,12 +313,12 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="name" type="VARCHAR(255)"/>
-			<column name="description" type="VARCHAR(255)"/>
-			<column name="iddescription" type="BIGINT"/>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="iddescription" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="22" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -325,10 +329,10 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="description" type="VARCHAR(255)"/>
+			<column name="description" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="23" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -339,11 +343,11 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="date" type="DATETIME"/>
-			<column name="iddoctor" type="BIGINT"/>
+			<column name="date" type="DATETIME" />
+			<column name="iddoctor" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="24" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -354,12 +358,12 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="instruction" type="VARCHAR(255)"/>
-			<column name="idconsult" type="BIGINT"/>
+			<column name="instruction" type="VARCHAR(255)" />
+			<column name="idconsult" type="BIGINT" />
 			<!-- Falta Lista de Diagnósticos -->
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="25" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -370,16 +374,16 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="orderedat" type="DATETIME"/>
-			<column name="ordered" type="BIGINT"/>
-			<column name="recievedat" type="DATETIME"/>
-			<column name="recieved" type="BIGINT"/>
-			<column name="type" type="VARCHAR(255)"/>
-			<column name="results" type="BIGINT"/>
+			<column name="orderedat" type="DATETIME" />
+			<column name="ordered" type="BIGINT" />
+			<column name="recievedat" type="DATETIME" />
+			<column name="recieved" type="BIGINT" />
+			<column name="type" type="VARCHAR(255)" />
+			<column name="results" type="BIGINT" />
 			<!-- Falta Lista de Diagnósticos -->
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="26" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -390,13 +394,13 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="consultdate" type="DATETIME"/>
-			<column name="idsoapnote" type="BIGINT"/>
-			<column name="idprescription" type="BIGINT"/>
-			<column name="iddoctor" type="BIGINT"/>
+			<column name="consultdate" type="DATETIME" />
+			<column name="idsoapnote" type="BIGINT" />
+			<column name="idprescription" type="BIGINT" />
+			<column name="iddoctor" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="27" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -407,65 +411,40 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="iddoctor" type="BIGINT"/>
-			<column name="idpatient" type="BIGINT"/>
+			<column name="iddoctor" type="BIGINT" />
+			<column name="idpatient" type="BIGINT" />
 		</createTable>
+		<addPrimaryKey tableName="attends" columnNames="iddoctor, idpatient"
+			constraintName="pk_attends" />
+		<addForeignKeyConstraint constraintName="fk_attends__doctor"
+			referencedTableName="doctor" baseColumnNames="iddoctor"
+			baseTableName="attends" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_atteds__patient"
+			referencedTableName="patient" baseColumnNames="idpatient"
+			baseTableName="attends" referencedColumnNames="id" />
 	</changeSet>
-	
-	<changeSet id="" author="hxplus">
+
+	<changeSet id="28" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="" />
+				<tableExists tableName="recieve_exam" />
 			</not>
 		</preConditions>
-		<createTable tableName="">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
+		<createTable tableName="recieve_exam">
+			<column name="idconsult" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="" type=""/>
-		</createTable>
-	</changeSet>
-	
-	<changeSet id="" author="hxplus">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="" />
-			</not>
-		</preConditions>
-		<createTable tableName="">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
+			<column name="idexam" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="" type=""/>
 		</createTable>
+		<addPrimaryKey tableName="recieve_exam" columnNames="idconsult, idexam"
+			constraintName="pk_recieveexam" />
+		<addForeignKeyConstraint constraintName="fk_exam__recieve"
+			referencedTableName="exam" baseColumnNames="idexam" baseTableName="recieve_exam"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_consult__recieve"
+			referencedTableName="consult" baseColumnNames="idconsult" baseTableName="recieve_exam"
+			referencedColumnNames="id" />
 	</changeSet>
-	
-	<changeSet id="" author="hxplus">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="" />
-			</not>
-		</preConditions>
-		<createTable tableName="">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-			<column name="" type=""/>
-		</createTable>
-	</changeSet>
-	
-	<changeSet id="" author="hxplus">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="" />
-			</not>
-		</preConditions>
-		<createTable tableName="">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-			<column name="" type=""/>
-		</createTable>
-	</changeSet>
-	
 </databaseChangeLog>

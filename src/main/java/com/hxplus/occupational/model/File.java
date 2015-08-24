@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +19,8 @@ public class File implements Serializable{
 	private java.io.File file;
 
 	@Id
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idconsult",referencedColumnName="id")
 	public Consult getConsult() {
 		return consult;
 	}

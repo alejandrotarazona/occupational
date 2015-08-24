@@ -2,6 +2,7 @@ package com.hxplus.occupational.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,16 +48,12 @@ public class CostCenter {
 		return phoneNumber;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="user")
-	@JoinColumn(table = "user" ,referencedColumnName = "id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="works")
 	public List<User> getEmployees() {
 		return employees;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="post")
-	@JoinColumn(referencedColumnName="idcostcenter")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="costCenter")
 	public List<Post> getPosts() {
 		return posts;
 	}

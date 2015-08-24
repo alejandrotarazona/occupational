@@ -1,7 +1,5 @@
 package com.hxplus.occupational.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,8 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,28 +17,28 @@ public class Instruction {
 
 	private Long id;
 	private String instruction;
-	private List<Diagnostic> diagnostics;
+	private Diagnostic diagnostic;
 	private Consult consult;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(name="instruction")
+	@Column(name = "instruction")
 	public String getInstruction() {
 		return instruction;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
-	public List<Diagnostic> getDiagnostics() {
-		return diagnostics;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "iddiagnostic", referencedColumnName = "idconsult")
+	public Diagnostic getDiagnostic() {
+		return diagnostic;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idconsult", referencedColumnName = "id")
 	public Consult getConsult() {
 		return consult;
 	}
@@ -53,8 +51,8 @@ public class Instruction {
 		this.instruction = instruction;
 	}
 
-	public void setDiagnostics(List<Diagnostic> diagnostics) {
-		this.diagnostics = diagnostics;
+	public void setDiagnostic(Diagnostic diagnostic) {
+		this.diagnostic = diagnostic;
 	}
 
 	public void setConsult(Consult consult) {

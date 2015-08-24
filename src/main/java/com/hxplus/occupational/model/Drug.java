@@ -30,7 +30,7 @@ public class Drug {
 		return name;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(referencedColumnName="id")
 	public Laboratory getLaboratory() {
 		return laboratory;

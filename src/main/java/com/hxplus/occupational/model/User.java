@@ -82,13 +82,13 @@ public class User extends BaseEntity {
 		return email;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = CostCenter.class)
-	@JoinColumn(nullable = false, name = "idcostcenter", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
 	public CostCenter getWorks() {
 		return works;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Company.class)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "idcompany", referencedColumnName = "id")
 	public Company getEmployer() {
 		return employer;

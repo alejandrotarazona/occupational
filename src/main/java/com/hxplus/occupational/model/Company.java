@@ -2,6 +2,7 @@ package com.hxplus.occupational.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,14 +53,12 @@ public class Company extends BaseEntity {
 		return mainLocation;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName="idcompany")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="company")
 	public List<Department> getDepartments() {
 		return departments;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "idcompany")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="employer")
 	public List<User> getEmployees() {
 		return employees;
 	}
@@ -88,4 +87,9 @@ public class Company extends BaseEntity {
 		this.departments = departments;
 	}
 
+	public void setEmployees(List<User> employees) {
+		this.employees = employees;
+	}
+
+	
 }

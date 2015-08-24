@@ -3,6 +3,7 @@ package com.hxplus.occupational.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,10 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.apache.log4j.varia.FallbackErrorHandler;
 
 @Entity
 @Table(name = "consult")
@@ -32,66 +36,64 @@ public class Consult {
 	private List<Exam> recieveExams;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@Column(name="consultdate")
+	@Column(name = "consultdate")
 	public Date getConsultDate() {
 		return consultDate;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
 	public Prescription getPrescription() {
 		return prescription;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<VitalSign> getVitalSigns() {
 		return vitalSigns;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idsoapnote", referencedColumnName="id")
 	public SoapNote getSoapNote() {
 		return soapNote;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<File> getFiles() {
 		return files;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="ordered")
 	public List<Exam> getRequestExams() {
 		return requestExams;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "recieve_exam", 
+	joinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false,referencedColumnName="id") }, 
+	inverseJoinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false, referencedColumnName= "id")}
+	)
 	public List<Exam> getRecieveExams() {
 		return recieveExams;
 	}

@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="vitalsign")
+@Table(name = "vitalsigns")
 public class VitalSign implements Serializable {
 
 	private Consult consult;
@@ -19,18 +20,18 @@ public class VitalSign implements Serializable {
 	private String descripion;
 
 	@Id
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idconsult", referencedColumnName = "id")
 	public Consult getConsult() {
 		return consult;
 	}
 
-	@Column(name="name")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
 
-	@Column(name="description")
+	@Column(name = "description")
 	public String getDescripion() {
 		return descripion;
 	}

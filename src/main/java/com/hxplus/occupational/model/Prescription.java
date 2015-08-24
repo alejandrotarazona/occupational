@@ -1,7 +1,6 @@
 package com.hxplus.occupational.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,8 +19,8 @@ public class Prescription {
 
 	private Long id;
 	private Doctor doctor;
-	private List<Drug> drugs;
-	private List<Indication> indications;
+	private Drug drug;
+	private Indication indication;
 	private Date date;
 
 	@Id
@@ -36,16 +35,16 @@ public class Prescription {
 		return doctor;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(referencedColumnName="id")
-	public List<Drug> getDrugs() {
-		return drugs;
+	public Drug getDrug() {
+		return drug;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(referencedColumnName="id")
-	public List<Indication> getIndications() {
-		return indications;
+	public Indication getIndication() {
+		return indication;
 	}
 
 	@Column(name="date")
@@ -61,12 +60,12 @@ public class Prescription {
 		this.doctor = doctor;
 	}
 
-	public void setDrugs(List<Drug> drugs) {
-		this.drugs = drugs;
+	public void setDrug(Drug drug) {
+		this.drug = drug;
 	}
 
-	public void setIndications(List<Indication> indications) {
-		this.indications = indications;
+	public void setIndication(Indication indication) {
+		this.indication = indication;
 	}
 
 	public void setDate(Date date) {
