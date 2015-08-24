@@ -13,11 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.apache.log4j.varia.FallbackErrorHandler;
 
 @Entity
 @Table(name = "consult")
@@ -46,8 +45,8 @@ public class Consult {
 		return consultDate;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@ManyToOne
+	@JoinColumn(name = "iddoctor", referencedColumnName="id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
