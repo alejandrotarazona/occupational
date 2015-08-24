@@ -46,4 +46,8 @@ public class Doctor extends User {
 		this.patients = patients;
 	}
 
+	public void setConsults(List<Consult> consults) {
+		this.consults = consults;
+	}
+
 }

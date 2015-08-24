@@ -461,4 +461,21 @@
 			referencedTableName="consult" baseColumnNames="idconsult"
 			baseTableName="recieve_exam" referencedColumnNames="id" />
 	</changeSet>
+
+	<changeSet id="13" author="hxplus">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="have_inst" />
+			</not>
+		</preConditions>
+		<createTable tableName="have_inst">
+			<column name="idinstruccion" type="BIGINT">
+				<constraints foreignKeyName="fk_have__instruction" referencedTableName="instruction" referencedColumnNames="id"/>
+			</column>
+			<column name="iddiagnostic" type="BIGINT">
+				<constraints foreignKeyName="fk_have__diagnostic" referencedTableName="diagnostic" referencedColumnNames="idconsult"/>
+			</column>
+		</createTable>
+		<addPrimaryKey tableName="have_inst" columnNames="idinstruccion,iddiagnostic"/>
+	</changeSet>
 </databaseChangeLog>
