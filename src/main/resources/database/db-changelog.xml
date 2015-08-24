@@ -129,7 +129,7 @@
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="iduser" type="BIGINT" />
-			<column name="idbackground" type="BIGINT"/>
+			<column name="idbackground" type="BIGINT" />
 		</createTable>
 	</changeSet>
 	<changeSet id="6" author="hxplus">
@@ -210,8 +210,12 @@
 			</not>
 		</preConditions>
 		<createTable tableName="patient">
-			<column name="iduser" type="BIGINT" />
-			<column name="idhistory" type="BIGINT" />
+			<column name="iduser" type="BIGINT">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="idhistory" type="BIGINT">
+				<constraints unique="true" nullable="false" />
+			</column>
 		</createTable>
 	</changeSet>
 
@@ -285,6 +289,7 @@
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="details" type="VARCHAR(255)" />
+			<column name="idexam" type="BIGINT" />
 		</createTable>
 	</changeSet>
 
@@ -345,6 +350,15 @@
 			</column>
 			<column name="date" type="DATETIME" />
 			<column name="iddoctor" type="BIGINT" />
+			<column name="idconsult" type="BIGINT" />
+			<column name="iddrug" type="BIGINT">
+				<constraints foreignKeyName="fk_prescription__drug"
+					referencedTableName="drug" referencedColumnNames="id" />
+			</column>
+			<column name="idindication" type="BIGINT">
+				<constraints foreignKeyName="fk_prescription__indication"
+					referencedTableName="indication" referencedColumnNames="id" />
+			</column>
 		</createTable>
 	</changeSet>
 
@@ -382,6 +396,9 @@
 			<column name="results" type="BIGINT" />
 			<!-- Falta Lista de Diagnósticos -->
 		</createTable>
+		<addForeignKeyConstraint constraintName="fk_diagnostic__exam"
+			referencedTableName="exam" referencedColumnNames="id"
+			baseColumnNames="idexam" baseTableName="diagnostic" />
 	</changeSet>
 
 	<changeSet id="26" author="hxplus">
@@ -408,9 +425,6 @@
 			</not>
 		</preConditions>
 		<createTable tableName="attends">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
 			<column name="iddoctor" type="BIGINT" />
 			<column name="idpatient" type="BIGINT" />
 		</createTable>
@@ -421,7 +435,7 @@
 			baseTableName="attends" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_atteds__patient"
 			referencedTableName="patient" baseColumnNames="idpatient"
-			baseTableName="attends" referencedColumnNames="id" />
+			baseTableName="attends" referencedColumnNames="iduser" />
 	</changeSet>
 
 	<changeSet id="28" author="hxplus">
@@ -444,7 +458,7 @@
 			referencedTableName="exam" baseColumnNames="idexam" baseTableName="recieve_exam"
 			referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_consult__recieve"
-			referencedTableName="consult" baseColumnNames="idconsult" baseTableName="recieve_exam"
-			referencedColumnNames="id" />
+			referencedTableName="consult" baseColumnNames="idconsult"
+			baseTableName="recieve_exam" referencedColumnNames="id" />
 	</changeSet>
 </databaseChangeLog>

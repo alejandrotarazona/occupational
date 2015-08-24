@@ -26,7 +26,7 @@ public class Consult {
 	private Long id;
 	private Date consultDate;
 	private Doctor doctor;
-	private Prescription prescription;
+	private List<Prescription> prescriptions;
 	private List<Instruction> instructions;
 	private List<VitalSign> vitalSigns;
 	private SoapNote soapNote;
@@ -52,10 +52,9 @@ public class Consult {
 		return doctor;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
-	public Prescription getPrescription() {
-		return prescription;
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	public List<Prescription> getPrescriptions() {
+		return prescriptions;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
@@ -110,8 +109,8 @@ public class Consult {
 		this.doctor = doctor;
 	}
 
-	public void setPrescription(Prescription prescription) {
-		this.prescription = prescription;
+	public void setPrescriptions(List<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 
 	public void setInstructions(List<Instruction> instructions) {

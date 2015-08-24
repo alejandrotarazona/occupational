@@ -22,6 +22,7 @@ public class Prescription {
 	private Drug drug;
 	private Indication indication;
 	private Date date;
+	private Consult consult;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,21 +36,27 @@ public class Prescription {
 		return doctor;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "iddrug", referencedColumnName = "id")
 	public Drug getDrug() {
 		return drug;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idindication", referencedColumnName = "id")
 	public Indication getIndication() {
 		return indication;
 	}
 
-	@Column(name="date")
+	@Column(name = "date")
 	public Date getDate() {
 		return date;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id")
+	public Consult getConsult() {
+		return consult;
 	}
 
 	public void setId(Long id) {
@@ -72,5 +79,8 @@ public class Prescription {
 		this.date = date;
 	}
 
+	public void setConsult(Consult consult) {
+		this.consult = consult;
+	}
 
 }
