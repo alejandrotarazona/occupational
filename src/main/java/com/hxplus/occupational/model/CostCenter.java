@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,6 +24,7 @@ public class CostCenter {
 	private String phoneNumber;
 	private List<User> employees;
 	private List<Post> posts;
+	private List<Contract> contracts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,14 +48,19 @@ public class CostCenter {
 		return phoneNumber;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="works")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "works")
 	public List<User> getEmployees() {
 		return employees;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="costCenter")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
 	public List<Post> getPosts() {
 		return posts;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
+	public List<Contract> getContracts() {
+		return contracts;
 	}
 
 	public void setId(Long id) {
@@ -80,6 +85,10 @@ public class CostCenter {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.hxplus.occupational.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +33,7 @@ public class User extends BaseEntity {
 	private String email;
 	private CostCenter works;
 	private Company employer;
+	private List<Contract> contracts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -94,6 +99,11 @@ public class User extends BaseEntity {
 		return employer;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="user")
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -140,6 +150,10 @@ public class User extends BaseEntity {
 
 	public void setEmployer(Company employer) {
 		this.employer = employer;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
 	}
 
 }

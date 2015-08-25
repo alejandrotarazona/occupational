@@ -1,21 +1,21 @@
 package com.hxplus.occupational.request;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hxplus.occupational.model.Company;
+import com.hxplus.occupational.model.Contract;
+import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.User;
 
 public class CostCenterRequest {
 
-	private Long id;
 	private Company company;
 	private String address;
 	private String phoneNumber;
-	private ArrayList<User> employees;
-
-	public Long getId() {
-		return id;
-	}
+	private List<User> employees;
+	private List<Post> posts;
+	private List<Contract> contracts;
 
 	public Company getCompany() {
 		return company;
@@ -29,12 +29,16 @@ public class CostCenterRequest {
 		return phoneNumber;
 	}
 
-	public ArrayList<User> getEmployees() {
+	public List<User> getEmployees() {
 		return employees;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public List<Contract> getContracts() {
+		return contracts;
 	}
 
 	public void setCompany(Company company) {
@@ -49,7 +53,16 @@ public class CostCenterRequest {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void setEmployees(ArrayList<User> employees) {
+	public void setEmployees(List<User> employees) {
 		this.employees = employees;
 	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+
 }

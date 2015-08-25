@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -37,7 +38,8 @@ public class Diagnostic implements Serializable {
 		return details;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "diagnostic")
+	@ManyToMany
+	@JoinTable(name = "have_inst", joinColumns = @JoinColumn(name = "iddiagnstic", referencedColumnName = "idconsult"), inverseJoinColumns = @JoinColumn(name = "idinstruction", referencedColumnName = "id"))
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}

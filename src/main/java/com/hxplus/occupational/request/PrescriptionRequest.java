@@ -1,58 +1,58 @@
 package com.hxplus.occupational.request;
 
 import java.util.Date;
-import java.util.List;
 
+import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Drug;
 import com.hxplus.occupational.model.Indication;
 
 public class PrescriptionRequest {
 
-	private Long id;
 	private Doctor doctor;
-	private List<Drug> drugs;
-	private List<Indication> indications;
+	private Drug drug;
+	private Indication indication;
 	private Date date;
-
-	public Long getId() {
-		return id;
-	}
+	private Consult consult;
 
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
-	public List<Drug> getDrugs() {
-		return drugs;
+	public Drug getDrug() {
+		return drug;
 	}
 
-	public List<Indication> getIndications() {
-		return indications;
+	public Indication getIndication() {
+		return indication;
 	}
 
 	public Date getDate() {
 		return date;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Consult getConsult() {
+		return consult;
 	}
 
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
 
-	public void setDrugs(List<Drug> drugs) {
-		this.drugs = drugs;
+	public void setDrug(Drug drug) {
+		this.drug = drug;
 	}
 
-	public void setIndications(List<Indication> indications) {
-		this.indications = indications;
+	public void setIndication(Indication indication) {
+		this.indication = indication;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public void setConsult(Consult consult) {
+		this.consult = consult;
 	}
 
 }

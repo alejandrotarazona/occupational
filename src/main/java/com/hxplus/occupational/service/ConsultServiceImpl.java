@@ -55,7 +55,7 @@ public class ConsultServiceImpl implements ConsultService {
 		consult.setDoctor(consultRequest.getDoctor());
 		consult.setFiles(consultRequest.getFiles());
 		consult.setInstructions(consultRequest.getInstructions());
-		consult.setPrescription(consultRequest.getPrescription());
+		consult.setPrescriptions(consultRequest.getPrescriptions());
 		consult.setRecieveExams(consultRequest.getRecieveExams());
 		consult.setRequestExams(consultRequest.getRequestExams());
 		consult.setSoapNote(consultRequest.getSoapNote());

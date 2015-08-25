@@ -22,7 +22,6 @@ public class Instruction {
 
 	private Long id;
 	private String instruction;
-	private Diagnostic diagnostic;
 	private Consult consult;
 	private List<Diagnostic> diagnostics;
 
@@ -35,12 +34,6 @@ public class Instruction {
 	@Column(name = "instruction")
 	public String getInstruction() {
 		return instruction;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "iddiagnostic", referencedColumnName = "idconsult")
-	public Diagnostic getDiagnostic() {
-		return diagnostic;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,10 +54,6 @@ public class Instruction {
 
 	public void setInstruction(String instruction) {
 		this.instruction = instruction;
-	}
-
-	public void setDiagnostic(Diagnostic diagnostic) {
-		this.diagnostic = diagnostic;
 	}
 
 	public void setConsult(Consult consult) {

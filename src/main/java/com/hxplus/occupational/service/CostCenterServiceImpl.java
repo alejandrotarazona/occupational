@@ -60,6 +60,8 @@ public class CostCenterServiceImpl implements CostCenterService {
 		costCenter.setPhoneNumber(costCenterRequest.getPhoneNumber());
 		costCenter.setCompany(costCenterRequest.getCompany());
 		costCenter.setEmployees(costCenterRequest.getEmployees());
+		costCenter.setPosts(costCenterRequest.getPosts());
+		costCenter.setContracts(costCenterRequest.getContracts());
 		return costCenter;
 	}
 

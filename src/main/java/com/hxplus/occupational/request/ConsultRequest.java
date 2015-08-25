@@ -14,10 +14,9 @@ import com.hxplus.occupational.model.VitalSign;
 
 public class ConsultRequest {
 
-	private Long id;
 	private Date consultDate;
 	private Doctor doctor;
-	private Prescription prescription;
+	private List<Prescription> prescriptions;
 	private List<Instruction> instructions;
 	private List<VitalSign> vitalSigns;
 	private SoapNote soapNote;
@@ -25,10 +24,6 @@ public class ConsultRequest {
 	private List<Diagnostic> diagnostics;
 	private List<Exam> requestExams;
 	private List<Exam> recieveExams;
-
-	public Long getId() {
-		return id;
-	}
 
 	public Date getConsultDate() {
 		return consultDate;
@@ -38,8 +33,8 @@ public class ConsultRequest {
 		return doctor;
 	}
 
-	public Prescription getPrescription() {
-		return prescription;
+	public List<Prescription> getPrescriptions() {
+		return prescriptions;
 	}
 
 	public List<Instruction> getInstructions() {
@@ -70,10 +65,6 @@ public class ConsultRequest {
 		return recieveExams;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setConsultDate(Date consultDate) {
 		this.consultDate = consultDate;
 	}
@@ -82,8 +73,8 @@ public class ConsultRequest {
 		this.doctor = doctor;
 	}
 
-	public void setPrescription(Prescription prescription) {
-		this.prescription = prescription;
+	public void setPrescriptions(List<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 
 	public void setInstructions(List<Instruction> instructions) {

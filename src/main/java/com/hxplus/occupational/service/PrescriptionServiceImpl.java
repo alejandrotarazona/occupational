@@ -56,8 +56,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 			PrescriptionRequest prescriptionRequest) {
 		prescription.setDate(new Date());
 		prescription.setDoctor(prescriptionRequest.getDoctor());
-		prescription.setDrugs(prescriptionRequest.getDrugs());
-		prescription.setIndications(prescriptionRequest.getIndications());
+		prescription.setDrug(prescriptionRequest.getDrug());
+		prescription.setIndication(prescriptionRequest.getIndication());
 		return prescription;
 	}
 }

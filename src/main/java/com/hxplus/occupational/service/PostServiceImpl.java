@@ -49,6 +49,9 @@ public class PostServiceImpl implements PostService {
 	private Post fromReq(Post post, PostRequest postRequest){
 		post.setDescription(postRequest.getDescription());
 		post.setName(postRequest.getName());
+		post.setDepartment(postRequest.getDepartment());
+		post.setCostCenter(postRequest.getCostCenter());
+		post.setContracts(postRequest.getContracts());
 		return post;
 	}
 

@@ -1,5 +1,8 @@
 package com.hxplus.occupational.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +23,7 @@ public class Post {
 	private String description;
 	private Department department;
 	private CostCenter costCenter;
+	private List<Contract> contracts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,15 +42,20 @@ public class Post {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "iddepartment", referencedColumnName="id")
+	@JoinColumn(name = "iddepartment", referencedColumnName = "id")
 	public Department getDepartment() {
 		return department;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idcostcenter", referencedColumnName="id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
 	public CostCenter getCostCenter() {
 		return costCenter;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="post")
+	public List<Contract> getContracts() {
+		return contracts;
 	}
 
 	public void setId(Long id) {
@@ -66,6 +76,10 @@ public class Post {
 
 	public void setCostCenter(CostCenter costCenter) {
 		this.costCenter = costCenter;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
 	}
 
 }
