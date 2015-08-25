@@ -118,7 +118,7 @@
 			baseTableName="user" constraintName="fk_user__post" onDelete="CASCADE"
 			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="post" />
 	</changeSet>
-	<changeSet id="12" author="hxplus">
+	<changeSet id="6" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="history" />
@@ -132,7 +132,7 @@
 			<column name="idbackground" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	<changeSet id="6" author="hxplus">
+	<changeSet id="7" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="habit" />
@@ -150,7 +150,7 @@
 			baseTableName="habit" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="7" author="hxplus">
+	<changeSet id="8" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="background" />
@@ -165,7 +165,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="8" author="hxplus">
+	<changeSet id="9" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="allergy" />
@@ -185,7 +185,7 @@
 			baseTableName="allergy" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="9" author="hxplus">
+	<changeSet id="10" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="vaccine" />
@@ -203,7 +203,7 @@
 			baseTableName="vaccine" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="10" author="hxplus">
+	<changeSet id="11" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="patient" />
@@ -219,7 +219,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="11" author="hxplus">
+	<changeSet id="12" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="doctor" />
@@ -233,7 +233,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="16" author="hxplus">
+	<changeSet id="13" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="vitalsigns" />
@@ -248,7 +248,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="17" author="hxplus">
+	<changeSet id="14" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="soapnote" />
@@ -263,7 +263,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="18" author="hxplus">
+	<changeSet id="15" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="file" />
@@ -278,7 +278,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="19" author="hxplus">
+	<changeSet id="16" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="diagnostic" />
@@ -293,7 +293,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="20" author="hxplus">
+	<changeSet id="17" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="laboratory" />
@@ -308,7 +308,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="21" author="hxplus">
+	<changeSet id="18" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="drug" />
@@ -324,7 +324,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="22" author="hxplus">
+	<changeSet id="19" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="indication" />
@@ -338,7 +338,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="23" author="hxplus">
+	<changeSet id="20" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="prescription" />
@@ -362,7 +362,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="24" author="hxplus">
+	<changeSet id="21" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="instruction" />
@@ -378,7 +378,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="25" author="hxplus">
+	<changeSet id="22" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="exam" />
@@ -401,7 +401,7 @@
 			baseColumnNames="idexam" baseTableName="diagnostic" />
 	</changeSet>
 
-	<changeSet id="26" author="hxplus">
+	<changeSet id="23" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="consult" />
@@ -418,7 +418,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="27" author="hxplus">
+	<changeSet id="24" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="attends" />
@@ -439,7 +439,7 @@
 			baseTableName="attends" referencedColumnNames="iduser" />
 	</changeSet>
 
-	<changeSet id="28" author="hxplus">
+	<changeSet id="25" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="recieve_exam" />
@@ -464,7 +464,7 @@
 			baseTableName="recieve_exam" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="13" author="hxplus">
+	<changeSet id="26" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="have_inst" />
@@ -485,7 +485,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="14" author="hxplus">
+	<changeSet id="27" author="hxplus">
 		<preConditions>
 			<not>
 				<tableExists tableName="contract" />
