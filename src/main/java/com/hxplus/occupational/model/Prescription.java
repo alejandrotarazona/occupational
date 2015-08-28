@@ -31,7 +31,7 @@ public class Prescription {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name="iddoctor", referencedColumnName = "id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
@@ -54,7 +54,7 @@ public class Prescription {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name="idconsult", referencedColumnName = "id")
 	public Consult getConsult() {
 		return consult;
 	}

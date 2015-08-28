@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "allergy")
 public class Allergy {
@@ -41,6 +43,7 @@ public class Allergy {
 		return severity;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idhistory", referencedColumnName="id")
 	public History getHistory() {

@@ -128,7 +128,7 @@
 			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_history" />
 			</column>
-			<column name="iduser" type="BIGINT" />
+			<column name="idpatient" type="BIGINT" />
 			<column name="idbackground" type="BIGINT" />
 		</createTable>
 	</changeSet>
@@ -210,7 +210,7 @@
 			</not>
 		</preConditions>
 		<createTable tableName="patient">
-			<column name="iduser" type="BIGINT">
+			<column name="id" type="BIGINT">
 				<constraints primaryKey="true" nullable="false"   primaryKeyName="pk_patient"/>
 			</column>
 			<column name="idhistory" type="BIGINT">
@@ -227,9 +227,11 @@
 		</preConditions>
 		<createTable tableName="doctor">
 			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_doctor" />
+				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_doctor" foreignKeyName="fk_doctor__user" referencedTableName="user" referencedColumnNames="id"/>
 			</column>
-
+			<column name="regnumber" type="BIGINT">
+				<constraints nullable="false" unique="true"/>
+			</column>
 		</createTable>
 	</changeSet>
 
@@ -436,7 +438,7 @@
 			baseTableName="attends" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_atteds__patient"
 			referencedTableName="patient" baseColumnNames="idpatient"
-			baseTableName="attends" referencedColumnNames="iduser" />
+			baseTableName="attends" referencedColumnNames="id" />
 	</changeSet>
 
 	<changeSet id="25" author="hxplus">
@@ -519,4 +521,11 @@
 			referencedTableName="costcenter" baseColumnNames="idcostcenter"
 			baseTableName="contract" referencedColumnNames="id" />
 	</changeSet>
+	
+	<!--changeSet id="28" author="hxplus">
+		<insert tableName="user">
+			<column name="username" type="VARCHAR(255)" value="atarazona"/>
+			<column name="password" type="VARCHAR(255)" value="4242"/>
+		</insert>
+	</changeSet-->
 </databaseChangeLog>

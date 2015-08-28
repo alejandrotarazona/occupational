@@ -22,12 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.hxplus.occupational.service.AuthenticationServiceImpl;
 
-@WebFilter(urlPatterns = "/user/*", 
+@WebFilter(urlPatterns = "/home/*", 
 	filterName = "AuthenticationFilter", 
 	description = "Filter all URLs ", 
 	initParams = { 
 		@WebInitParam(name = "unprotectedUrls", 
-					value = "/,/login,/user") 
+					value = "/") 
 		}
 )
 public class JWTFilter implements Filter {
@@ -69,7 +69,6 @@ public class JWTFilter implements Filter {
 
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-        	System.out.println("Header: " + authHeader);
             throw new ServletException("Missing or invalid Authorization header.");
         }
 

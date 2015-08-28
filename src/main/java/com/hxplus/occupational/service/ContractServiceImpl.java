@@ -57,4 +57,9 @@ public class ContractServiceImpl implements ContractService {
 		return contract;
 	}
 
+	@Override
+	public List<Contract> findByUser(Long userId) {
+		return contractRepository.findByUser(userId);
+	}
+
 }

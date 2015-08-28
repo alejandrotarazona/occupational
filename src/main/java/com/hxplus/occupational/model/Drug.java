@@ -31,7 +31,7 @@ public class Drug {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@JoinColumn(name="idlaboratory", referencedColumnName="id")
 	public Laboratory getLaboratory() {
 		return laboratory;
 	}

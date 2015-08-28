@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "history")
 public class History {
@@ -22,7 +24,7 @@ public class History {
 	private List<Allergy> allergies;
 	private List<Vaccine> vaccines;
 	private List<Habit> habits;
-	private User user;
+	private Patient patient;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,30 +33,33 @@ public class History {
 	}
 
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
+	@JoinColumn(name="idbackground",referencedColumnName="id")
 	public Background getBackground() {
 		return background;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Allergy> getAllergies() {
 		return allergies;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Vaccine> getVaccines() {
 		return vaccines;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
 	public List<Habit> getHabits() {
 		return habits;
 	}
 
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(referencedColumnName="id")
-	public User getUser() {
-		return user;
+	@JoinColumn(name="idpatient", referencedColumnName="id")
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public void setId(Long id) {
@@ -77,8 +82,8 @@ public class History {
 		this.habits = habits;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 }

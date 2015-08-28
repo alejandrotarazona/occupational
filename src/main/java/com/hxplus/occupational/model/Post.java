@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "post")
 public class Post {
@@ -53,6 +55,7 @@ public class Post {
 		return costCenter;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="post")
 	public List<Contract> getContracts() {
 		return contracts;

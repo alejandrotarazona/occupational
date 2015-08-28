@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "company")
 public class Company extends BaseEntity {
@@ -53,11 +55,13 @@ public class Company extends BaseEntity {
 		return mainLocation;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="company")
 	public List<Department> getDepartments() {
 		return departments;
 	}
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="employer")
 	public List<User> getEmployees() {
 		return employees;

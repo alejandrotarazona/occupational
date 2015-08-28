@@ -21,13 +21,12 @@ import com.hxplus.occupational.request.LoginRequest;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-	private static final String key = new BigInteger(130, new SecureRandom()).toString(32).substring(0, 25);
+	private static final String key = new BigInteger(130, new SecureRandom())
+			.toString(32).substring(0, 25);
 	private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
-	
 
 	public static String getKey() {
 		return key;
@@ -40,31 +39,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public Map<String, Object> login(LoginRequest loginRequest) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		User user = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword()); 
-		
-		if ( user != null) {			
-			long nowMillis = System.currentTimeMillis();
-			Date now = new Date(nowMillis), exp = new Date(nowMillis + 43200000);
-			
-			String jti = String.valueOf(user.getId());
-			
-			String retorno = Jwts.builder()
-					.setId(jti)
-					.setSubject(loginRequest.getUsername())
-					.setIssuedAt(now)
-					.setExpiration(exp)
-					.signWith(signatureAlgorithm, key).compact();
-			
-			
-			System.out.println("Date:\t" + now.toString());
-			System.out.println("System key:\t " + key);
-			System.out.println("System token:\t " + retorno);
-			
-			map.put("user", user);
-			map.put("token", retorno);
-		}
+		User user = userRepository.findByUsernameAndPassword(
+				loginRequest.getUsername(), loginRequest.getPassword());
+		try {
+			if (user != null) {
+				long nowMillis = System.currentTimeMillis();
+				Date now = new Date(nowMillis), exp = new Date(
+						nowMillis + 43200000);
 
-		return map;
+				String jti = String.valueOf(user.getId());
+
+				String retorno = Jwts.builder().setId(jti)
+						.setSubject(loginRequest.getUsername())
+						.setIssuedAt(now).setExpiration(exp)
+						.signWith(signatureAlgorithm, key).compact();
+
+				System.out.println("Date:\t" + now.toString());
+				System.out.println("System key:\t " + key);
+				System.out.println("System token:\t " + retorno);
+
+				map.put("user", user);
+				map.put("token", retorno);
+			}
+			return map;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			map.put("error", ex.getLocalizedMessage());
+			return map;
+		}
 	}
 
 	@Override
@@ -77,8 +79,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private void parseJWT(String jwt) {
 		// This line will throw an exception if it is not a signed JWS (as
 		// expected)
-		Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
-		
+		Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt)
+				.getBody();
+
 		System.out.println("ID: " + claims.getId());
 		System.out.println("Subject: " + claims.getSubject());
 		System.out.println("Issuer: " + claims.getIssuer());

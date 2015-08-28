@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "doctor")
 @PrimaryKeyJoinColumn(name = "id")
@@ -33,6 +35,7 @@ public class Doctor extends User {
 		return patients;
 	}
 	
+	@JsonIgnore
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY,mappedBy="doctor")
 	public List<Consult> getConsults(){
 		return consults;

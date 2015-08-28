@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "exam")
 public class Exam {
@@ -73,6 +75,7 @@ public class Exam {
 		return results;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="exam")
 	public List<Diagnostic> getDiagnostic() {
 		return diagnostics;

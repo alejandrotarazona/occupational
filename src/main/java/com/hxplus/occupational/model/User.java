@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -37,7 +39,6 @@ public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
 	public Long getId() {
 		return id;
 	}
@@ -94,11 +95,12 @@ public class User extends BaseEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false, name = "idcompany", referencedColumnName = "id")
+	@JoinColumn(name = "idcompany", referencedColumnName = "id")
 	public Company getEmployer() {
 		return employer;
 	}
-
+	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="user")
 	public List<Contract> getContracts() {
 		return contracts;

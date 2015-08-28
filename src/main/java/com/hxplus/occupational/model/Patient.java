@@ -24,8 +24,7 @@ public class Patient extends User {
 	private List<Doctor> doctors;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name="idhistory", referencedColumnName = "id")
 	public History getHistory() {
 		return history;
 	}

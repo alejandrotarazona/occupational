@@ -8,7 +8,9 @@ import com.hxplus.occupational.model.Contract;
 import com.hxplus.occupational.request.ContractRequest;
 
 public interface ContractService {
+	
 	public Contract findById(Long id);
+	public List<Contract> findByUser(Long userId);
 	public List<Contract> findAll();
 	public Contract saveContract(ContractRequest contractRequest);
 	public Contract updateContract(Long id, ContractRequest contractRequest);

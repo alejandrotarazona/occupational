@@ -5,20 +5,15 @@ import java.util.List;
 import com.hxplus.occupational.model.Allergy;
 import com.hxplus.occupational.model.Background;
 import com.hxplus.occupational.model.Habit;
-import com.hxplus.occupational.model.User;
+import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Vaccine;
 
 public class HistoryRequest {
-	private Long id;
 	private Background background;
 	private List<Allergy> allergies;
 	private List<Vaccine> vaccines;
 	private List<Habit> habits;
-	private User user;
-
-	public Long getId() {
-		return id;
-	}
+	private Patient patient;
 
 	public Background getBackground() {
 		return background;
@@ -36,12 +31,8 @@ public class HistoryRequest {
 		return habits;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public void setBackground(Background background) {
@@ -60,8 +51,8 @@ public class HistoryRequest {
 		this.habits = habits;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 }

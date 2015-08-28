@@ -51,7 +51,7 @@ public class HistoryServiceImpl implements HistoryService {
 		history.setBackground(historyRequest.getBackground());
 		history.setHabits(historyRequest.getHabits());
 		history.setVaccines(historyRequest.getVaccines());
-		history.setUser(historyRequest.getUser());
+		history.setPatient(historyRequest.getPatient());
 		return history;
 	}
 }

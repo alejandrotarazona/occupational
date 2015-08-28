@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "consult")
 public class Consult {
@@ -51,16 +53,19 @@ public class Consult {
 		return doctor;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<Prescription> getPrescriptions() {
 		return prescriptions;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<VitalSign> getVitalSigns() {
 		return vitalSigns;
@@ -72,16 +77,19 @@ public class Consult {
 		return soapNote;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<File> getFiles() {
 		return files;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
 	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="ordered")
 	public List<Exam> getRequestExams() {
 		return requestExams;

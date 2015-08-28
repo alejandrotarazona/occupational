@@ -21,9 +21,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public User saveUser(UserRequest userRequest){
-		User user = createUser(new User());//fromReq(new User(), userRequest);		
-		userRepository.save(user);
-		return user;
+		return userRepository.saveAndFlush(fromReq(new User(), userRequest));
 	}
 	
 	public User createUser(User user){
@@ -36,6 +34,7 @@ public class UserServiceImpl implements UserService{
 		user.setAddress("Caracas");
 		user.setCi(Long.valueOf("424242"));
 		user.setRif(Long.valueOf(21212121));
+		userRepository.save(user);
 		return user;
 	}
 
@@ -53,6 +52,7 @@ public class UserServiceImpl implements UserService{
 	public ResponseEntity<Object> deleteUser(Long id) {
 		try{
 			userRepository.delete(id);
+			userRepository.flush();
 			return new ResponseEntity<Object>(null,HttpStatus.OK);
 		}catch (Exception ex){
 			ex.printStackTrace();
@@ -62,8 +62,9 @@ public class UserServiceImpl implements UserService{
 	
 	
 	private User fromReq(User user, UserRequest userRequest){
-		user.setCi(userRequest.getCi());
+		user.setUsername(userRequest.getUsername());
 		user.setPassword(userRequest.getPassword());
+		user.setCi(userRequest.getCi());		
 		user.setRif(userRequest.getRif());
 		user.setAddress(userRequest.getAddress());
 		user.setEmail(userRequest.getEmail());

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "contract")
 public class Contract {
@@ -39,6 +41,7 @@ public class Contract {
 		return endDate;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "iduser", referencedColumnName = "id")
 	public User getUser() {

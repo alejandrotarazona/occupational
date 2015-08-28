@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "costcenter")
 public class CostCenter {
@@ -33,7 +35,7 @@ public class CostCenter {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcompany	", referencedColumnName = "id")
+	@JoinColumn(name = "idcompany", referencedColumnName = "id")
 	public Company getCompany() {
 		return company;
 	}
@@ -48,16 +50,19 @@ public class CostCenter {
 		return phoneNumber;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "works")
 	public List<User> getEmployees() {
 		return employees;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
 	public List<Post> getPosts() {
 		return posts;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
 	public List<Contract> getContracts() {
 		return contracts;

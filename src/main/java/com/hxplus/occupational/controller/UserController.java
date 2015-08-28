@@ -25,8 +25,14 @@ public class UserController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	User getUser(@PathVariable("id") Long id) {
+		//return userService.createUser(new User());
+		return userService.findById(id);
+	}
+	
+	@RequestMapping(value = "/master", method = RequestMethod.GET)
+	public @ResponseBody
+	User getUser() {
 		return userService.createUser(new User());
-		//return userService.findById(id);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
