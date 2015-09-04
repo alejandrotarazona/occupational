@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.User;
 import com.hxplus.occupational.repositories.DoctorRepository;
+import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.UserRepository;
 
 @Service
@@ -18,6 +20,8 @@ public class InitServiceImpl implements InitService {
 	UserRepository userRepository;
 	@Autowired
 	DoctorRepository doctorRepository;
+	@Autowired
+	PatientRepository patientRepository;
 
 	@Override
 	public List<Object> init() {
@@ -27,11 +31,39 @@ public class InitServiceImpl implements InitService {
 		List<Doctor> doctorList = listDoctors(Long.valueOf(userList.size()));
 		doctorRepository.save(doctorList);
 
+		List<Patient> patientList = listPatients();
+		patientRepository.save(patientList);
+
 		List<Object> objList = new ArrayList<>();
 		objList.addAll(doctorList);
 		objList.addAll(userList);
+		objList.addAll(patientList);
 
 		return objList;
+	}
+
+	private List<Patient> listPatients() {
+		ArrayList<Patient> patients = new ArrayList<>();
+
+		Long idDoctor = Long.valueOf(1);
+
+		for (long i = 2; i < 15; i++) {
+			patients.add(createPatient(Long.valueOf(i), idDoctor));
+		}
+
+		return patients;
+	}
+
+	private Patient createPatient(Long idUser, Long idDoctor) {
+		Patient patient = new Patient();
+
+		System.out.println("idUser:\t" + idUser + "\nidDoctor:\t" + idDoctor);
+		patient.setUser(userRepository.findOne(idUser));
+		ArrayList<Doctor> patientListDoctors = new ArrayList<>();
+		patientListDoctors.add(doctorRepository.findByUser(idDoctor));
+		patient.setDoctors(patientListDoctors);
+
+		return patient;
 	}
 
 	private List<Doctor> listDoctors(Long size) {
@@ -39,12 +71,6 @@ public class InitServiceImpl implements InitService {
 		List<Doctor> doctors = new ArrayList<>();
 
 		Doctor doctor = createDoctor(Long.valueOf(1));
-		if (doctor != null) {
-			System.out.println("Usuario asociado: \n\t"
-					+ doctor.getUser().getUsername());
-		} else {
-			System.out.println("Doctor nulo");
-		}
 		doctorRepository.save(doctor);
 
 		for (Long i = Long.valueOf(2); i <= size / 4; i++) {

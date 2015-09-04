@@ -226,10 +226,10 @@
 			</column>
 			<column name="iduser" type="BIGINT">
 				<constraints foreignKeyName="fk_patient__user"
-					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/>
+					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="true"/> 
 			</column>
 			<column name="idhistory" type="BIGINT">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="true" />													<!-- Recordar des-nullabilizar -->
 			</column>
 		</createTable>
 	</changeSet>

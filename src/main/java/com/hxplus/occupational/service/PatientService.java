@@ -11,6 +11,7 @@ public interface PatientService {
 	
 	public Patient findById(Long id);
 	public List<Patient> findAll();
+	public List<Patient> listByDoctor(Long id);
 	public Patient savePatient(PatientRequest patientRequest);
 	public Patient updatePatient(Long id, PatientRequest patientRequest);
 	public ResponseEntity<Object> deletePatient(Long id);

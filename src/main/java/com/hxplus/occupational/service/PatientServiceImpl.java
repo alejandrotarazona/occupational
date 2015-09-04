@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.request.PatientRequest;
+
 @Service
 public class PatientServiceImpl implements PatientService {
-	
-	@Autowired PatientRepository patientRepository;
+
+	@Autowired
+	PatientRepository patientRepository;
 
 	@Override
 	public Patient findById(Long id) {
@@ -23,6 +25,11 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public List<Patient> findAll() {
 		return patientRepository.findAll();
+	}
+
+	@Override
+	public List<Patient> listByDoctor(Long id) {
+		return null;
 	}
 
 	@Override
@@ -37,16 +44,17 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public ResponseEntity<Object> deletePatient(Long id) {
-		try{
+		try {
 			patientRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex) { 
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Patient fromReq(Patient patient, PatientRequest patientRequest){
+
+	private Patient fromReq(Patient patient, PatientRequest patientRequest) {
 		patient.setUser(patientRequest.getUser());
 		patient.setHistory(patientRequest.getHistory());
 		patient.setDoctors(patientRequest.getDoctors());
