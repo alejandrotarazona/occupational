@@ -50,8 +50,8 @@ public class Doctor implements Serializable {
 		return regNumber;
 	}
 
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	//@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "attends", joinColumns = { @JoinColumn(name = "iddoctor", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(referencedColumnName = "id", name = "idpatient") })
 	public List<Patient> getPatients() {
 		return patients;
