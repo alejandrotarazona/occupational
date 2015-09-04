@@ -21,7 +21,8 @@
 		</preConditions>
 		<createTable tableName="user">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_user"/>
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_user" />
 			</column>
 			<column name="username" type="VARCHAR(255)" />
 			<column name="password" type="VARCHAR(255)" />
@@ -46,7 +47,8 @@
 		</preConditions>
 		<createTable tableName="company">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_company"/>
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_company" />
 			</column>
 			<column name="companyname" type="VARCHAR(255)" />
 			<column name="rif" type="VARCHAR(255)" />
@@ -63,7 +65,8 @@
 		</preConditions>
 		<createTable tableName="costcenter">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_costcenter"/>
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_costcenter" />
 			</column>
 			<column name="idcompany" type="BIGINT" />
 			<column name="address" type="VARCHAR(255)" />
@@ -87,7 +90,8 @@
 		</preConditions>
 		<createTable tableName="department">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_department" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_department" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -107,7 +111,8 @@
 		</preConditions>
 		<createTable tableName="post">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_post"/>
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_post" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -125,8 +130,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="history">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_history" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_history" />
 			</column>
 			<column name="idpatient" type="BIGINT" />
 			<column name="idbackground" type="BIGINT" />
@@ -140,7 +146,8 @@
 		</preConditions>
 		<createTable tableName="habit">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_habit" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_habit" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="idhistory" type="BIGINT" />
@@ -158,7 +165,8 @@
 		</preConditions>
 		<createTable tableName="background">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"   primaryKeyName="pk_background"/>
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_background" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -173,7 +181,8 @@
 		</preConditions>
 		<createTable tableName="allergy">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_allergy" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_allergy" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -193,7 +202,8 @@
 		</preConditions>
 		<createTable tableName="vaccine">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_vaccine" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_vaccine" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="idhistory" type="BIGINT" />
@@ -210,8 +220,13 @@
 			</not>
 		</preConditions>
 		<createTable tableName="patient">
-			<column name="id" type="BIGINT">
-				<constraints primaryKey="true" nullable="false"   primaryKeyName="pk_patient"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_patient" />
+			</column>
+			<column name="iduser" type="BIGINT">
+				<constraints foreignKeyName="fk_patient__user"
+					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/>
 			</column>
 			<column name="idhistory" type="BIGINT">
 				<constraints unique="true" nullable="false" />
@@ -226,11 +241,16 @@
 			</not>
 		</preConditions>
 		<createTable tableName="doctor">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_doctor" foreignKeyName="fk_doctor__user" referencedTableName="user" referencedColumnNames="id"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_doctor" />
+			</column>
+			<column name="iduser" type="BIGINT">
+				<constraints foreignKeyName="fk_doctor__user"
+					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/>
 			</column>
 			<column name="regnumber" type="BIGINT">
-				<constraints nullable="false" unique="true"/>
+				<constraints nullable="false" unique="true" />
 			</column>
 		</createTable>
 	</changeSet>
@@ -243,7 +263,8 @@
 		</preConditions>
 		<createTable tableName="vitalsigns">
 			<column name="idconsult" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_vitalsigns" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_vitalsigns" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -258,7 +279,8 @@
 		</preConditions>
 		<createTable tableName="soapnote">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_soapnote" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_soapnote" />
 			</column>
 			<column name="idconsult" type="BIGINT" />
 			<column name="description" type="VARCHAR(255)" />
@@ -273,7 +295,8 @@
 		</preConditions>
 		<createTable tableName="file">
 			<column name="idconsult" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_file" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_file" />
 			</column>
 			<column name="filename" type="VARCHAR(255)" />
 			<column name="file" type="BLOB" />
@@ -288,7 +311,8 @@
 		</preConditions>
 		<createTable tableName="diagnostic">
 			<column name="idconsult" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_diagnostic" />
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_diagnostic" />
 			</column>
 			<column name="details" type="VARCHAR(255)" />
 			<column name="idexam" type="BIGINT" />
@@ -302,8 +326,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="laboratory">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_laboratory" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_laboratory" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="phonenumber" type="VARCHAR(255)" />
@@ -317,8 +342,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="drug">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_drug" />
+			<column name="id" type="BIGINT" >
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_drug" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -333,8 +359,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="indication">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_indication" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_indication" />
 			</column>
 			<column name="description" type="VARCHAR(255)" />
 		</createTable>
@@ -347,8 +374,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="prescription">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_prescription" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_prescription" />
 			</column>
 			<column name="date" type="DATETIME" />
 			<column name="iddoctor" type="BIGINT" />
@@ -371,8 +399,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="instruction">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_instruction" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_instruction" />
 			</column>
 			<column name="instruction" type="VARCHAR(255)" />
 			<column name="idconsult" type="BIGINT" />
@@ -387,8 +416,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="exam">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_exam" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_exam" />
 			</column>
 			<column name="orderedat" type="DATETIME" />
 			<column name="ordered" type="BIGINT" />
@@ -410,8 +440,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="consult">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_consult" />
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_consult" />
 			</column>
 			<column name="consultdate" type="DATETIME" />
 			<column name="idsoapnote" type="BIGINT" />
@@ -427,8 +458,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="attends">
-			<column name="id" type="BIGINT">
-				<constraints primaryKey="true" nullable="false" primaryKeyName="pk_attends"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_attends" />
 			</column>
 			<column name="iddoctor" type="BIGINT" />
 			<column name="idpatient" type="BIGINT" />
@@ -448,8 +480,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="recieve_exam">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_recieve_exam"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_recieve_exam" />
 			</column>
 			<column name="idconsult" type="BIGINT">
 				<constraints nullable="false" />
@@ -473,8 +506,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="have_inst">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_have_inst"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_have_inst" />
 			</column>
 			<column name="idinstruccion" type="BIGINT">
 				<constraints foreignKeyName="fk_have__instruction"
@@ -494,13 +528,14 @@
 			</not>
 		</preConditions>
 		<createTable tableName="contract">
-			<column name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"  primaryKeyName="pk_contract"/>
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_contract" />
 			</column>
 			<column name="begindate" type="DATE">
 				<constraints nullable="false" />
 			</column>
-			<column name="enddate" type="DATE"/>
+			<column name="enddate" type="DATE" />
 			<column name="idpost" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
@@ -521,11 +556,8 @@
 			referencedTableName="costcenter" baseColumnNames="idcostcenter"
 			baseTableName="contract" referencedColumnNames="id" />
 	</changeSet>
-	
-	<!--changeSet id="28" author="hxplus">
-		<insert tableName="user">
-			<column name="username" type="VARCHAR(255)" value="atarazona"/>
-			<column name="password" type="VARCHAR(255)" value="4242"/>
-		</insert>
-	</changeSet-->
+
+	<!--changeSet id="28" author="hxplus"> <insert tableName="user"> <column 
+		name="username" type="VARCHAR(255)" value="atarazona"/> <column name="password" 
+		type="VARCHAR(255)" value="4242"/> </insert> </changeSet -->
 </databaseChangeLog>

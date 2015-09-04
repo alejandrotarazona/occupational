@@ -1,5 +1,6 @@
 package com.hxplus.occupational.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,8 +22,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 727003876867333544L;
 	private Long id;
 	private String username;
 	private String password;

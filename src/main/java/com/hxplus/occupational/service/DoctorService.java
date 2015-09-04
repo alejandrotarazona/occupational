@@ -9,6 +9,7 @@ import com.hxplus.occupational.request.DoctorRequest;
 
 public interface DoctorService {
 	public Doctor findById(Long id);
+	public Doctor findByIdAndFetchPatientsEagerly(Long id);
 	public List<Doctor> findAll();
 	public Doctor saveDoctor(DoctorRequest doctorRequest);
 	public Doctor updateDoctor(Long id, DoctorRequest doctorRequest);

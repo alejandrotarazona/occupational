@@ -25,6 +25,11 @@ public class DoctorController {
 		return doctorService.findById(id);
 	}
 	
+	@RequestMapping(value="/{id}/dashboard",method=RequestMethod.GET)
+	public @ResponseBody Doctor getDoctorWithPatients(@PathVariable("id") Long id){
+		return doctorService.findByIdAndFetchPatientsEagerly(id);
+	}
+	
 	@RequestMapping(value="", method= RequestMethod.GET)
 	public @ResponseBody List<Doctor> getDoctors(){
 		return doctorService.findAll();

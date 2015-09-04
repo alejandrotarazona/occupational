@@ -47,7 +47,9 @@ public class PatientServiceImpl implements PatientService {
 	}
 	
 	private Patient fromReq(Patient patient, PatientRequest patientRequest){
+		patient.setUser(patientRequest.getUser());
 		patient.setHistory(patientRequest.getHistory());
+		patient.setDoctors(patientRequest.getDoctors());
 		return patient;
 	}
 

@@ -19,6 +19,11 @@ public class DoctorServiceImpl implements DoctorService {
 	public Doctor findById(Long id) {
 		return doctorRepository.findOne(id);
 	}
+	
+	@Override
+	public Doctor findByIdAndFetchPatientsEagerly(Long id){
+		return doctorRepository.findByIdAndFetchPatientsEagerly(id);
+	}
 
 	@Override
 	public List<Doctor> findAll() {
@@ -47,8 +52,10 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	private Doctor fromReq(Doctor doctor, DoctorRequest doctorRequest){
+		doctor.setUser(doctorRequest.getUser());
 		doctor.setRegNumber(doctorRequest.getRegNumber());
 		doctor.setPatients(doctorRequest.getPatients());
+		doctor.setConsults(doctorRequest.getConsults());
 		return doctor;
 	}
 }
