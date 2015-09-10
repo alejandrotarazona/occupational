@@ -30,7 +30,7 @@ public class PatientController {
 		return patientService.findAll();
 	}
 	
-	@RequestMapping(value="/{id}/list", method=RequestMethod.GET)
+	@RequestMapping(value="/{id}/listPatients", method=RequestMethod.GET)
 	public @ResponseBody List<Patient> listByDoctor(@PathVariable("id") Long id){
 		return patientService.listByDoctor(id);
 	}

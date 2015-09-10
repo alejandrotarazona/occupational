@@ -8,27 +8,38 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.repositories.DoctorRepository;
+import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.request.DoctorRequest;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
 	@Autowired DoctorRepository doctorRepository;
+	@Autowired PatientRepository patientRepository;
 
 	@Override
 	public Doctor findById(Long id) {
 		return doctorRepository.findOne(id);
 	}
 	
-	@Override
-	public Doctor findByIdAndFetchPatientsEagerly(Long id){
-		return doctorRepository.findByIdAndFetchPatientsEagerly(id);
-	}
 
 	@Override
 	public List<Doctor> findAll() {
 		return doctorRepository.findAll();
 	}
+	
+//	@Override
+//	public List<Patient> listPatients(Long id) {
+//		List<Patient> pacientes = doctorRepository.listPatientsByDoctor(id);
+//		System.out.println("Id del doctor: "+ id);
+//		System.out.println("Lista de Pacientes:");
+//		for(Patient paciente : pacientes){
+//			System.out.println("\nPaciente: " + paciente.getUser().getUsername());
+//		}
+//		return pacientes;
+//	}
+
 
 	@Override
 	public Doctor saveDoctor(DoctorRequest doctorRequest) {
@@ -49,6 +60,22 @@ public class DoctorServiceImpl implements DoctorService {
 			ex.printStackTrace();
 			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@Override
+	public Doctor addPatient(Long idDoctor, Long idPatient) {
+		Doctor doctor = doctorRepository.findOne(idDoctor);
+		Patient patient = patientRepository.findOne(idPatient);
+		
+		List<Patient> patients = patientRepository.listPatientsByDoctor(idDoctor);
+		patients.add(patient);
+		doctor.setPatients(patients);
+		
+		System.out.println("Guardando un nuevo paciente:\n" + patient.toString());
+		
+		doctorRepository.saveAndFlush(doctor);
+		
+		return doctor;
 	}
 
 	private Doctor fromReq(Doctor doctor, DoctorRequest doctorRequest){

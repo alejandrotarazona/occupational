@@ -26,28 +26,38 @@ public class InitServiceImpl implements InitService {
 	@Override
 	public List<Object> init() {
 		List<User> userList = listUsers();
+		List<Object> objList = new ArrayList<>();
+		
 		userRepository.save(userList);
-
+		userRepository.flush();
+		objList.addAll(userList);
+		System.out
+				.println("······································Usuarios Guardados······································");
 		List<Doctor> doctorList = listDoctors(Long.valueOf(userList.size()));
 		doctorRepository.save(doctorList);
-
-		List<Patient> patientList = listPatients();
-		patientRepository.save(patientList);
-
-		List<Object> objList = new ArrayList<>();
+		doctorRepository.flush();
 		objList.addAll(doctorList);
-		objList.addAll(userList);
+		System.out
+				.println("······································Doctores Guardados······································");
+		List<Patient> patientList = listPatients(Long.valueOf(1));
+		patientRepository.save(patientList);
+		patientRepository.flush();
 		objList.addAll(patientList);
-
+		System.out.println("······································Primera lista de pacientes Guardados······································");
+		patientList = listPatients(Long.valueOf(7));
+		patientRepository.save(patientList);
+		patientRepository.flush();
+		objList.addAll(patientList);
+		System.out
+				.println("······································Pacientes Guardados······································");
+	
 		return objList;
 	}
 
-	private List<Patient> listPatients() {
+	private List<Patient> listPatients(Long idDoctor) {
 		ArrayList<Patient> patients = new ArrayList<>();
 
-		Long idDoctor = Long.valueOf(1);
-
-		for (long i = 2; i < 15; i++) {
+		for (long i = idDoctor + 1; i < 10 + idDoctor; i++) {
 			patients.add(createPatient(Long.valueOf(i), idDoctor));
 		}
 
@@ -55,14 +65,30 @@ public class InitServiceImpl implements InitService {
 	}
 
 	private Patient createPatient(Long idUser, Long idDoctor) {
-		Patient patient = new Patient();
+		Patient patient;
 
-		System.out.println("idUser:\t" + idUser + "\nidDoctor:\t" + idDoctor);
-		patient.setUser(userRepository.findOne(idUser));
-		ArrayList<Doctor> patientListDoctors = new ArrayList<>();
-		patientListDoctors.add(doctorRepository.findByUser(idDoctor));
-		patient.setDoctors(patientListDoctors);
-
+//		System.out.println("idUser:\t\t" + idUser + "\nidDoctor:\t" + idDoctor + "\n\t\t (" + idUser + ", " + idDoctor + ")");
+		patient = patientRepository.findByUser(idUser);
+		
+		if (patient == null) {
+			System.out.println("El paciente es nulo");
+			
+			patient =  new Patient();
+			patient.setUser(userRepository.findOne(idUser));
+			ArrayList<Doctor> patientListDoctors = new ArrayList<>();
+			patientListDoctors.add(doctorRepository.findOne(idDoctor));
+			patient.setDoctors(patientListDoctors);
+			
+		} else {
+			System.out.println("El paciente NO es nulo");
+			
+			List<Doctor> patientListDoctors = doctorRepository.listDoctorbyPatient(patient.getId());
+			patientListDoctors.add(doctorRepository.findOne(idDoctor));
+			patient.setDoctors(patientListDoctors);
+		}
+		
+		System.out.println(patient.toString());
+		
 		return patient;
 	}
 

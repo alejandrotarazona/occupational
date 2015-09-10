@@ -28,12 +28,20 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public List<Patient> listByDoctor(Long id) {
-		return null;
+	public List<Patient> listByDoctor(Long iddoctor) {
+//		List<Patient> patients = 
+//		System.out.println("Id del Doctor: "+ iddoctor);
+//		System.out.println("Lista de Pacientes: ");
+//		for(Patient patient : patients){
+//			System.out.println("\tPaciente: " + patient.getUser().getUsername());
+//		}
+		
+		return patientRepository.listPatientsByDoctor(iddoctor);
 	}
 
 	@Override
 	public Patient savePatient(PatientRequest patientRequest) {
+		System.out.println("Guardando un Paciente");
 		return patientRepository.save(fromReq(new Patient(), patientRequest));
 	}
 

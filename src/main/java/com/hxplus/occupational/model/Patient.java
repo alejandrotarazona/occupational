@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,16 +41,16 @@ public class Patient extends BaseEntity implements Serializable {
 	public User getUser() {
 		return user;
 	}
-
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
+	
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idhistory", referencedColumnName = "id")
 	public History getHistory() {
 		return history;
 	}
 
 	@JsonIgnore
-	@ManyToMany(mappedBy="patients")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "attends", inverseJoinColumns= { @JoinColumn(name = "iddoctor", referencedColumnName = "id") }, joinColumns = { @JoinColumn(referencedColumnName = "id", name = "idpatient") })
 	public List<Doctor> getDoctors() {
 		return doctors;
 	}
@@ -68,6 +69,10 @@ public class Patient extends BaseEntity implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String toString(){
+		return "Id: "+id+"\nUser: "+ user.toString();
 	}
 
 }

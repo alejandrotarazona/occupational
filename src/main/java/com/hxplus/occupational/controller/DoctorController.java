@@ -24,15 +24,21 @@ public class DoctorController {
 	public @ResponseBody Doctor getDoctor(@PathVariable("id") Long id){
 		return doctorService.findById(id);
 	}
-	
-	@RequestMapping(value="/{id}/dashboard",method=RequestMethod.GET)
-	public @ResponseBody Doctor getDoctorWithPatients(@PathVariable("id") Long id){
-		return doctorService.findByIdAndFetchPatientsEagerly(id);
-	}
-	
+		
 	@RequestMapping(value="", method= RequestMethod.GET)
 	public @ResponseBody List<Doctor> getDoctors(){
-		return doctorService.findAll();
+		return doctorService.findAll();	
+	}
+	
+//	@RequestMapping(value="/{id}/listPatients", method=RequestMethod.GET)
+//	public @ResponseBody List<Patient> listPatients(@PathVariable("id") Long id){
+//		return doctorService.listPatients(id);
+//		
+//	}
+	
+	@RequestMapping(value="/{id}/{idPatient}",method=RequestMethod.POST)
+	public @ResponseBody Doctor addPatient(@PathVariable("id") Long idDoctor, @PathVariable("idPatient") Long idPatient){
+		return doctorService.addPatient(idDoctor,idPatient);
 	}
 	
 	@RequestMapping(value="",method=RequestMethod.POST)

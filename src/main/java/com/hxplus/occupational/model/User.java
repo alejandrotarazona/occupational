@@ -162,5 +162,9 @@ public class User extends BaseEntity implements Serializable{
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
 	}
+	
+	public String toString(){
+		return "Id: "+id+"\n\tUsername: "+ username;
+	}
 
 }
