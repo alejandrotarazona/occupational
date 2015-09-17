@@ -1,24 +1,35 @@
 package com.hxplus.occupational.request;
 
+import com.hxplus.occupational.model.History;
+
 public class HabitRequest {
 
-	private Long id;
 	private String name;
-
-	public Long getId() {
-		return id;
-	}
+	private String frecuency;
+	private History history;
 
 	public String getName() {
 		return name;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getFrecuency() {
+		return frecuency;
+	}
+
+	public History getHistory() {
+		return history;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setFrecuency(String frecuency) {
+		this.frecuency = frecuency;
+	}
+
+	public void setHistory(History history) {
+		this.history = history;
 	}
 
 }

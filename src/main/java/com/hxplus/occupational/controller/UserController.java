@@ -34,6 +34,11 @@ public class UserController {
 	User getUser() {
 		return userService.createUser(new User());
 	}
+	
+	@RequestMapping(value= "/listnopatient")
+	public @ResponseBody List<User> listNoPatient(){
+		return userService.listNoPatients();
+	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public @ResponseBody

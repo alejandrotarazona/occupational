@@ -50,6 +50,8 @@ public class HabitServiceImpl implements HabitService {
 
 	private Habit fromReq(Habit habit, HabitRequest habitRequest){
 		habit.setName(habitRequest.getName());
+		habit.setFrecuency(habitRequest.getFrecuency());
+		habit.setHistory(habitRequest.getHistory());
 		return habit;
 	}
 }

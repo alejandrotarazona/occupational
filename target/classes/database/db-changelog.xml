@@ -150,6 +150,7 @@
 					primaryKeyName="pk_habit" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
+			<column name="frecuancy" type="VARCHAR(255)"/>
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_habit__history"
@@ -206,6 +207,7 @@
 					primaryKeyName="pk_vaccine" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
+			<column name="potency" type="INT"/>
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_vaccine__history"

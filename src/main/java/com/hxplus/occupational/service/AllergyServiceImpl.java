@@ -51,6 +51,7 @@ public class AllergyServiceImpl implements AllergyService {
 		allergy.setName(allergyRequest.getName());
 		allergy.setDescription(allergyRequest.getDescription());
 		allergy.setSeverity(allergyRequest.getSeverity());
+		allergy.setHistory(allergyRequest.getHistory());
 		return allergy;
 	}
 

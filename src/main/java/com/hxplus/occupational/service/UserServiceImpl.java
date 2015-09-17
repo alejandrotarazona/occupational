@@ -47,6 +47,10 @@ public class UserServiceImpl implements UserService{
 	public User updateUser(Long id, UserRequest userRequest) {
 		return userRepository.save(fromReq(findById(id),userRequest));						
 	}
+	
+	public List<User> listNoPatients(){
+		return userRepository.listNoPatients();
+	}
 
 	@Override
 	public ResponseEntity<Object> deleteUser(Long id) {

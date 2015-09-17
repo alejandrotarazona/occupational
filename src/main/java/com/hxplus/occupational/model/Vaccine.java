@@ -18,6 +18,7 @@ public class Vaccine {
 
 	private Long id;
 	private String name;
+	private int potency;
 	private History history;
 
 	@Id
@@ -29,6 +30,11 @@ public class Vaccine {
 	@Column(name = "name")
 	public String getName() {
 		return name;
+	}
+
+	@Column(name = "potency")
+	public int getPotency() {
+		return potency;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -43,6 +49,10 @@ public class Vaccine {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setPotency(int potency) {
+		this.potency = potency;
 	}
 
 	public void setHistory(History history) {

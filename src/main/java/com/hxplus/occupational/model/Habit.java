@@ -16,6 +16,7 @@ public class Habit {
 
 	private Long id;
 	private String name;
+	private String frecuency;
 	private History history;
 
 	@Id
@@ -27,6 +28,11 @@ public class Habit {
 	@Column(name = "name")
 	public String getName() {
 		return name;
+	}
+
+	@Column(name="frecuency")
+	public String getFrecuency() {
+		return frecuency;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,6 +47,10 @@ public class Habit {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setFrecuency(String frecuency) {
+		this.frecuency = frecuency;
 	}
 
 	public void setHistory(History history) {
