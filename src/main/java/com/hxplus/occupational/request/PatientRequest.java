@@ -6,11 +6,16 @@ import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.History;
 import com.hxplus.occupational.model.User;
 
-public class PatientRequest extends UserRequest {
+public class PatientRequest {
 
+	private Long id;
 	private User user;
 	private History history;
 	private List<Doctor> doctors;
+
+	public Long getId() {
+		return id;
+	}
 
 	public User getUser() {
 		return user;
@@ -22,6 +27,10 @@ public class PatientRequest extends UserRequest {
 
 	public List<Doctor> getDoctors() {
 		return doctors;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setUser(User user) {

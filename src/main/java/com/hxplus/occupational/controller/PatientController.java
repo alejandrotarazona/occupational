@@ -35,9 +35,9 @@ public class PatientController {
 		return patientService.listByDoctor(id);
 	}
 	
-	@RequestMapping(value="",method=RequestMethod.POST)
-	public @ResponseBody Patient createPatient(@RequestBody PatientRequest patientRequest){
-		return patientService.savePatient(patientRequest);
+	@RequestMapping(value="/{idUser}/{idDoc}",method= RequestMethod.POST)
+	public @ResponseBody Patient createPatient(@PathVariable("idUser") Long idUser,@PathVariable("idDoc") Long idDoc, @RequestBody PatientRequest patientRequest){
+		return patientService.savePatient(idUser, idDoc, patientRequest);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)

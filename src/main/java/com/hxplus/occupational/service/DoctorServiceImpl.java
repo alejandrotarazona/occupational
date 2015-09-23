@@ -23,23 +23,16 @@ public class DoctorServiceImpl implements DoctorService {
 		return doctorRepository.findOne(id);
 	}
 	
+	@Override
+	public Doctor findByUserId(Long idUser){
+		return doctorRepository.findByUser(idUser);
+	}
+	
 
 	@Override
 	public List<Doctor> findAll() {
 		return doctorRepository.findAll();
 	}
-	
-//	@Override
-//	public List<Patient> listPatients(Long id) {
-//		List<Patient> pacientes = doctorRepository.listPatientsByDoctor(id);
-//		System.out.println("Id del doctor: "+ id);
-//		System.out.println("Lista de Pacientes:");
-//		for(Patient paciente : pacientes){
-//			System.out.println("\nPaciente: " + paciente.getUser().getUsername());
-//		}
-//		return pacientes;
-//	}
-
 
 	@Override
 	public Doctor saveDoctor(DoctorRequest doctorRequest) {

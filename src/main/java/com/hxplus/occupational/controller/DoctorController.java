@@ -30,11 +30,10 @@ public class DoctorController {
 		return doctorService.findAll();	
 	}
 	
-//	@RequestMapping(value="/{id}/listPatients", method=RequestMethod.GET)
-//	public @ResponseBody List<Patient> listPatients(@PathVariable("id") Long id){
-//		return doctorService.listPatients(id);
-//		
-//	}
+	@RequestMapping(value="/user/{id}", method=RequestMethod.GET)
+	public @ResponseBody Doctor getDoctorByUserId(@PathVariable("id") Long id){
+		return doctorService.findByUserId(id);
+	}
 	
 	@RequestMapping(value="/{id}/{idPatient}",method=RequestMethod.POST)
 	public @ResponseBody Doctor addPatient(@PathVariable("id") Long idDoctor, @PathVariable("idPatient") Long idPatient){

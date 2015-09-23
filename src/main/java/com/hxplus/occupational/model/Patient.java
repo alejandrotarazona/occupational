@@ -41,7 +41,7 @@ public class Patient extends BaseEntity implements Serializable {
 	public User getUser() {
 		return user;
 	}
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idhistory", referencedColumnName = "id")
 	public History getHistory() {
@@ -50,7 +50,7 @@ public class Patient extends BaseEntity implements Serializable {
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "attends", inverseJoinColumns= { @JoinColumn(name = "iddoctor", referencedColumnName = "id") }, joinColumns = { @JoinColumn(referencedColumnName = "id", name = "idpatient") })
+	@JoinTable(name = "attends", inverseJoinColumns = { @JoinColumn(name = "iddoctor", referencedColumnName = "id") }, joinColumns = { @JoinColumn(referencedColumnName = "id", name = "idpatient") })
 	public List<Doctor> getDoctors() {
 		return doctors;
 	}
@@ -69,10 +69,6 @@ public class Patient extends BaseEntity implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	public String toString(){
-		return "Id: "+id+"\nUser: "+ user.toString();
 	}
 
 }

@@ -228,7 +228,7 @@
 			</column>
 			<column name="iduser" type="BIGINT">
 				<constraints foreignKeyName="fk_patient__user"
-					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="true"/> 
+					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/> 
 			</column>
 			<column name="idhistory" type="BIGINT">
 				<constraints unique="true" nullable="true" />													<!-- Recordar des-nullabilizar -->

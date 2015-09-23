@@ -6,7 +6,7 @@ import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.User;
 
-public class DoctorRequest extends UserRequest {
+public class DoctorRequest {
 
 	private User user;
 	private Long regNumber;

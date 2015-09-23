@@ -32,7 +32,7 @@ public class History {
 		return id;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idbackground",referencedColumnName="id")
 	public Background getBackground() {
 		return background;
@@ -56,6 +56,7 @@ public class History {
 		return habits;
 	}
 
+	@JsonIgnore
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idpatient", referencedColumnName="id")
 	public Patient getPatient() {

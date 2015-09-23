@@ -93,12 +93,14 @@ public class User extends BaseEntity implements Serializable{
 		return email;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
 	public CostCenter getWorks() {
 		return works;
 	}
-
+	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcompany", referencedColumnName = "id")
 	public Company getEmployer() {
