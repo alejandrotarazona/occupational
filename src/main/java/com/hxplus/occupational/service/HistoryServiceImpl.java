@@ -1,5 +1,6 @@
 package com.hxplus.occupational.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +13,27 @@ import com.hxplus.occupational.model.Background;
 import com.hxplus.occupational.model.Habit;
 import com.hxplus.occupational.model.History;
 import com.hxplus.occupational.model.Vaccine;
-import com.hxplus.occupational.repositories.AllergyRepository;
-import com.hxplus.occupational.repositories.BackgroundRepository;
-import com.hxplus.occupational.repositories.HabitRepository;
 import com.hxplus.occupational.repositories.HistoryRepository;
-import com.hxplus.occupational.repositories.VaccineRepository;
+import com.hxplus.occupational.request.AllergyRequest;
+import com.hxplus.occupational.request.HabitRequest;
 import com.hxplus.occupational.request.HistoryRequest;
+import com.hxplus.occupational.request.VaccineRequest;
+
 @Service
 public class HistoryServiceImpl implements HistoryService {
 
-	@Autowired HistoryRepository historyRepository;
-	@Autowired BackgroundRepository backgroundRepository;
-	@Autowired AllergyRepository allergyRepository;
-	@Autowired HabitRepository habitRepository;
-	@Autowired VaccineRepository  vaccineRepository;
+	@Autowired
+	HistoryRepository historyRepository;
+
+	@Autowired
+	BackgroundService backgroundService;
+
+	@Autowired
+	AllergyService allergyService;
+	@Autowired
+	HabitService habitService;
+	@Autowired
+	VaccineService vaccineService;
 
 	@Override
 	public History findById(Long id) {
@@ -39,7 +47,33 @@ public class HistoryServiceImpl implements HistoryService {
 
 	@Override
 	public History saveHistory(HistoryRequest historyRequest) {
-		return historyRepository.save(fromReq(new History(), historyRequest));
+		History history = historyRepository.saveAndFlush(fromReq(new History(),
+				historyRequest));
+
+		ArrayList<Allergy> allergies = new ArrayList<>();
+		ArrayList<Habit> habits = new ArrayList<>();
+		ArrayList<Vaccine> vaccines = new ArrayList<>();
+
+		for (AllergyRequest allergyRequest : historyRequest.getAllergies()) {
+			allergyRequest.setHistory(history);
+			allergies.add(allergyService.saveAllergy(allergyRequest));
+		}
+
+		for (HabitRequest habitRequest : historyRequest.getHabits()) {
+			habitRequest.setHistory(history);
+			habits.add(habitService.saveHabit(habitRequest));
+		}
+
+		for (VaccineRequest vaccineRequest : historyRequest.getVaccines()) {
+			vaccineRequest.setHistory(history);
+			vaccines.add(vaccineService.saveVaccine(vaccineRequest));
+		}
+
+		history.setAllergies(allergies);
+		history.setHabits(habits);
+		history.setVaccines(vaccines);
+
+		return history;
 	}
 
 	@Override
@@ -49,50 +83,19 @@ public class HistoryServiceImpl implements HistoryService {
 
 	@Override
 	public ResponseEntity<Object> deleteHistory(Long id) {
-		try{
+		try {
 			historyRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex) { 
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	public History saveHistory(History history){
-		Background background = history.getBackground();
-		List<Allergy> allergies = history.getAllergies();
-		List<Habit> habits = history.getHabits();
-		List<Vaccine> vaccines = history.getVaccines();
-		
-		history.setBackground(backgroundRepository.save(background));
-		
-		history = historyRepository.save(history);
-		
-		for(Allergy allergy: allergies){
-			allergy.setHistory(history);
-		}
-		
-		for(Habit habit : habits){
-			habit.setHistory(history);	
-		}
-		
-		for(Vaccine vaccine : vaccines){
-			vaccine.setHistory(history);
-		}
-		
-		allergyRepository.save(allergies);
-		habitRepository.save(habits);
-		vaccineRepository.save(vaccines);
-		
-		allergyRepository.flush();
-		habitRepository.flush();
-		vaccineRepository.flush();
 
-		return history;
-	}
-
-	private History fromReq(History history, HistoryRequest historyRequest){
-		history.setBackground(historyRequest.getBackground().toBackground());
+	private History fromReq(History history, HistoryRequest historyRequest) {
+		Background background = backgroundService.saveBackground(historyRequest.getBackground());
+		history.setBackground(background);
 		return history;
 	}
 }

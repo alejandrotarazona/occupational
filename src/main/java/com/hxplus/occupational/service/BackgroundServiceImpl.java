@@ -37,7 +37,7 @@ public class BackgroundServiceImpl implements BackgroundService {
 	public Background updateBackground(Long id,
 			BackgroundRequest backgroundRequest) {
 		return backgroundRepository
-				.save(fromReq(findById(id), backgroundRequest));
+				.saveAndFlush(fromReq(findById(id), backgroundRequest));
 	}
 
 	@Override
@@ -54,8 +54,9 @@ public class BackgroundServiceImpl implements BackgroundService {
 
 	private Background fromReq(Background background,
 			BackgroundRequest backgroundRequest) {
-		background.setName(backgroundRequest.getName());
+		//background.setName(backgroundRequest.getName());
 		background.setDescription(backgroundRequest.getDescription());
+		System.out.println("Background cargado.\nProcediendo a guardar");
 		return background;
 	}
 }

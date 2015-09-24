@@ -1,11 +1,13 @@
 package com.hxplus.occupational.request;
 
+import com.hxplus.occupational.model.History;
+
 
 public class HabitRequest {
 
 	private String name;
 	private String frecuency;
-	private HistoryRequest history;
+	private History history;
 
 	public String getName() {
 		return name;
@@ -15,7 +17,7 @@ public class HabitRequest {
 		return frecuency;
 	}
 
-	public HistoryRequest getHistory() {
+	public History getHistory() {
 		return history;
 	}
 
@@ -27,7 +29,7 @@ public class HabitRequest {
 		this.frecuency = frecuency;
 	}
 
-	public void setHistory(HistoryRequest history) {
+	public void setHistory(History history) {
 		this.history = history;
 	}
 

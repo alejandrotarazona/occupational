@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hxplus.occupational.controller.HistoryController;
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.History;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.UserRepository;
@@ -19,7 +21,7 @@ public class PatientServiceImpl implements PatientService {
 
 	@Autowired PatientRepository patientRepository;
 	@Autowired UserRepository userRepository;
-	@Autowired HistoryServiceImpl historyServiceImpl;
+	@Autowired HistoryController historyController;
 	@Autowired DoctorServiceImpl doctorServiceImpl;
 
 	@Override
@@ -88,6 +90,12 @@ public class PatientServiceImpl implements PatientService {
 		//patient.setUser(patientRequest.getUserTransform());
 		//patient.setHistory(patientRequest.getHistory().toHistory());                   dunno wat todo
 		//patient.setDoctors(patientRequest.getDoctors());
+		
+		// Let's Rock & Roll
+		if(patientRequest.getHistory() == null) System.out.println("HistoryRequest es Nula");
+		History history = historyController.createHistory(patientRequest.getHistory());
+		patient.setHistory(history);
+		
 		System.out.println("FromReq Terminado");
 		return patient;
 	}

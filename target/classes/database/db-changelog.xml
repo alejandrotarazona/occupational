@@ -134,7 +134,6 @@
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_history" />
 			</column>
-			<column name="idpatient" type="BIGINT" />
 			<column name="idbackground" type="BIGINT" />
 		</createTable>
 	</changeSet>
@@ -150,7 +149,7 @@
 					primaryKeyName="pk_habit" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
-			<column name="frecuancy" type="VARCHAR(255)"/>
+			<column name="frecuency" type="VARCHAR(255)"/>
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_habit__history"

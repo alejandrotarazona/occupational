@@ -24,7 +24,6 @@ public class History {
 	private List<Allergy> allergies;
 	private List<Vaccine> vaccines;
 	private List<Habit> habits;
-	private Patient patient;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -56,13 +55,6 @@ public class History {
 		return habits;
 	}
 
-	@JsonIgnore
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idpatient", referencedColumnName="id")
-	public Patient getPatient() {
-		return patient;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -81,10 +73,6 @@ public class History {
 
 	public void setHabits(List<Habit> habits) {
 		this.habits = habits;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
 	}
 
 }

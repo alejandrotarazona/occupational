@@ -2,14 +2,11 @@ package com.hxplus.occupational.request;
 
 import java.util.List;
 
-import com.hxplus.occupational.repositories.AllergyRepository;
-import com.hxplus.occupational.repositories.HabitRepository;
-
 public class HistoryRequest {
 
 	private BackgroundRequest background;
-	private List<AllergyRepository> allergies;
-	private List<HabitRepository> habits;
+	private List<AllergyRequest> allergies;
+	private List<HabitRequest> habits;
 	private List<VaccineRequest> vaccines;
 	private PatientRequest patient;
 
@@ -17,11 +14,11 @@ public class HistoryRequest {
 		return background;
 	}
 
-	public List<AllergyRepository> getAllergies() {
+	public List<AllergyRequest> getAllergies() {
 		return allergies;
 	}
 
-	public List<HabitRepository> getHabits() {
+	public List<HabitRequest> getHabits() {
 		return habits;
 	}
 
@@ -37,11 +34,11 @@ public class HistoryRequest {
 		this.background = background;
 	}
 
-	public void setAllergies(List<AllergyRepository> allergies) {
+	public void setAllergies(List<AllergyRequest> allergies) {
 		this.allergies = allergies;
 	}
 
-	public void setHabits(List<HabitRepository> habits) {
+	public void setHabits(List<HabitRequest> habits) {
 		this.habits = habits;
 	}
 
