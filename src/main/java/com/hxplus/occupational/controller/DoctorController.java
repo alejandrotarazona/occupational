@@ -16,7 +16,7 @@ import com.hxplus.occupational.request.DoctorRequest;
 import com.hxplus.occupational.service.DoctorService;
 
 @Controller
-@RequestMapping(value="doctor")
+@RequestMapping(value="/doctor")
 public class DoctorController {
 	@Autowired DoctorService doctorService;
 	
@@ -35,7 +35,7 @@ public class DoctorController {
 		return doctorService.findByUserId(id);
 	}
 	
-	@RequestMapping(value="/{id}/{idPatient}",method=RequestMethod.POST)
+	@RequestMapping(value="/{id}/patient/{idPatient}",method=RequestMethod.POST)
 	public @ResponseBody Doctor addPatient(@PathVariable("id") Long idDoctor, @PathVariable("idPatient") Long idPatient){
 		return doctorService.addPatient(idDoctor,idPatient);
 	}

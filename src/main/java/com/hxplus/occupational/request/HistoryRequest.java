@@ -2,56 +2,54 @@ package com.hxplus.occupational.request;
 
 import java.util.List;
 
-import com.hxplus.occupational.model.Allergy;
-import com.hxplus.occupational.model.Background;
-import com.hxplus.occupational.model.Habit;
-import com.hxplus.occupational.model.Patient;
-import com.hxplus.occupational.model.Vaccine;
+import com.hxplus.occupational.repositories.AllergyRepository;
+import com.hxplus.occupational.repositories.HabitRepository;
 
 public class HistoryRequest {
-	private Background background;
-	private List<Allergy> allergies;
-	private List<Vaccine> vaccines;
-	private List<Habit> habits;
-	private Patient patient;
 
-	public Background getBackground() {
+	private BackgroundRequest background;
+	private List<AllergyRepository> allergies;
+	private List<HabitRepository> habits;
+	private List<VaccineRequest> vaccines;
+	private PatientRequest patient;
+
+	public BackgroundRequest getBackground() {
 		return background;
 	}
 
-	public List<Allergy> getAllergies() {
+	public List<AllergyRepository> getAllergies() {
 		return allergies;
 	}
 
-	public List<Vaccine> getVaccines() {
-		return vaccines;
-	}
-
-	public List<Habit> getHabits() {
+	public List<HabitRepository> getHabits() {
 		return habits;
 	}
 
-	public Patient getPatient() {
+	public List<VaccineRequest> getVaccines() {
+		return vaccines;
+	}
+
+	public PatientRequest getPatient() {
 		return patient;
 	}
 
-	public void setBackground(Background background) {
+	public void setBackground(BackgroundRequest background) {
 		this.background = background;
 	}
 
-	public void setAllergies(List<Allergy> allergies) {
+	public void setAllergies(List<AllergyRepository> allergies) {
 		this.allergies = allergies;
 	}
 
-	public void setVaccines(List<Vaccine> vaccines) {
-		this.vaccines = vaccines;
-	}
-
-	public void setHabits(List<Habit> habits) {
+	public void setHabits(List<HabitRepository> habits) {
 		this.habits = habits;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setVaccines(List<VaccineRequest> vaccines) {
+		this.vaccines = vaccines;
+	}
+
+	public void setPatient(PatientRequest patient) {
 		this.patient = patient;
 	}
 

@@ -73,7 +73,7 @@ public class HistoryServiceImpl implements HistoryService {
 		}
 		
 		for(Habit habit : habits){
-			habit.setHistory(history);
+			habit.setHistory(history);	
 		}
 		
 		for(Vaccine vaccine : vaccines){
@@ -92,11 +92,7 @@ public class HistoryServiceImpl implements HistoryService {
 	}
 
 	private History fromReq(History history, HistoryRequest historyRequest){
-		history.setAllergies(historyRequest.getAllergies());
-		history.setBackground(historyRequest.getBackground());
-		history.setHabits(historyRequest.getHabits());
-		history.setVaccines(historyRequest.getVaccines());
-		history.setPatient(historyRequest.getPatient());
+		history.setBackground(historyRequest.getBackground().toBackground());
 		return history;
 	}
 }

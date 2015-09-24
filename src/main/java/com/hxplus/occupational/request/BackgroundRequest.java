@@ -1,14 +1,11 @@
 package com.hxplus.occupational.request;
 
+import com.hxplus.occupational.model.Background;
+
 public class BackgroundRequest {
 
-	private Long id;
 	private String name;
 	private String description;
-
-	public Long getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
@@ -18,16 +15,20 @@ public class BackgroundRequest {
 		return description;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Background toBackground() {
+		Background background = new Background();
+		background.setName(name);
+		background.setDescription(description);
+
+		return background;
 	}
 
 }

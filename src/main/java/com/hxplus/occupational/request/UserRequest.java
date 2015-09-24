@@ -6,6 +6,7 @@ import com.hxplus.occupational.model.Contract;
 
 public class UserRequest {
 
+	private Long id;
 	private String username;
 	private String password;
 	private Long ci;
@@ -16,6 +17,10 @@ public class UserRequest {
 	private String phoneNumber;
 	private String email;
 	private List<Contract> contracts;
+
+	public Long getId() {
+		return id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -55,6 +60,10 @@ public class UserRequest {
 
 	public List<Contract> getContracts() {
 		return contracts;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setUsername(String username) {

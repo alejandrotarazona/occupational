@@ -1,13 +1,12 @@
 package com.hxplus.occupational.request;
 
-import com.hxplus.occupational.model.History;
 
 public class AllergyRequest {
 
 	private String name;
 	private String description;
 	private String severity;
-	private History history;
+	private HistoryRequest history;
 
 	public String getName() {
 		return name;
@@ -21,7 +20,7 @@ public class AllergyRequest {
 		return severity;
 	}
 
-	public History getHistory() {
+	public HistoryRequest getHistory() {
 		return history;
 	}
 
@@ -37,7 +36,7 @@ public class AllergyRequest {
 		this.severity = severity;
 	}
 
-	public void setHistory(History history) {
+	public void setHistory(HistoryRequest history) {
 		this.history = history;
 	}
 

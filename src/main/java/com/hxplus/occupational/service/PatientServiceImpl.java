@@ -63,8 +63,6 @@ public class PatientServiceImpl implements PatientService {
 		
 		patientRepository.saveAndFlush(patient);
 
-		
-
 		return patient;
 	}
 
@@ -86,10 +84,10 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	private Patient fromReq(Patient patient, PatientRequest patientRequest) {
-		if(patientRequest.getId() != null) patient.setId(patientRequest.getId());
-		patient.setUser(patientRequest.getUser());
-		patient.setHistory(patientRequest.getHistory());
-		patient.setDoctors(patientRequest.getDoctors());
+		//if(patientRequest.getId() != null) patient.setId(patientRequest.getId());
+		//patient.setUser(patientRequest.getUserTransform());
+		//patient.setHistory(patientRequest.getHistory().toHistory());                   dunno wat todo
+		//patient.setDoctors(patientRequest.getDoctors());
 		System.out.println("FromReq Terminado");
 		return patient;
 	}

@@ -10,15 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "vaccine")
 public class Vaccine {
 
 	private Long id;
 	private String name;
-	private int potency;
+	private String potency;
 	private History history;
 
 	@Id
@@ -33,7 +31,7 @@ public class Vaccine {
 	}
 
 	@Column(name = "potency")
-	public int getPotency() {
+	public String getPotency() {
 		return potency;
 	}
 
@@ -51,7 +49,7 @@ public class Vaccine {
 		this.name = name;
 	}
 
-	public void setPotency(int potency) {
+	public void setPotency(String potency) {
 		this.potency = potency;
 	}
 
