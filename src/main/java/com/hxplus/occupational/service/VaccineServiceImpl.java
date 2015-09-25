@@ -27,7 +27,7 @@ public class VaccineServiceImpl implements VaccineService {
 
 	@Override
 	public Vaccine saveVaccine(VaccineRequest vaccineRequest) {
-		return vaccineRepository.save(fromReq(new Vaccine(), vaccineRequest));
+		return vaccineRepository.saveAndFlush(fromReq(new Vaccine(), vaccineRequest));
 	}
 
 	@Override

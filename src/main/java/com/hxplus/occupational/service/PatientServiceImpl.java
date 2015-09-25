@@ -42,18 +42,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public Patient savePatient(Long idUser, Long idDoctor, PatientRequest patientRequest) {
 		
-		Patient patient = fromReq(new Patient(), patientRequest);
-		
-		if(patient != null){
-			System.out.println("El paciente NO es NULO\n");
-			if(patient.getUser() != null){
-				System.out.println("\tEl Usuario NO es NULO");
-			}
-			
-			if(patient.getHistory() != null){
-				System.out.println("\tLa Hisotria NO Es NULA");
-			}
-		}
+		Patient patient = fromReq(new Patient(), patientRequest); // Guarda la historia completa.
 		
 		patient.setUser(userRepository.findOne(idUser));
 		
@@ -63,7 +52,7 @@ public class PatientServiceImpl implements PatientService {
 		
 		patient.setDoctors(doctors);
 		
-		patientRepository.saveAndFlush(patient);
+		patientRepository.saveAndFlush(patient);				// Guarda un nuevo paciente
 
 		return patient;
 	}
@@ -86,12 +75,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	private Patient fromReq(Patient patient, PatientRequest patientRequest) {
-		//if(patientRequest.getId() != null) patient.setId(patientRequest.getId());
-		//patient.setUser(patientRequest.getUserTransform());
-		//patient.setHistory(patientRequest.getHistory().toHistory());                   dunno wat todo
-		//patient.setDoctors(patientRequest.getDoctors());
-		
-		// Let's Rock & Roll
+
 		if(patientRequest.getHistory() == null) System.out.println("HistoryRequest es Nula");
 		History history = historyController.createHistory(patientRequest.getHistory());
 		patient.setHistory(history);

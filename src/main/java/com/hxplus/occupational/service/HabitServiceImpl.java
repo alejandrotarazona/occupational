@@ -28,7 +28,7 @@ public class HabitServiceImpl implements HabitService {
 
 	@Override
 	public Habit saveHabit(HabitRequest habitRequest) {
-		return habitRepository.save(fromReq(new Habit(), habitRequest));
+		return habitRepository.saveAndFlush(fromReq(new Habit(), habitRequest));
 	}
 
 	@Override

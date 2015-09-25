@@ -28,7 +28,7 @@ public class AllergyServiceImpl implements AllergyService {
 
 	@Override
 	public Allergy saveAllergy(AllergyRequest allergyRequest) {
-		return allergyRepository.save(fromReq(new Allergy(), allergyRequest));
+		return allergyRepository.saveAndFlush(fromReq(new Allergy(), allergyRequest));
 	}
 
 	@Override
