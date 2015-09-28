@@ -116,7 +116,8 @@
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
-			<column name="idcostcenter" type="BIGINT" /> <!-- centro de costos al que pertenece el cargo -->
+			<!-- column name="idcostcenter" type="BIGINT" /> centro de costos al que 
+				pertenece el cargo -->
 			<column name="iddepartment" type="BIGINT" /> <!-- dpto al que pertenece el cargo -->
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="idpost"
@@ -149,7 +150,7 @@
 					primaryKeyName="pk_habit" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
-			<column name="frecuency" type="VARCHAR(255)"/>
+			<column name="frecuency" type="VARCHAR(255)" />
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_habit__history"
@@ -206,7 +207,7 @@
 					primaryKeyName="pk_vaccine" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
-			<column name="potency" type="VARCHAR(255)"/>
+			<column name="potency" type="VARCHAR(255)" />
 			<column name="idhistory" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_vaccine__history"
@@ -227,7 +228,8 @@
 			</column>
 			<column name="iduser" type="BIGINT">
 				<constraints foreignKeyName="fk_patient__user"
-					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/> 
+					referencedTableName="user" referencedColumnNames="id" unique="true"
+					nullable="false" />
 			</column>
 			<column name="idhistory" type="BIGINT">
 				<constraints unique="true" nullable="true" />													<!-- Recordar des-nullabilizar -->
@@ -248,7 +250,8 @@
 			</column>
 			<column name="iduser" type="BIGINT">
 				<constraints foreignKeyName="fk_doctor__user"
-					referencedTableName="user" referencedColumnNames="id" unique="true" nullable="false"/>
+					referencedTableName="user" referencedColumnNames="id" unique="true"
+					nullable="false" />
 			</column>
 			<column name="regnumber" type="BIGINT">
 				<constraints nullable="false" unique="true" />
@@ -343,7 +346,7 @@
 			</not>
 		</preConditions>
 		<createTable tableName="drug">
-			<column name="id" type="BIGINT" >
+			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_drug" />
 			</column>
@@ -444,6 +447,10 @@
 			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_consult" />
+			</column>
+			<column name="idhistory" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_consult__history" 
+				referencedTableName="history" referencedColumnNames="id"/>
 			</column>
 			<column name="consultdate" type="DATETIME" />
 			<column name="idsoapnote" type="BIGINT" />
@@ -556,6 +563,29 @@
 		<addForeignKeyConstraint constraintName="fk_contract__costcenter"
 			referencedTableName="costcenter" baseColumnNames="idcostcenter"
 			baseTableName="contract" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="28" author="hxplus">
+		<preConditions>
+			<not>
+				<tableExists tableName="havepost" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="havepost">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk_contract" />
+			</column>
+			<column name="idpost" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_havepost__post"
+					referencedTableName="post" referencedColumnNames="id" />
+			</column>
+			<column name="idcostcenter" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_havepost__costcenter" referencedTableName="costcenter" referencedColumnNames="id"/>
+			</column>
+
+		</createTable>
 	</changeSet>
 
 	<!--changeSet id="28" author="hxplus"> <insert tableName="user"> <column 

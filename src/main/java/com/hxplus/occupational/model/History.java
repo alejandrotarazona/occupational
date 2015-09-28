@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,35 +25,43 @@ public class History {
 	private List<Allergy> allergies;
 	private List<Vaccine> vaccines;
 	private List<Habit> habits;
+	private List<Consult> consults;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="idbackground",referencedColumnName="id")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idbackground", referencedColumnName = "id")
 	public Background getBackground() {
 		return background;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "history")
 	public List<Allergy> getAllergies() {
 		return allergies;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "history")
 	public List<Vaccine> getVaccines() {
 		return vaccines;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="history")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "history")
 	public List<Habit> getHabits() {
 		return habits;
+	}
+
+	@JsonIgnore
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idhistory", referencedColumnName="id")
+	public List<Consult> getConsults() {
+		return consults;
 	}
 
 	public void setId(Long id) {
@@ -73,6 +82,10 @@ public class History {
 
 	public void setHabits(List<Habit> habits) {
 		this.habits = habits;
+	}
+
+	public void setConsults(List<Consult> consults) {
+		this.consults = consults;
 	}
 
 }

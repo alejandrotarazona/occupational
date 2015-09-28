@@ -40,6 +40,7 @@ public class User extends BaseEntity implements Serializable{
 	private String email;
 	private CostCenter works;
 	private Company employer;
+	private Post post;
 	private List<Contract> contracts;
 
 	@Id
@@ -108,6 +109,13 @@ public class User extends BaseEntity implements Serializable{
 	}
 	
 	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idpost", referencedColumnName = "id")
+	public Post getPost(){
+		return post;
+	}
+	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="user")
 	public List<Contract> getContracts() {
 		return contracts;
@@ -159,6 +167,10 @@ public class User extends BaseEntity implements Serializable{
 
 	public void setEmployer(Company employer) {
 		this.employer = employer;
+	}
+	
+	public void setPost(Post post){
+		this.post = post;
 	}
 
 	public void setContracts(List<Contract> contracts) {

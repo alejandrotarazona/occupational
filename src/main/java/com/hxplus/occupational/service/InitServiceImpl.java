@@ -43,25 +43,33 @@ public class InitServiceImpl implements InitService {
 	@Autowired
 	HabitRepository habitRepository;
 
-	private final String[] descriptions = {
-			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,",
-			"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto",
-			"Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in l",
-			"Y, viéndole don Quijote de aquella manera, con muestras de tanta tristeza, le dijo: Sábete, Sancho, que no es un hombre más que otro si no hace más que otro. Todas estas borrascas.",
-			"Reina en mi espíritu una alegría admirable, muy parecida a las dulces alboradas de la primavera, de que gozo aquí con delicia. Estoy solo, y me felicito de vivir en este país, el m",
-			"Una mañana, tras un sueño intranquilo, Gregorio Samsa se despertó convertido en un monstruoso insecto. Estaba echado de espaldas sobre un duro caparazón y, al alzar la cabeza, vio.",
-			"Muy lejos, más allá de las montañas de palabras, alejados de los países de las vocales y las consonantes, viven los textos simulados. Viven aislados en casas de letras, en la costa" },
+	private final String[] firstnames = { "Juan", "Jose", "Alberto", "Pedro",
+			"Carlos", "Julio", "Fernando", "Daniel" },
+			lastnames = { "Perez", "Lopez", "Mendez", "Ramirez" },
+			passwords = { "4242", "2121", "6363", "8484" },
+			cities = { "Caracas", "Valencia", "Maracay", "Barquisimeto" },
+
+			descriptions = {
+					"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,",
+					"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto",
+					"Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in l",
+					"Y, viéndole don Quijote de aquella manera, con muestras de tanta tristeza, le dijo: Sábete, Sancho, que no es un hombre más que otro si no hace más que otro. Todas estas borrascas.",
+					"Reina en mi espíritu una alegría admirable, muy parecida a las dulces alboradas de la primavera, de que gozo aquí con delicia. Estoy solo, y me felicito de vivir en este país, el m",
+					"Una mañana, tras un sueño intranquilo, Gregorio Samsa se despertó convertido en un monstruoso insecto. Estaba echado de espaldas sobre un duro caparazón y, al alzar la cabeza, vio.",
+					"Muy lejos, más allá de las montañas de palabras, alejados de los países de las vocales y las consonantes, viven los textos simulados. Viven aislados en casas de letras, en la costa" },
 
 			nombres = { "Sol", "Pescado", "Yodo", "Maquillaje", "Jabón",
 					"Champú", "Polem", "Penicilina" },
 
 			severidades = { "Leve", "Moderada", "Severa", "Aguda", "Mortal" },
-			
-			habitNames = { "Cigarrillo", "Alcohol", "Deportes", "Trasnocho"},
-			habitFrecuency = { "Varias veces al día", "Diario", "Semanal", "Quincenal", "Mensual", "Bimensual" , "Anual"},
-			
-			vaccineNames = {"Polio", "Sarampión", "Viruela", "Triple", "Lechina"},
-			vaccinePotency = {"Primera", "Segunda", "Refuerzo"};
+
+			habitNames = { "Cigarrillo", "Alcohol", "Deportes", "Trasnocho" },
+			habitFrecuency = { "Varias veces al día", "Diario", "Semanal",
+					"Quincenal", "Mensual", "Bimensual", "Anual" },
+
+			vaccineNames = { "Polio", "Sarampión", "Viruela", "Triple",
+					"Lechina" }, vaccinePotency = { "Primera", "Segunda",
+					"Refuerzo" };
 
 	@Override
 	public List<Object> init() {
@@ -79,7 +87,8 @@ public class InitServiceImpl implements InitService {
 		objList.addAll(doctorList);
 		System.out
 				.println("······································Doctores Guardados······································");
-		ArrayList<Patient> patientList = (ArrayList<Patient>) listPatients(Long.valueOf(1));
+		ArrayList<Patient> patientList = (ArrayList<Patient>) listPatients(Long
+				.valueOf(1));
 		objList.addAll(savePatients(patientList));
 		System.out
 				.println("······································Primera lista de pacientes Guardados······································");
@@ -90,20 +99,20 @@ public class InitServiceImpl implements InitService {
 
 		return objList;
 	}
-	
-	private List<Patient> savePatients(List<Patient> patients){
+
+	private List<Patient> savePatients(List<Patient> patients) {
 		List<Patient> guardados = new ArrayList<>();
-		
-		for(Patient patient : patients){
+
+		for (Patient patient : patients) {
 			guardados.add(savePatient(patient));
 		}
-		
+
 		return guardados;
 	}
-	
-	private Patient savePatient(Patient patient){
-		
-		try{
+
+	private Patient savePatient(Patient patient) {
+
+		try {
 			Patient patientResp = new Patient();
 
 			Background background = backgroundRepository.save(patient
@@ -116,36 +125,36 @@ public class InitServiceImpl implements InitService {
 			List<Allergy> allergies = patient.getHistory().getAllergies(), newAllergies = new ArrayList<>();
 			List<Habit> habits = patient.getHistory().getHabits(), newHabits = new ArrayList<>();
 			List<Vaccine> vaccines = patient.getHistory().getVaccines(), newVaccines = new ArrayList<>();
-		
-			for(Allergy allergy : allergies){
+
+			for (Allergy allergy : allergies) {
 				allergy.setHistory(history);
 				newAllergies.add(allergyRepository.saveAndFlush(allergy));
 			}
-			
+
 			history.setAllergies(newAllergies);
-			
-			for(Habit habit : habits){
+
+			for (Habit habit : habits) {
 				habit.setHistory(history);
 				newHabits.add(habitRepository.saveAndFlush(habit));
 			}
-			
+
 			history.setHabits(newHabits);
-			
-			for(Vaccine vaccine: vaccines){
+
+			for (Vaccine vaccine : vaccines) {
 				vaccine.setHistory(history);
 				newVaccines.add(vaccineRepository.saveAndFlush(vaccine));
 			}
-			
+
 			history.setVaccines(newVaccines);
-			
+
 			patientResp.setUser(patient.getUser());
 			patientResp.setDoctors(patient.getDoctors());
 			patientResp.setHistory(history);
-			
+
 			patientResp = patientRepository.saveAndFlush(patientResp);
-			
+
 			return patientResp;
-			
+
 		} catch (Exception ex) {
 			System.out.println("Ocurrió una excepción pero pa'lante");
 			return patientRepository.saveAndFlush(patient);
@@ -196,7 +205,7 @@ public class InitServiceImpl implements InitService {
 	private History createHistory() {
 		History history = new History();
 		history.setBackground(createBackground());
-		
+
 		int allergiesCant = (int) (Math.random() * 10), vaccinesCant = (int) (Math
 				.random() * 20), habitCant = (int) (Math.random() * 5);
 
@@ -211,15 +220,15 @@ public class InitServiceImpl implements InitService {
 		for (int i = 0; i < habitCant; i++) {
 			habits.add(createHabit());
 		}
-		
-		for (int i = 0; i < vaccinesCant; i++){
+
+		for (int i = 0; i < vaccinesCant; i++) {
 			vaccines.add(createVaccine());
 		}
-		
+
 		history.setAllergies(allergies);
 		history.setHabits(habits);
 		history.setVaccines(vaccines);
-		
+
 		return history;
 	}
 
@@ -232,30 +241,30 @@ public class InitServiceImpl implements InitService {
 		return background;
 	}
 
-	private Allergy createAllergy(){
+	private Allergy createAllergy() {
 		Allergy allergy = new Allergy();
-		
-		allergy.setName(nombres[(int)(Math.random()*nombres.length)]);
-		allergy.setSeverity(severidades[(int)(Math.random()*severidades.length)]);
-		
+
+		allergy.setName(nombres[(int) (Math.random() * nombres.length)]);
+		allergy.setSeverity(severidades[(int) (Math.random() * severidades.length)]);
+
 		return allergy;
 	}
 
 	private Habit createHabit() {
 		Habit habit = new Habit();
 
-		habit.setName(habitNames[(int)(Math.random()*habitNames.length)]);
-		habit.setFrecuency(habitFrecuency[(int)(Math.random()*habitFrecuency.length)]);
+		habit.setName(habitNames[(int) (Math.random() * habitNames.length)]);
+		habit.setFrecuency(habitFrecuency[(int) (Math.random() * habitFrecuency.length)]);
 
 		return habit;
 	}
-	
-	private Vaccine createVaccine(){
+
+	private Vaccine createVaccine() {
 		Vaccine vaccine = new Vaccine();
-		
-		vaccine.setName(vaccineNames[(int)(Math.random()*vaccineNames.length)]);
-		vaccine.setPotency(vaccinePotency[(int)(Math.random()*vaccinePotency.length)]);
-		
+
+		vaccine.setName(vaccineNames[(int) (Math.random() * vaccineNames.length)]);
+		vaccine.setPotency(vaccinePotency[(int) (Math.random() * vaccinePotency.length)]);
+
 		return vaccine;
 	}
 
@@ -285,10 +294,7 @@ public class InitServiceImpl implements InitService {
 
 	private List<User> listUsers() {
 		List<User> users = new ArrayList<User>();
-		String[] firstnames = { "Juan", "Jose", "Alberto", "Pedro", "Carlos",
-				"Julio", "Fernando", "Daniel" }, lastnames = { "Perez",
-				"Lopez", "Mendez", "Ramirez" }, passwords = { "4242", "2121",
-				"6363", "8484" };
+		
 		User ale = createUser("Alejandro", "Tarazona", "atarazona", "4242");
 		ale.setId(Long.valueOf(1));
 		users.add(ale);
@@ -312,7 +318,7 @@ public class InitServiceImpl implements InitService {
 		user.setEmail(username + "@hxplus.com");
 		user.setUsername(username);
 		user.setPassword(password);
-		user.setAddress("Caracas");
+		user.setAddress(cities[((int)(Math.random()*cities.length))]);
 		return user;
 	}
 

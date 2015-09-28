@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -56,8 +58,10 @@ public class CostCenter {
 		return employees;
 	}
 
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "havepost", 
+		inverseJoinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false, referencedColumnName = "id") }, 
+		joinColumns = { @JoinColumn(name = "idcostcenter", nullable = false, updatable = false, referencedColumnName = "id") })
 	public List<Post> getPosts() {
 		return posts;
 	}

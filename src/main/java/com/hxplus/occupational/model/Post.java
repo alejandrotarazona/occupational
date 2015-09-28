@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +26,7 @@ public class Post {
 	private String name;
 	private String description;
 	private Department department;
-	private CostCenter costCenter;
+	private List<CostCenter> costCenters;
 	private List<Contract> contracts;
 
 	@Id
@@ -49,10 +51,13 @@ public class Post {
 		return department;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
-	public CostCenter getCostCenter() {
-		return costCenter;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "havepost", 
+	joinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false,referencedColumnName="id") }, 
+	inverseJoinColumns = { @JoinColumn(name = "idcostcenter", nullable = false, updatable = false, referencedColumnName= "id")}
+	)
+	public List<CostCenter> getCostCenter() {
+		return costCenters;
 	}
 
 	@JsonIgnore
@@ -77,8 +82,8 @@ public class Post {
 		this.department = department;
 	}
 
-	public void setCostCenter(CostCenter costCenter) {
-		this.costCenter = costCenter;
+	public void setCostCenter(List<CostCenter> costCenters) {
+		this.costCenters = costCenters;
 	}
 
 	public void setContracts(List<Contract> contracts) {

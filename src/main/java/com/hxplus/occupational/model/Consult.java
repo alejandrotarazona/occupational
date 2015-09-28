@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Consult {
 
 	private Long id;
+	private History history;
 	private Date consultDate;
 	private Doctor doctor;
 	private List<Prescription> prescriptions;
@@ -41,6 +42,13 @@ public class Consult {
 	public Long getId() {
 		return id;
 	}
+	
+	@Column(name = "idhistory")
+	public History getHistory() {
+		return history;
+	}
+
+
 
 	@Column(name = "consultdate")
 	public Date getConsultDate() {
@@ -107,6 +115,14 @@ public class Consult {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
+
+	public void setHistory(History history) {
+		this.history = history;
+	}
+
+
 
 	public void setConsultDate(Date consultDate) {
 		this.consultDate = consultDate;
