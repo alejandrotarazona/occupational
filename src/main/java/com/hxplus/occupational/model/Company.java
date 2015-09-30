@@ -14,7 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "company")
@@ -25,6 +28,7 @@ public class Company extends BaseEntity {
 	private String rif;
 	private String description;
 	private CostCenter mainLocation;
+	private List<CostCenter> costCenters;
 	private List<Department> departments;
 	private List<User> employees;
 
@@ -51,18 +55,28 @@ public class Company extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 	public CostCenter getMainLocation() {
 		return mainLocation;
+	}
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="company")
+	@JsonManagedReference
+	public List<CostCenter> getCostCenters(){
+		return costCenters;
 	}
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="company")
+	@JsonManagedReference
 	public List<Department> getDepartments() {
 		return departments;
 	}
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="employer")
+	@JsonManagedReference
 	public List<User> getEmployees() {
 		return employees;
 	}
@@ -85,6 +99,10 @@ public class Company extends BaseEntity {
 
 	public void setMainLocation(CostCenter mainLocation) {
 		this.mainLocation = mainLocation;
+	}
+	
+	public void setCostCenters(List<CostCenter> costCenters){
+		this.costCenters = costCenters;
 	}
 
 	public void setDepartments(List<Department> departments) {

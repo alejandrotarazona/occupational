@@ -42,13 +42,13 @@ public class Consult {
 	public Long getId() {
 		return id;
 	}
-	
-	@Column(name = "idhistory")
+
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+	@JoinColumn(name = "idhistory", referencedColumnName = "id")
 	public History getHistory() {
 		return history;
 	}
-
-
 
 	@Column(name = "consultdate")
 	public Date getConsultDate() {
@@ -56,58 +56,55 @@ public class Consult {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "iddoctor", referencedColumnName="id")
+	@JoinColumn(name = "iddoctor", referencedColumnName = "id")
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
 	public List<Prescription> getPrescriptions() {
 		return prescriptions;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
 	public List<VitalSign> getVitalSigns() {
 		return vitalSigns;
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idsoapnote", referencedColumnName="id")
+	@JoinColumn(name = "idsoapnote", referencedColumnName = "id")
 	public SoapNote getSoapNote() {
 		return soapNote;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
 	public List<File> getFiles() {
 		return files;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
 	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="ordered")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ordered")
 	public List<Exam> getRequestExams() {
 		return requestExams;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "recieve_exam", 
-	joinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false,referencedColumnName="id") }, 
-	inverseJoinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false, referencedColumnName= "id")}
-	)
+	@JoinTable(name = "recieve_exam", joinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false, referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false, referencedColumnName = "id") })
 	public List<Exam> getRecieveExams() {
 		return recieveExams;
 	}
@@ -115,14 +112,10 @@ public class Consult {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
 
 	public void setHistory(History history) {
 		this.history = history;
 	}
-
-
 
 	public void setConsultDate(Date consultDate) {
 		this.consultDate = consultDate;

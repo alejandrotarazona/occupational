@@ -1,18 +1,17 @@
 package com.hxplus.occupational.request;
 
-import java.util.List;
-
-import com.hxplus.occupational.model.Contract;
-import com.hxplus.occupational.model.CostCenter;
 import com.hxplus.occupational.model.Department;
 
 public class PostRequest {
 
+	private Long id;
 	private String name;
 	private String description;
 	private Department department;
-	private CostCenter costCenter;
-	private List<Contract> contracts;
+
+	public Long getId() {
+		return id;
+	}
 
 	public String getName() {
 		return name;
@@ -26,12 +25,8 @@ public class PostRequest {
 		return department;
 	}
 
-	public CostCenter getCostCenter() {
-		return costCenter;
-	}
-
-	public List<Contract> getContracts() {
-		return contracts;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setName(String name) {
@@ -44,14 +39,6 @@ public class PostRequest {
 
 	public void setDepartment(Department department) {
 		this.department = department;
-	}
-
-	public void setCostCenter(CostCenter costCenter) {
-		this.costCenter = costCenter;
-	}
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
 	}
 
 }

@@ -33,6 +33,12 @@ public class CostCenterController {
 	List<CostCenter> findAll() {
 		return costCenterService.findAll();
 	}
+	
+	@RequestMapping(value="/byuser/{userid}", method = RequestMethod.GET)
+	public @ResponseBody
+	CostCenter getCostCenterByUserId(@PathVariable("userid") Long userId){
+		return costCenterService.findByUserId(userId);
+	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public CostCenter createCostCenter(

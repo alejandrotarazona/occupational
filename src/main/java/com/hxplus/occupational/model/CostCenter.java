@@ -16,7 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "costcenter")
@@ -38,6 +40,7 @@ public class CostCenter {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcompany", referencedColumnName = "id")
+	@JsonBackReference
 	public Company getCompany() {
 		return company;
 	}
@@ -54,6 +57,7 @@ public class CostCenter {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "works")
+	@JsonManagedReference
 	public List<User> getEmployees() {
 		return employees;
 	}
@@ -68,6 +72,7 @@ public class CostCenter {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "costCenter")
+	@JsonManagedReference
 	public List<Contract> getContracts() {
 		return contracts;
 	}

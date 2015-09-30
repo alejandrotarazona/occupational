@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -44,18 +45,23 @@ public class Contract {
 	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "iduser", referencedColumnName = "id")
+	@JsonBackReference
 	public User getUser() {
 		return user;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "idpost", referencedColumnName = "id")
+	@JsonBackReference
 	public Post getPost() {
 		return post;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
+	@JsonBackReference
 	public CostCenter getCostCenter() {
 		return costCenter;
 	}

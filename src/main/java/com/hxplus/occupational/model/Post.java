@@ -16,7 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "post")
@@ -45,23 +47,27 @@ public class Post {
 		return description;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iddepartment", referencedColumnName = "id")
+	@JsonBackReference
 	public Department getDepartment() {
 		return department;
 	}
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "havepost", 
 	joinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false,referencedColumnName="id") }, 
 	inverseJoinColumns = { @JoinColumn(name = "idcostcenter", nullable = false, updatable = false, referencedColumnName= "id")}
 	)
-	public List<CostCenter> getCostCenter() {
+	public List<CostCenter> getCostCenters() {
 		return costCenters;
 	}
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="post")
+	@JsonManagedReference
 	public List<Contract> getContracts() {
 		return contracts;
 	}
@@ -82,7 +88,7 @@ public class Post {
 		this.department = department;
 	}
 
-	public void setCostCenter(List<CostCenter> costCenters) {
+	public void setCostCenters(List<CostCenter> costCenters) {
 		this.costCenters = costCenters;
 	}
 

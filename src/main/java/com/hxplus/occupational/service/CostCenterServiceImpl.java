@@ -16,6 +16,8 @@ public class CostCenterServiceImpl implements CostCenterService {
 
 	@Autowired
 	CostCenterRepository costCenterRepository;
+	@Autowired
+	UserService userService;
 
 	@Override
 	public CostCenter findById(Long id) {
@@ -25,6 +27,12 @@ public class CostCenterServiceImpl implements CostCenterService {
 	@Override
 	public List<CostCenter> findAll() {
 		return costCenterRepository.findAll();
+	}
+
+
+	@Override
+	public CostCenter findByUserId(Long userId) {
+		return costCenterRepository.findByUser(userService.findById(userId));
 	}
 
 	@Override

@@ -17,7 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "user")
@@ -104,6 +106,7 @@ public class User extends BaseEntity implements Serializable{
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcompany", referencedColumnName = "id")
+	@JsonBackReference
 	public Company getEmployer() {
 		return employer;
 	}
@@ -117,6 +120,7 @@ public class User extends BaseEntity implements Serializable{
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="user")
+	@JsonManagedReference
 	public List<Contract> getContracts() {
 		return contracts;
 	}

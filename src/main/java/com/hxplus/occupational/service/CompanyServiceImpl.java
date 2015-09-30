@@ -16,6 +16,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	CompanyRepository companyRepository;
+	
+	@Autowired
+	CostCenterService costCenterService;
 
 	@Override
 	public Company findById(Long id) {
@@ -29,7 +32,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company saveCompany(CompanyRequest companyRequest) {
-		return companyRepository.save(fromReq(new Company(), companyRequest));
+		Company company =  companyRepository.save(fromReq(new Company(), companyRequest));
+		company.setMainLocation(costCenterService.saveCostCenter(companyRequest.getMainLocation()));
+		
+		return company;
 	}
 
 	@Override
@@ -59,7 +65,6 @@ public class CompanyServiceImpl implements CompanyService {
 		company.setCompanyName(companyRequest.getCompanyName());
 		company.setDescription(companyRequest.getDescription());
 		company.setRif(companyRequest.getRif());
-		company.setMainLocation(companyRequest.getMainLocation());
 		return company;
 	}
 }
