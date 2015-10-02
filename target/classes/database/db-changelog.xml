@@ -262,14 +262,15 @@
 	<changeSet id="13" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="vitalsigns" />
+				<tableExists tableName="vitalsign" />
 			</not>
 		</preConditions>
-		<createTable tableName="vitalsigns">
-			<column name="idconsult" type="BIGINT">
+		<createTable tableName="vitalsign">
+			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true"
-					primaryKeyName="pk_vitalsigns" />
+					primaryKeyName="pk_vitalsign" />
 			</column>
+			<column name="idconsult" type="BIGINT"></column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
 		</createTable>
@@ -298,10 +299,11 @@
 			</not>
 		</preConditions>
 		<createTable tableName="file">
-			<column name="idconsult" type="BIGINT">
+			<column name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_file" />
 			</column>
+			<column name="idconsult" type="BIGINT"></column>
 			<column name="filename" type="VARCHAR(255)" />
 			<column name="file" type="BLOB" />
 		</createTable>
@@ -314,10 +316,11 @@
 			</not>
 		</preConditions>
 		<createTable tableName="diagnostic">
-			<column name="idconsult" type="BIGINT">
+			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_diagnostic" />
 			</column>
+			<column name="idconsult" type="BIGINT"/>
 			<column name="details" type="VARCHAR(255)" />
 			<column name="idexam" type="BIGINT" />
 		</createTable>
@@ -457,6 +460,19 @@
 			<column name="idprescription" type="BIGINT" />
 			<column name="iddoctor" type="BIGINT" />
 		</createTable>
+		
+		<addForeignKeyConstraint constraintName="fk_diagnostic__consult" 
+		referencedTableName="consult" referencedColumnNames="id" 
+		baseColumnNames="idconsult" baseTableName="diagnostic" />
+		
+		<addForeignKeyConstraint constraintName="fk_file__consult" 
+		referencedTableName="consult" referencedColumnNames="id" 
+		baseColumnNames="idconsult" baseTableName="file" />
+		
+		<addForeignKeyConstraint constraintName="fk_vitalsign__consult" 
+		referencedTableName="consult" referencedColumnNames="id" 
+		baseColumnNames="idconsult" baseTableName="vitalsign" />
+		
 	</changeSet>
 
 	<changeSet id="24" author="hxplus">

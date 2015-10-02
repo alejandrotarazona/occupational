@@ -31,6 +31,11 @@ public class PostController {
 		return postService.findAll();
 	}
 	
+	@RequestMapping(value="/byuser/{iduser}", method = RequestMethod.GET)
+	public @ResponseBody Post getPostByUserId(@PathVariable("iduser") Long idUser){
+		return postService.findByUser(idUser);
+	}
+	
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public @ResponseBody Post createPost(@RequestBody PostRequest postRequest){
 		return postService.savePost(postRequest);		

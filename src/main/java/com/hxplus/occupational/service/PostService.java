@@ -11,6 +11,7 @@ public interface PostService {
 	
 	public Post findById(Long id);
 	public List<Post> findAll();
+	public Post findByUser(Long user);
 	public Post savePost(PostRequest postRequest);
 	public Post updatePost(Long id, PostRequest postRequest);
 	public ResponseEntity<Object> deletePost(Long id);

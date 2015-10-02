@@ -1,5 +1,6 @@
 package com.hxplus.occupational.controller;
 
+import java.util.Dictionary;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import com.hxplus.occupational.request.DiagnosticRequest;
 import com.hxplus.occupational.service.DiagnosticService;
 
 @Controller
-@RequestMapping(value="diagnostic")
+@RequestMapping(value="/diagnostic")
 public class DiagnosticController {
 	@Autowired DiagnosticService diagnosticService;
 	
@@ -28,6 +29,11 @@ public class DiagnosticController {
 	@RequestMapping(value="", method= RequestMethod.GET)
 	public @ResponseBody List<Diagnostic> getDiagnostics(){
 		return diagnosticService.findAll();
+	}
+	
+	@RequestMapping(value="/bypatient/{idpatient}", method = RequestMethod.GET)
+	public @ResponseBody List<Diagnostic> getDiagnostics(@PathVariable("idpatient") Long idPantient){
+		return diagnosticService.findByPatientId(idPantient);
 	}
 	
 	@RequestMapping(value="",method=RequestMethod.POST)

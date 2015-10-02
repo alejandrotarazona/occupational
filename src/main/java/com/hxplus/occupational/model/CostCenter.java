@@ -62,6 +62,7 @@ public class CostCenter {
 		return employees;
 	}
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "havepost", 
 		inverseJoinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false, referencedColumnName = "id") }, 

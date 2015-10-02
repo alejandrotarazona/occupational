@@ -27,6 +27,11 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 	}
 
 	@Override
+	public List<Diagnostic> findByPatientId(Long idPantient) {
+		return diagnosticRepository.findByPatientId(idPantient);
+	}
+
+	@Override
 	public Diagnostic saveDiagnostic(DiagnosticRequest diagnosticRequest) {
 		return diagnosticRepository.save(fromReq(new Diagnostic(),
 				diagnosticRequest));

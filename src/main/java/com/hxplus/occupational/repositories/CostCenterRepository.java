@@ -19,7 +19,7 @@ public interface CostCenterRepository extends JpaRepository<CostCenter, Long>{
 	@Query("select c from Post p join p.costCenters c where p = (:post)")
 	public List<CostCenter> findByPost(@Param("post") Post post);
 	
-	@Query("select c from User u join user.works c where u = (:user)")
+	@Query("select c from User u join u.works c where u = (:user)")
 	public CostCenter findByUser(@Param("user") User user);
 
 }
