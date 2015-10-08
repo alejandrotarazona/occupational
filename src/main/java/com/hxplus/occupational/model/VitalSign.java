@@ -8,15 +8,16 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "vitalsign")
 public class VitalSign implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -450714356939923351L;
 	private Consult consult;
 	private String name;
 	private String descripion;

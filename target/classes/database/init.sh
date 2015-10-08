@@ -10,6 +10,10 @@ echo ""
 echo "Finalizado Companies"
 read -rsp $'Press any key to continue...\n' -n1 key
 
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/occupational/initVitals
+echo ""
+echo "Finalizado VitalSigns"
+read -rsp $'Press any key to continue...\n' -n1 key
 
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/occupational/initUsers
 echo ""

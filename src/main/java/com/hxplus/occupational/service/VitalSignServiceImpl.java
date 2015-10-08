@@ -25,6 +25,13 @@ public class VitalSignServiceImpl implements VitalSignService {
 		return vitalSignrepository.findAll();
 	}
 
+	
+	
+	@Override
+	public List<VitalSign> findAllNames() {
+		return vitalSignrepository.findAllNames();
+	}
+
 	@Override
 	public VitalSign saveVitalSign(VitalSignRequest vitalSignRequest) {
 		return vitalSignrepository.save(fromReq(new VitalSign(), vitalSignRequest));

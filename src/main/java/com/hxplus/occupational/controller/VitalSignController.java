@@ -16,7 +16,7 @@ import com.hxplus.occupational.request.VitalSignRequest;
 import com.hxplus.occupational.service.VitalSignService;
 
 @Controller
-@RequestMapping(value="vitalSign")
+@RequestMapping(value="vitalsign")
 public class VitalSignController {
 	@Autowired VitalSignService vitalSignService;
 	
@@ -29,6 +29,11 @@ public class VitalSignController {
 	public @ResponseBody List<VitalSign> getVitalSigns(){
 		return vitalSignService.findAll();
 	}
+	
+	@RequestMapping(value="/names", method=RequestMethod.GET)
+	public @ResponseBody List<VitalSign> getVitalSignsNames(){
+		return vitalSignService.findAllNames();
+	};
 	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody VitalSign createVitalSign(@RequestBody VitalSignRequest vitalSignRequest){

@@ -19,6 +19,7 @@ import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.User;
 import com.hxplus.occupational.model.Vaccine;
+import com.hxplus.occupational.model.VitalSign;
 import com.hxplus.occupational.repositories.AllergyRepository;
 import com.hxplus.occupational.repositories.BackgroundRepository;
 import com.hxplus.occupational.repositories.CompanyRepository;
@@ -31,6 +32,7 @@ import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.PostRepository;
 import com.hxplus.occupational.repositories.UserRepository;
 import com.hxplus.occupational.repositories.VaccineRepository;
+import com.hxplus.occupational.repositories.VitalSignRepository;
 
 @Service
 public class InitServiceImpl implements InitService {
@@ -39,6 +41,8 @@ public class InitServiceImpl implements InitService {
 	CompanyRepository companyRepository;
 	@Autowired
 	CostCenterRepository costCenterRepository;
+	@Autowired
+	VitalSignRepository vitalSignRepository;
 	@Autowired
 	DepartmentRepository departmentRepository;
 	@Autowired
@@ -75,6 +79,11 @@ public class InitServiceImpl implements InitService {
 
 			costCenterAddress = { "Caracas", "Valencia", "Maracay",
 					"Barquisimeto", "Pto Ordaz", "Maracaibo" },
+
+			vitalSignNames = { "Pulso", "Sistólica", "Diastólica",
+					"Oxigenación", "Saturación de O2", "Altura", "Peso",
+					"Pecho", "Cadera", "Cintura", "Brazo", "Muslo", "IMC",
+					"Temperatura" },
 
 			postNames = { "Gerente", "Asistente", "Secretario", "Obrero",
 					"Doctor", "Enfermero" },
@@ -126,13 +135,20 @@ public class InitServiceImpl implements InitService {
 		return companies;
 	}
 
+	public List<VitalSign> initVitalSigns() {
+		List<VitalSign> vitalSigns = listVitalSigns();
+		vitalSignRepository.save(vitalSigns);
+		vitalSignRepository.flush();
+		return vitalSigns;
+	}
+
 	@Override
 	public List<Post> initPosts() {
 		List<Post> posts = new ArrayList<>();
 		List<Company> companies = companyRepository.findAll();
 
 		for (Company company : companies) {
-			//System.out.println("Company: " + company.getCompanyName());
+			// System.out.println("Company: " + company.getCompanyName());
 			List<Department> departments = departmentRepository
 					.findByCompany(company);
 			List<CostCenter> costCenters = costCenterRepository
@@ -148,6 +164,7 @@ public class InitServiceImpl implements InitService {
 
 		return posts;
 	}
+	
 
 	@Override
 	public List<User> initUsers() {
@@ -159,6 +176,7 @@ public class InitServiceImpl implements InitService {
 				.println("······································Usuarios Guardados······································");
 		return userList;
 	}
+	
 
 	@Override
 	public List<Doctor> initDoctors() {
@@ -197,6 +215,7 @@ public class InitServiceImpl implements InitService {
 
 		return guardados;
 	}
+	
 
 	private Patient savePatient(Patient patient) {
 
@@ -244,10 +263,11 @@ public class InitServiceImpl implements InitService {
 			return patientResp;
 
 		} catch (Exception ex) {
-			//System.out.println("Ocurrió una excepción pero pa'lante");
+			// System.out.println("Ocurrió una excepción pero pa'lante");
 			return patientRepository.saveAndFlush(patient);
 		}
 	}
+	
 
 	private List<Patient> listPatients(Long idDoctor) {
 		ArrayList<Patient> patients = new ArrayList<>();
@@ -262,6 +282,7 @@ public class InitServiceImpl implements InitService {
 
 		return patients;
 	}
+	
 
 	private Patient createPatient(User user, Doctor doctor) {
 		Patient patient;
@@ -271,7 +292,7 @@ public class InitServiceImpl implements InitService {
 		patient = patientRepository.findByUser(user.getId());
 
 		if (patient == null) {
-			//System.out.println("El paciente es nulo");
+			// System.out.println("El paciente es nulo");
 
 			patient = new Patient();
 			patient.setUser(user);
@@ -281,7 +302,7 @@ public class InitServiceImpl implements InitService {
 			patient.setHistory(createHistory());
 
 		} else {
-			//System.out.println("El paciente NO es nulo");
+			// System.out.println("El paciente NO es nulo");
 
 			List<Doctor> patientListDoctors = doctorRepository
 					.listDoctorbyPatient(patient.getId());
@@ -293,6 +314,7 @@ public class InitServiceImpl implements InitService {
 
 		return patient;
 	}
+	
 
 	private History createHistory() {
 		History history = new History();
@@ -323,6 +345,7 @@ public class InitServiceImpl implements InitService {
 
 		return history;
 	}
+	
 
 	private Background createBackground() {
 		Background background = new Background();
@@ -332,6 +355,7 @@ public class InitServiceImpl implements InitService {
 
 		return background;
 	}
+	
 
 	private Allergy createAllergy() {
 		Allergy allergy = new Allergy();
@@ -350,6 +374,7 @@ public class InitServiceImpl implements InitService {
 
 		return habit;
 	}
+	
 
 	private Vaccine createVaccine() {
 		Vaccine vaccine = new Vaccine();
@@ -359,6 +384,7 @@ public class InitServiceImpl implements InitService {
 
 		return vaccine;
 	}
+	
 
 	private List<Doctor> listDoctors(List<User> users) {
 
@@ -385,12 +411,14 @@ public class InitServiceImpl implements InitService {
 
 		return doctor;
 	}
+	
 
 	private List<User> listUsers() {
 		List<User> users = new ArrayList<User>();
 		List<Post> posts = postRepository.findAll();
 
-		User ale = createUser("Alejandro", "Tarazona", "atarazona", "4242",posts.get((int)(Math.random()*posts.size())));
+		User ale = createUser("Alejandro", "Tarazona", "atarazona", "4242",
+				posts.get((int) (Math.random() * posts.size())));
 		ale.setId(Long.valueOf(1));
 		users.add(ale);
 
@@ -398,19 +426,21 @@ public class InitServiceImpl implements InitService {
 			for (int k = 0; k < lastnames.length; k++) {
 				users.add(createUser(firstnames[i], lastnames[k],
 						firstnames[i].substring(0, 2) + lastnames[k],
-						passwords[k],posts.get((int)(Math.random()*posts.size()))));
+						passwords[k],
+						posts.get((int) (Math.random() * posts.size()))));
 			}
 		}
 
 		return users;
 	}
+	
 
 	private User createUser(String firstname, String lastname, String username,
 			String password, Post post) {
 		User user = new User();
 		List<CostCenter> costCenters = costCenterRepository.findByPost(post);
 		Company company = companyRepository.findByPost(post);
-		
+
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
 		user.setEmail(username + "@hxplus.com");
@@ -422,6 +452,7 @@ public class InitServiceImpl implements InitService {
 		user.setAddress(cities[((int) (Math.random() * cities.length))]);
 		return user;
 	}
+	
 
 	private List<Company> save(List<Company> companies) {
 		List<Company> salvadas = new ArrayList<>();
@@ -443,6 +474,7 @@ public class InitServiceImpl implements InitService {
 
 		return salvadas;
 	}
+	
 
 	private Company merge(Company company, List<CostCenter> costCenters,
 			List<Department> departments) {
@@ -450,6 +482,7 @@ public class InitServiceImpl implements InitService {
 		company.setCostCenters(costCenters);
 		return company;
 	}
+	
 
 	private List<CostCenter> listCostCenters(Company company) {
 		List<CostCenter> costCenters = new ArrayList<>();
@@ -461,6 +494,7 @@ public class InitServiceImpl implements InitService {
 
 		return costCenters;
 	}
+	
 
 	private CostCenter createCostCenter(String address, String phoneNumber,
 			Company company) {
@@ -472,6 +506,7 @@ public class InitServiceImpl implements InitService {
 
 		return costCenter;
 	}
+	
 
 	private List<Department> listDepartments(Company company) {
 		List<Department> departments = new ArrayList<>();
@@ -483,6 +518,7 @@ public class InitServiceImpl implements InitService {
 
 		return departments;
 	}
+	
 
 	private Department createDepartment(String name, String description,
 			Company company) {
@@ -494,6 +530,7 @@ public class InitServiceImpl implements InitService {
 
 		return department;
 	}
+	
 
 	private List<Company> listCompanies() {
 		List<Company> companies = new ArrayList<>();
@@ -505,6 +542,7 @@ public class InitServiceImpl implements InitService {
 
 		return companies;
 	}
+	
 
 	private Company createCompany(String name, String rif, String description) {
 		Company company = new Company();
@@ -515,28 +553,32 @@ public class InitServiceImpl implements InitService {
 
 		return company;
 	}
+	
 
 	private List<Post> listPost(List<Department> departments,
 			List<CostCenter> costCenters) {
 
 		List<Post> posts = new ArrayList<>();
-		ArrayList<String> names = new ArrayList<String>(Arrays.asList(postNames));
+		ArrayList<String> names = new ArrayList<String>(
+				Arrays.asList(postNames));
 
 		for (Department department : departments) {
-			//System.out.println("\tDepartment: " + department.getName());
+			// System.out.println("\tDepartment: " + department.getName());
 			int maxPost = (int) (Math.random() * (names.size() - 1)) + 1;
-			//System.out.println("\tMax Posts: " + maxPost);
-			
+			// System.out.println("\tMax Posts: " + maxPost);
+
 			for (int i = 0; i < maxPost; i++) {
-				posts.add(createPost((String) names.remove((int)(Math.random()*names.size())), department,
-						costCenters));
+				posts.add(createPost(
+						(String) names.remove((int) (Math.random() * names
+								.size())), department, costCenters));
 			}
-			
+
 			names = new ArrayList<String>(Arrays.asList(postNames));
 		}
 
 		return posts;
 	}
+	
 
 	private Post createPost(String name, Department department,
 			List<CostCenter> costCenters) {
@@ -547,9 +589,26 @@ public class InitServiceImpl implements InitService {
 		post.setCostCenters(costCenters.subList(0, i));
 		post.setDepartment(department);
 		post.setDescription(descriptions[(int) (Math.random() * descriptions.length)]);
-		//System.out.println("\t\tPost: " + name);
+		// System.out.println("\t\tPost: " + name);
 
 		return post;
 
+	}
+	
+	private List<VitalSign> listVitalSigns(){
+		List<VitalSign> vitalSigns = new ArrayList<>();
+		
+		for(int i = 0; i < vitalSignNames.length ; i ++){
+			vitalSigns.add(createVitalSign(vitalSignNames[i]));
+		}
+		
+		return vitalSigns;
+	}
+	
+	private VitalSign createVitalSign(String name){
+		VitalSign vitalSign = new VitalSign();
+		vitalSign.setName(name);
+		vitalSign.setDescripion(descriptions[(int)(Math.random()*descriptions.length)]);
+		return vitalSign;
 	}
 }

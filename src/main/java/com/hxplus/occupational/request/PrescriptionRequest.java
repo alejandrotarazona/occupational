@@ -5,7 +5,6 @@ import java.util.Date;
 import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Drug;
-import com.hxplus.occupational.model.Indication;
 
 public class PrescriptionRequest {
 
