@@ -16,6 +16,8 @@ public class SoapNoteServiceImpl implements SoapNoteService {
 
 	@Autowired
 	SoapNoteRepository soapNoteRepository;
+	@Autowired
+	ConsultService consultService;
 
 	@Override
 	public SoapNote findById(Long id) {
@@ -51,8 +53,10 @@ public class SoapNoteServiceImpl implements SoapNoteService {
 	}
 
 	private SoapNote fromReq(SoapNote soapNote, SoapNoteRequest soapNoteRequest) {
-		soapNote.setConsult(soapNoteRequest.getConsult());
-		soapNote.setDescription(soapNoteRequest.getDescription());
+		soapNote.setComments(soapNoteRequest.getComments());
+		soapNote.setObjective(soapNoteRequest.getObjective());
+		soapNote.setSubjective(soapNoteRequest.getSubjective());
+
 		return soapNote;
 	}
 

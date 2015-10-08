@@ -1,5 +1,6 @@
 package com.hxplus.occupational.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Diagnostic;
+import com.hxplus.occupational.model.Instruction;
 import com.hxplus.occupational.repositories.DiagnosticRepository;
 import com.hxplus.occupational.request.DiagnosticRequest;
+import com.hxplus.occupational.request.InstructionRequest;
 
 @Service
 public class DiagnosticServiceImpl implements DiagnosticService {
 	@Autowired
 	DiagnosticRepository diagnosticRepository;
+	@Autowired
+	InstructionService instructionService;
+	
 
 	@Override
 	public Diagnostic findById(Long id) {
@@ -33,8 +39,18 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 
 	@Override
 	public Diagnostic saveDiagnostic(DiagnosticRequest diagnosticRequest) {
-		return diagnosticRepository.save(fromReq(new Diagnostic(),
+		Diagnostic diagnostic = diagnosticRepository.save(fromReq(new Diagnostic(),
 				diagnosticRequest));
+		
+		List<Instruction> instructions = new ArrayList<>();
+		
+		for(InstructionRequest instructionRequest : diagnosticRequest.getInstructions()){
+			instructions.add(instructionService.saveInstruction(instructionRequest));
+		}
+		
+		diagnostic.setInstructions(instructions);
+		
+		return diagnosticRepository.save(diagnostic);
 	}
 
 	@Override
@@ -58,8 +74,11 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 
 	private Diagnostic fromReq(Diagnostic diagnostic,
 			DiagnosticRequest diagnosticRequest) {
-		diagnostic.setConsult(diagnosticRequest.getConsult());
+
 		diagnostic.setDetails(diagnosticRequest.getDetails());
+		diagnostic.setConsult(diagnosticRequest.getConsult());
+		diagnostic.setExam(diagnosticRequest.getExam());
+
 		return diagnostic;
 	}
 

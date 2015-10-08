@@ -16,7 +16,8 @@ public class SoapNote {
 
 	private Long id;
 	private Consult consult;
-	private String description;
+	private String subjective, objective, plan, comments;
+	private Diagnostic diagnostic;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +31,27 @@ public class SoapNote {
 		return consult;
 	}
 
-	@Column(name = "description")
-	public String getDescription() {
-		return description;
+	@Column(name = "subjective")
+	public String getSubjective() {
+		return subjective;
+	}
+
+	@Column(name = "objective")
+	public String getObjective() {
+		return objective;
+	}
+
+	@Column(name = "plan")
+	public String getPlan() {
+		return plan;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public Diagnostic getDiagnostic() {
+		return diagnostic;
 	}
 
 	public void setId(Long id) {
@@ -43,8 +62,24 @@ public class SoapNote {
 		this.consult = consult;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setSubjective(String subjective) {
+		this.subjective = subjective;
+	}
+
+	public void setObjective(String objective) {
+		this.objective = objective;
+	}
+
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public void setDiagnostic(Diagnostic diagnostic) {
+		this.diagnostic = diagnostic;
 	}
 
 }

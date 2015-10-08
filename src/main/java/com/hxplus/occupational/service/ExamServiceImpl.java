@@ -49,10 +49,7 @@ public class ExamServiceImpl implements ExamService {
 	private Exam fromReq(Exam exam, ExamRequest examRequest){
 		exam.setOrdered(examRequest.getOrdered());
 		exam.setReceived(examRequest.getReceived());
-		exam.setOrderedAt(examRequest.getOrderedAt());
-		exam.setReceivedAt(examRequest.getReceivedAt());
 		exam.setResults(examRequest.getResults());
-		exam.setDiagnostic(examRequest.getDiagnostics());
 		exam.setType(examRequest.getType());
 		return exam;
 	}

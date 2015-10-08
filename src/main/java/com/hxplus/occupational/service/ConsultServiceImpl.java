@@ -1,5 +1,6 @@
 package com.hxplus.occupational.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,40 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Consult;
+import com.hxplus.occupational.model.Diagnostic;
+import com.hxplus.occupational.model.Exam;
+import com.hxplus.occupational.model.File;
+import com.hxplus.occupational.model.Instruction;
+import com.hxplus.occupational.model.Prescription;
+import com.hxplus.occupational.model.VitalSign;
 import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.request.ConsultRequest;
+import com.hxplus.occupational.request.DiagnosticRequest;
+import com.hxplus.occupational.request.ExamRequest;
+import com.hxplus.occupational.request.FileRequest;
+import com.hxplus.occupational.request.InstructionRequest;
+import com.hxplus.occupational.request.PrescriptionRequest;
+import com.hxplus.occupational.request.VitalSignRequest;
 
 @Service
 public class ConsultServiceImpl implements ConsultService {
 
 	@Autowired
 	ConsultRepository consultRepository;
+	@Autowired
+	SoapNoteService soapNoteService;
+	@Autowired
+	PrescriptionService prescriptionService;
+	@Autowired
+	InstructionService instructionService;
+	@Autowired
+	VitalSignService vitalSignService;
+	@Autowired
+	FileService fileService;
+	@Autowired
+	DiagnosticService diagnosticService;
+	@Autowired
+	ExamService examService;
 
 	@Override
 	public Consult findById(Long id) {
@@ -26,10 +53,60 @@ public class ConsultServiceImpl implements ConsultService {
 	public List<Consult> findAll() {
 		return consultRepository.findAll();
 	}
+	
+	
+
+	@Override
+	public List<Consult> findAllByIdHistory(Long idHistory) {
+		return consultRepository.finfAllByIdHistory(idHistory);
+	}
 
 	@Override
 	public Consult saveConsult(ConsultRequest consultRequest) {
-		return consultRepository.save(fromReq(new Consult(), consultRequest));
+		Consult consult = fromReq(new Consult(), consultRequest);
+		consult = consultRepository.save(consult);
+		
+		List<Prescription> prescriptions = new ArrayList<>();
+		List<Instruction> instructions = new ArrayList<>();
+		List<VitalSign> vitalSigns = new ArrayList<>();
+		
+		List<File> files = new ArrayList<>();
+		List<Diagnostic> diagnostics = new ArrayList<>();
+		List<Exam> examsRequested = new ArrayList<>();
+		
+		
+		for(PrescriptionRequest prescriptionRequest : consultRequest.getPrescriptions()){
+			prescriptionRequest.setConsult(consult);
+			prescriptions.add(prescriptionService.savePrescription(prescriptionRequest));
+		}
+		
+		for(DiagnosticRequest diagnosticRequest : consultRequest.getDiagnostics()){
+			diagnosticRequest.setConsult(consult);
+			diagnostics.add(diagnosticService.saveDiagnostic(diagnosticRequest));
+		}
+		
+		for(InstructionRequest instructionRequest: consultRequest.getInstructions()){
+			instructionRequest.setConsult(consult);
+			instructionRequest.setDiagnostics(diagnostics);
+			instructions.add(instructionService.saveInstruction(instructionRequest));
+		}
+		
+		for(VitalSignRequest vitalSignRequest: consultRequest.getVitalSigns()){
+			vitalSignRequest.setConsult(consult);
+			vitalSigns.add(vitalSignService.saveVitalSign(vitalSignRequest));
+		}
+		
+		for(FileRequest fileRequest : consultRequest.getFiles()){
+			fileRequest.setConsult(consult);
+			files.add(fileService.saveFile(fileRequest));
+		}
+		
+		for(ExamRequest examRequest : consultRequest.getRequestExams()){
+			examRequest.setOrdered(consult);
+			examsRequested.add(examService.saveExam(examRequest));
+		}
+		
+		return consult;
 	}
 
 	@Override
@@ -51,16 +128,11 @@ public class ConsultServiceImpl implements ConsultService {
 
 	private Consult fromReq(Consult consult, ConsultRequest consultRequest) {
 		consult.setConsultDate(consultRequest.getConsultDate());
-		consult.setDiagnostics(consultRequest.getDiagnostics());
 		consult.setDoctor(consultRequest.getDoctor());
-		consult.setFiles(consultRequest.getFiles());
-		consult.setInstructions(consultRequest.getInstructions());
-		consult.setPrescriptions(consultRequest.getPrescriptions());
+		consult.setHistory(consultRequest.getHistory());
 		consult.setRecieveExams(consultRequest.getRecieveExams());
-		consult.setRequestExams(consultRequest.getRequestExams());
-		consult.setSoapNote(consultRequest.getSoapNote());
-		consult.setVitalSigns(consultRequest.getVitalSigns());
-
+		consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest.getSoapNote()));
+		
 		return consult;
 	}
 

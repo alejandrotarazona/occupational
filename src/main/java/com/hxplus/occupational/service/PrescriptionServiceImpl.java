@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import com.hxplus.occupational.model.Prescription;
 import com.hxplus.occupational.repositories.PrescriptionRepository;
 import com.hxplus.occupational.request.PrescriptionRequest;
+
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Autowired
 	PrescriptionRepository prescriptionRepository;
+	@Autowired
+	IndicationService indicationService;
 
 	@Override
 	public Prescription findById(Long id) {
@@ -29,8 +32,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public Prescription savePrescription(PrescriptionRequest prescriptionRequest) {
-		return prescriptionRepository.save(fromReq(new Prescription(),
-				prescriptionRequest));
+		Prescription prescription = prescriptionRepository.save(fromReq(
+				new Prescription(), prescriptionRequest));
+		prescription.setIndication(indicationService
+				.saveIndication(prescriptionRequest.getIndication()));
+
+		return null;
 	}
 
 	@Override
@@ -57,7 +64,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		prescription.setDate(new Date());
 		prescription.setDoctor(prescriptionRequest.getDoctor());
 		prescription.setDrug(prescriptionRequest.getDrug());
-		prescription.setIndication(prescriptionRequest.getIndication());
 		return prescription;
 	}
 }

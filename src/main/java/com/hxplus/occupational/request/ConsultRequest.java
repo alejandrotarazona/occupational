@@ -3,26 +3,22 @@ package com.hxplus.occupational.request;
 import java.util.Date;
 import java.util.List;
 
-import com.hxplus.occupational.model.Diagnostic;
 import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Exam;
-import com.hxplus.occupational.model.File;
-import com.hxplus.occupational.model.Instruction;
-import com.hxplus.occupational.model.Prescription;
-import com.hxplus.occupational.model.SoapNote;
-import com.hxplus.occupational.model.VitalSign;
+import com.hxplus.occupational.model.History;
 
 public class ConsultRequest {
 
 	private Date consultDate;
 	private Doctor doctor;
-	private List<Prescription> prescriptions;
-	private List<Instruction> instructions;
-	private List<VitalSign> vitalSigns;
-	private SoapNote soapNote;
-	private List<File> files;
-	private List<Diagnostic> diagnostics;
-	private List<Exam> requestExams;
+	private History history;
+	private List<PrescriptionRequest> prescriptions;
+	private List<InstructionRequest> instructions;
+	private List<VitalSignRequest> vitalSigns;
+	private SoapNoteRequest soapNote;
+	private List<FileRequest> files;
+	private List<DiagnosticRequest> diagnostics;
+	private List<ExamRequest> requestExams;
 	private List<Exam> recieveExams;
 
 	public Date getConsultDate() {
@@ -33,31 +29,35 @@ public class ConsultRequest {
 		return doctor;
 	}
 
-	public List<Prescription> getPrescriptions() {
+	public History getHistory() {
+		return history;
+	}
+
+	public List<PrescriptionRequest> getPrescriptions() {
 		return prescriptions;
 	}
 
-	public List<Instruction> getInstructions() {
+	public List<InstructionRequest> getInstructions() {
 		return instructions;
 	}
 
-	public List<VitalSign> getVitalSigns() {
+	public List<VitalSignRequest> getVitalSigns() {
 		return vitalSigns;
 	}
 
-	public SoapNote getSoapNote() {
+	public SoapNoteRequest getSoapNote() {
 		return soapNote;
 	}
 
-	public List<File> getFiles() {
+	public List<FileRequest> getFiles() {
 		return files;
 	}
 
-	public List<Diagnostic> getDiagnostics() {
+	public List<DiagnosticRequest> getDiagnostics() {
 		return diagnostics;
 	}
 
-	public List<Exam> getRequestExams() {
+	public List<ExamRequest> getRequestExams() {
 		return requestExams;
 	}
 
@@ -73,31 +73,35 @@ public class ConsultRequest {
 		this.doctor = doctor;
 	}
 
-	public void setPrescriptions(List<Prescription> prescriptions) {
+	public void setHistory(History history) {
+		this.history = history;
+	}
+
+	public void setPrescriptions(List<PrescriptionRequest> prescriptions) {
 		this.prescriptions = prescriptions;
 	}
 
-	public void setInstructions(List<Instruction> instructions) {
+	public void setInstructions(List<InstructionRequest> instructions) {
 		this.instructions = instructions;
 	}
 
-	public void setVitalSigns(List<VitalSign> vitalSigns) {
+	public void setVitalSigns(List<VitalSignRequest> vitalSigns) {
 		this.vitalSigns = vitalSigns;
 	}
 
-	public void setSoapNote(SoapNote soapNote) {
+	public void setSoapNote(SoapNoteRequest soapNote) {
 		this.soapNote = soapNote;
 	}
 
-	public void setFiles(List<File> files) {
+	public void setFiles(List<FileRequest> files) {
 		this.files = files;
 	}
 
-	public void setDiagnostics(List<Diagnostic> diagnostics) {
+	public void setDiagnostics(List<DiagnosticRequest> diagnostics) {
 		this.diagnostics = diagnostics;
 	}
 
-	public void setRequestExams(List<Exam> requestExams) {
+	public void setRequestExams(List<ExamRequest> requestExams) {
 		this.requestExams = requestExams;
 	}
 

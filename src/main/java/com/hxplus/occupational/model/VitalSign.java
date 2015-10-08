@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "vitalsigns")
+@Table(name = "vitalsign")
 public class VitalSign implements Serializable {
 
 	private Consult consult;

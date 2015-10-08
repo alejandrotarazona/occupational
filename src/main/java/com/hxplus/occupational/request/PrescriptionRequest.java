@@ -11,7 +11,7 @@ public class PrescriptionRequest {
 
 	private Doctor doctor;
 	private Drug drug;
-	private Indication indication;
+	private IndicationRequest indication;
 	private Date date;
 	private Consult consult;
 
@@ -23,7 +23,7 @@ public class PrescriptionRequest {
 		return drug;
 	}
 
-	public Indication getIndication() {
+	public IndicationRequest getIndication() {
 		return indication;
 	}
 
@@ -43,7 +43,7 @@ public class PrescriptionRequest {
 		this.drug = drug;
 	}
 
-	public void setIndication(Indication indication) {
+	public void setIndication(IndicationRequest indication) {
 		this.indication = indication;
 	}
 
