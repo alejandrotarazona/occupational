@@ -14,9 +14,11 @@ public interface DiagnosticRepository extends JpaRepository<Diagnostic, Long> {
 
 	@Query("select d "
 			+ "from Patient p "
-			+ "join p.history h "
-			+ "join h.consults c "
+			//+ "join p.history h "
+			+ "join p.consults c "
 			+ "join c.diagnostics d "
 			+ "where p.id = (:idpatient) ")
 	public List<Diagnostic> findByPatientId(@Param("idpatient") Long patientId);
+	
+	public List<Diagnostic> findByConsultId(Long id);
 }

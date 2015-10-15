@@ -1,6 +1,6 @@
 package com.hxplus.occupational.request;
 
-import com.hxplus.occupational.model.History;
+import com.hxplus.occupational.model.Patient;
 
 
 public class AllergyRequest {
@@ -8,7 +8,7 @@ public class AllergyRequest {
 	private String name;
 	private String description;
 	private String severity;
-	private History history;
+	private Patient patient;
 
 	public String getName() {
 		return name;
@@ -22,8 +22,8 @@ public class AllergyRequest {
 		return severity;
 	}
 
-	public History getHistory() {
-		return history;
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public void setName(String name) {
@@ -38,8 +38,8 @@ public class AllergyRequest {
 		this.severity = severity;
 	}
 
-	public void setHistory(History history) {
-		this.history = history;
+	public void setPatient(Patient patient) {
+		this.patient= patient;
 	}
 
 }

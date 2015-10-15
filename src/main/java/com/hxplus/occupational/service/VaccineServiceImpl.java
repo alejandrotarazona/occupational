@@ -49,7 +49,7 @@ public class VaccineServiceImpl implements VaccineService {
 	private Vaccine fromReq(Vaccine vaccine, VaccineRequest vaccineRequest){
 		vaccine.setName(vaccineRequest.getName());
 		vaccine.setPotency(vaccineRequest.getPotency());
-		vaccine.setHistory(vaccineRequest.getHistory());
+		vaccine.setPatient(vaccineRequest.getPatient());
 		return vaccine;
 	}
 

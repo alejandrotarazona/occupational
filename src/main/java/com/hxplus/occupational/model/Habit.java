@@ -1,5 +1,6 @@
 package com.hxplus.occupational.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "habit")
 public class Habit {
@@ -17,7 +21,7 @@ public class Habit {
 	private Long id;
 	private String name;
 	private String frecuency;
-	private History history;
+	private Patient patient;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,10 +39,12 @@ public class Habit {
 		return frecuency;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idhistory", referencedColumnName = "id")
-	public History getHistory() {
-		return history;
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+	@JoinColumn(name="idpatient", referencedColumnName="id")
+	@JsonBackReference
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public void setId(Long id) {
@@ -53,8 +59,8 @@ public class Habit {
 		this.frecuency = frecuency;
 	}
 
-	public void setHistory(History history) {
-		this.history = history;
+	public void setPatient(Patient patient) {
+		this.patient= patient;
 	}
 
 }

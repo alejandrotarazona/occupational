@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "instruction")
 public class Instruction {
@@ -36,6 +38,7 @@ public class Instruction {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idconsult", referencedColumnName = "id")
+	@JsonBackReference
 	public Consult getConsult() {
 		return consult;
 	}

@@ -14,7 +14,6 @@ import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.User;
-import com.hxplus.occupational.model.VitalSign;
 import com.hxplus.occupational.service.InitService;
 
 @Controller
@@ -42,11 +41,6 @@ public class Prueba {
 	@RequestMapping(value="initCompanies",method=RequestMethod.GET)
 	public @ResponseBody List<Company> initCompanies(){
 		return initService.initCompanies();
-	}
-	
-	@RequestMapping(value="initVitals",method=RequestMethod.GET)
-	public @ResponseBody List<VitalSign> initVitalSigns(){
-		return initService.initVitalSigns();
 	}
 	
 	@RequestMapping(value="initPosts" , method = RequestMethod.GET)

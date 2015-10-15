@@ -1,6 +1,5 @@
 package com.hxplus.occupational.controller;
 
-import java.util.Dictionary;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,11 @@ public class DiagnosticController {
 	@RequestMapping(value="/bypatient/{idpatient}", method = RequestMethod.GET)
 	public @ResponseBody List<Diagnostic> getDiagnostics(@PathVariable("idpatient") Long idPantient){
 		return diagnosticService.findByPatientId(idPantient);
+	}
+	
+	@RequestMapping(value="/byconsult/{idconsult}", method = RequestMethod.GET)
+	public @ResponseBody List<Diagnostic> listDiagnosticsByConsult(@PathVariable("idconsult") Long idConsult){
+		return diagnosticService.findByConsultId(idConsult);
 	}
 	
 	@RequestMapping(value="",method=RequestMethod.POST)

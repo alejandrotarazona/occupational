@@ -2,34 +2,39 @@ package com.hxplus.occupational.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Allergy;
 import com.hxplus.occupational.model.Background;
 import com.hxplus.occupational.model.Company;
+import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.CostCenter;
 import com.hxplus.occupational.model.Department;
 import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Habit;
-import com.hxplus.occupational.model.History;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
+import com.hxplus.occupational.model.SoapNote;
 import com.hxplus.occupational.model.User;
 import com.hxplus.occupational.model.Vaccine;
 import com.hxplus.occupational.model.VitalSign;
 import com.hxplus.occupational.repositories.AllergyRepository;
 import com.hxplus.occupational.repositories.BackgroundRepository;
 import com.hxplus.occupational.repositories.CompanyRepository;
+import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.repositories.CostCenterRepository;
 import com.hxplus.occupational.repositories.DepartmentRepository;
 import com.hxplus.occupational.repositories.DoctorRepository;
 import com.hxplus.occupational.repositories.HabitRepository;
-import com.hxplus.occupational.repositories.HistoryRepository;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.PostRepository;
+import com.hxplus.occupational.repositories.PrescriptionRepository;
+import com.hxplus.occupational.repositories.SoapNoteRepository;
 import com.hxplus.occupational.repositories.UserRepository;
 import com.hxplus.occupational.repositories.VaccineRepository;
 import com.hxplus.occupational.repositories.VitalSignRepository;
@@ -42,19 +47,19 @@ public class InitServiceImpl implements InitService {
 	@Autowired
 	CostCenterRepository costCenterRepository;
 	@Autowired
-	VitalSignRepository vitalSignRepository;
-	@Autowired
 	DepartmentRepository departmentRepository;
+
 	@Autowired
 	PostRepository postRepository;
+
 	@Autowired
 	UserRepository userRepository;
+
 	@Autowired
 	DoctorRepository doctorRepository;
 	@Autowired
 	PatientRepository patientRepository;
-	@Autowired
-	HistoryRepository historyRepository;
+
 	@Autowired
 	BackgroundRepository backgroundRepository;
 	@Autowired
@@ -63,6 +68,15 @@ public class InitServiceImpl implements InitService {
 	VaccineRepository vaccineRepository;
 	@Autowired
 	HabitRepository habitRepository;
+	@Autowired
+	ConsultRepository consultRepository;
+
+	@Autowired
+	SoapNoteRepository soapNoteRepository;
+	@Autowired
+	PrescriptionRepository prescriptionRepository;
+	@Autowired
+	VitalSignRepository vitalSignRepository;
 
 	private final String[] companyNames = { "Polar", "Coca-Cola", "P&G",
 			"Palmolive", "Protinal", "SIDOR" },
@@ -97,6 +111,23 @@ public class InitServiceImpl implements InitService {
 
 			cities = { "Caracas", "Valencia", "Maracay", "Barquisimeto" },
 
+			bgNames = { "Torcedura de Pie", "Cólicos", "Hígado Graso",
+					"Imfalmación Ocular" },
+
+			nombres = { "Sol", "Pescado", "Yodo", "Maquillaje", "Jabón",
+					"Champú", "Polem", "Penicilina" },
+
+			severidades = { "Leve", "Moderada", "Severa", "Aguda", "Mortal" },
+
+			habitNames = { "Cigarrillo", "Alcohol", "Deportes", "Trasnocho" },
+
+			habitFrecuency = { "Varias veces al día", "Diario", "Semanal",
+					"Quincenal", "Mensual", "Bimensual", "Anual" },
+
+			vaccineNames = { "Polio", "Sarampión", "Viruela", "Triple",
+					"Lechina" },
+			vaccinePotency = { "Primera", "Segunda", "Refuerzo" },
+
 			descriptions = {
 					"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,",
 					"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto",
@@ -106,18 +137,18 @@ public class InitServiceImpl implements InitService {
 					"Una mañana, tras un sueño intranquilo, Gregorio Samsa se despertó convertido en un monstruoso insecto. Estaba echado de espaldas sobre un duro caparazón y, al alzar la cabeza, vio.",
 					"Muy lejos, más allá de las montañas de palabras, alejados de los países de las vocales y las consonantes, viven los textos simulados. Viven aislados en casas de letras, en la costa" },
 
-			nombres = { "Sol", "Pescado", "Yodo", "Maquillaje", "Jabón",
-					"Champú", "Polem", "Penicilina" },
-
-			severidades = { "Leve", "Moderada", "Severa", "Aguda", "Mortal" },
-
-			habitNames = { "Cigarrillo", "Alcohol", "Deportes", "Trasnocho" },
-			habitFrecuency = { "Varias veces al día", "Diario", "Semanal",
-					"Quincenal", "Mensual", "Bimensual", "Anual" },
-
-			vaccineNames = { "Polio", "Sarampión", "Viruela", "Triple",
-					"Lechina" }, vaccinePotency = { "Primera", "Segunda",
-					"Refuerzo" };
+			objectives = {
+					"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur rid",
+					"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto",
+					"Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in l" },
+			subjectives = {
+					"Muy lejos, más allá de las montañas de palabras, alejados de los países de las vocales y las consonantes, viven los textos simulados. Viven aislados en casas de letras, en la costa",
+					"Y, viéndole don Quijote de aquella manera, con muestras de tanta tristeza, le dijo: Sábete, Sancho, que no es un hombre más que otro si no hace más que otro. Todas estas borrascas.",
+					"Reina en mi espíritu una alegría admirable, muy parecida a las dulces alboradas de la primavera, de que gozo aquí con delicia. Estoy solo, y me felicito de vivir en este país, el m" },
+			plans = {
+					"Reina en mi espíritu una alegría admirable, muy parecida a las dulces alboradas de la primavera, de que gozo aquí con delicia. Estoy solo, y me felicito de vivir en este país, el m",
+					"Quiere la boca exhausta vid, kiwi, piña y fugaz jamón. Fabio me exige, sin tapujos, que añada cerveza al whisky. Jovencillo emponzoñado de whisky, ¡qué figurota exhibes! La cigüeña" },
+			comments = { "abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !\"§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !" };
 
 	@Override
 	public List<Company> initCompanies() {
@@ -133,13 +164,6 @@ public class InitServiceImpl implements InitService {
 				.println("······································Compañías Guardadas (Con Deptos y CostCenters)······································");
 
 		return companies;
-	}
-
-	public List<VitalSign> initVitalSigns() {
-		List<VitalSign> vitalSigns = listVitalSigns();
-		vitalSignRepository.save(vitalSigns);
-		vitalSignRepository.flush();
-		return vitalSigns;
 	}
 
 	@Override
@@ -164,7 +188,6 @@ public class InitServiceImpl implements InitService {
 
 		return posts;
 	}
-	
 
 	@Override
 	public List<User> initUsers() {
@@ -176,7 +199,6 @@ public class InitServiceImpl implements InitService {
 				.println("······································Usuarios Guardados······································");
 		return userList;
 	}
-	
 
 	@Override
 	public List<Doctor> initDoctors() {
@@ -210,85 +232,130 @@ public class InitServiceImpl implements InitService {
 		List<Patient> guardados = new ArrayList<>();
 
 		for (Patient patient : patients) {
-			guardados.add(savePatient(patient));
+			try {
+				guardados.add(savePatient(patient));
+			} catch (IllegalStateException ise) {
+				//System.out.println("\t\t\t" + ise.getLocalizedMessage());
+				//System.out.println("\t\t\tError guardando paciente. Procediendo a updatearlo");
+				guardados.add(updatePatient(patient));
+			} catch (LazyInitializationException lie) {
+				//System.out.println("\t\t\t" + lie.getLocalizedMessage());
+				//System.out.println("\t\t\tError inicializando algo en el paciente. Procediendo a updatearlo");
+				guardados.add(updatePatient(patient));
+			}
 		}
 
 		return guardados;
 	}
-	
 
-	private Patient savePatient(Patient patient) {
+	private Patient updatePatient(Patient patient) {
+		Patient newPatient = new Patient();
 
 		try {
-			Patient patientResp = new Patient();
-
-			Background background = backgroundRepository.save(patient
-					.getHistory().getBackground());
-
-			History history = new History();
-			history.setBackground(background);
-			history = historyRepository.save(history);
-
-			List<Allergy> allergies = patient.getHistory().getAllergies(), newAllergies = new ArrayList<>();
-			List<Habit> habits = patient.getHistory().getHabits(), newHabits = new ArrayList<>();
-			List<Vaccine> vaccines = patient.getHistory().getVaccines(), newVaccines = new ArrayList<>();
-
-			for (Allergy allergy : allergies) {
-				allergy.setHistory(history);
-				newAllergies.add(allergyRepository.saveAndFlush(allergy));
-			}
-
-			history.setAllergies(newAllergies);
-
-			for (Habit habit : habits) {
-				habit.setHistory(history);
-				newHabits.add(habitRepository.saveAndFlush(habit));
-			}
-
-			history.setHabits(newHabits);
-
-			for (Vaccine vaccine : vaccines) {
-				vaccine.setHistory(history);
-				newVaccines.add(vaccineRepository.saveAndFlush(vaccine));
-			}
-
-			history.setVaccines(newVaccines);
-
-			patientResp.setUser(patient.getUser());
-			patientResp.setDoctors(patient.getDoctors());
-			patientResp.setHistory(history);
-
-			patientResp = patientRepository.saveAndFlush(patientResp);
-
-			return patientResp;
-
+			newPatient = patientRepository.saveAndFlush(patient);
 		} catch (Exception ex) {
-			// System.out.println("Ocurrió una excepción pero pa'lante");
-			return patientRepository.saveAndFlush(patient);
+			System.out.println(ex.getLocalizedMessage());
+			System.out.println("\t\t\tProblemas updateando el doctor");
 		}
+
+		return newPatient;
 	}
-	
+
+	private Patient savePatient(Patient patient) throws IllegalStateException,
+			LazyInitializationException {
+
+		Patient newPatient = patientRepository.saveAndFlush(patient);
+
+		// System.out.println("Guardado paciente "
+		// + newPatient.getUser().getFirstName() + " "
+		// + newPatient.getUser().getLastName() + "\n" + "\tid: "
+		// + newPatient.getId());
+
+		List<Background> backgrounds = patient.getBackgrounds(), newBackgrounds = new ArrayList<>();
+		List<Allergy> allergies = patient.getAllergies(), newAllergies = new ArrayList<>();
+		List<Habit> habits = patient.getHabits(), newHabits = new ArrayList<>();
+		List<Vaccine> vaccines = patient.getVaccines(), newVaccines = new ArrayList<>();
+		List<Consult> consults = patient.getConsults(), newConsults = new ArrayList<>();
+
+		for (Background background : backgrounds) {
+			background.setPatient(newPatient);
+			newBackgrounds.add(backgroundRepository.saveAndFlush(background));
+			// System.out
+			// .println("\tGuardando un background con id: "
+			// + newBackgrounds.get(newBackgrounds.size() - 1)
+			// .getId());
+		}
+
+		newPatient.setBackgrounds(newBackgrounds);
+
+		for (Allergy allergy : allergies) {
+			allergy.setPatient(newPatient);
+			newAllergies.add(allergyRepository.saveAndFlush(allergy));
+			// System.out.println("\tGuardando una alergia con id: "
+			// + newAllergies.get(newAllergies.size() - 1).getId());
+		}
+
+		newPatient.setAllergies(newAllergies);
+
+		for (Habit habit : habits) {
+			habit.setPatient(newPatient);
+			newHabits.add(habitRepository.saveAndFlush(habit));
+			// System.out.println("\tGuardando un habito con id: "
+			// + newHabits.get(newHabits.size() - 1).getId());
+		}
+
+		newPatient.setHabits(newHabits);
+
+		for (Vaccine vaccine : vaccines) {
+			vaccine.setPatient(newPatient);
+			newVaccines.add(vaccineRepository.saveAndFlush(vaccine));
+			// System.out.println("\tGuardando una vacuna con id: "
+			// + newVaccines.get(newVaccines.size() - 1).getId());
+		}
+
+		newPatient.setVaccines(newVaccines);
+		/*
+		 * int i = 0; System.out.println("Consultas tiene " + consults.size() +
+		 * " Elementos");
+		 */for (Consult consult : consults) {
+			consult.setPatient(newPatient);
+			newConsults.add(saveConsult(consult));
+			/*
+			 * System.out.println("Guardando la " + (++i) + "° Consulta de " +
+			 * patient.getUser().getFirstName() + " " +
+			 * patient.getUser().getLastName());
+			 */}
+
+		newPatient.setConsults(newConsults);
+
+		// System.out.println("Guardado Paciente");
+
+		return newPatient;
+
+	}
 
 	private List<Patient> listPatients(Long idDoctor) {
+
 		ArrayList<Patient> patients = new ArrayList<>();
 		List<User> users = userRepository.findAll();
 		Doctor doctor = doctorRepository.findOne(idDoctor);
+		int cota = (int) (Math.random() * 16) + 10;
 
-		for (long i = idDoctor + 1; i < 10 + idDoctor; i++) {
+		for (long i = 0; i < cota; i++) {
 			patients.add(createPatient(
-					users.remove((int) (Math.random() * users.size() - 1) + 1),
-					doctor));
+					users.remove((int) (Math.random() * users.size())), doctor));
 		}
 
 		return patients;
 	}
-	
 
 	private Patient createPatient(User user, Doctor doctor) {
 		Patient patient;
 
-		// System.out.println("idUser:\t\t" + idUser + "\nidDoctor:\t" +
-		// idDoctor + "\n\t\t (" + idUser + ", " + idDoctor + ")");
+		// System.out.println("idUser:\t\t" + user.getId() + "\nidDoctor:\t"
+		// + doctor.getId() + "\n\t\t (" + user.getId() + ", "
+		// + doctor.getId() + ")");
+
 		patient = patientRepository.findByUser(user.getId());
 
 		if (patient == null) {
@@ -296,10 +363,12 @@ public class InitServiceImpl implements InitService {
 
 			patient = new Patient();
 			patient.setUser(user);
+
 			ArrayList<Doctor> patientListDoctors = new ArrayList<>();
 			patientListDoctors.add(doctor);
+
 			patient.setDoctors(patientListDoctors);
-			patient.setHistory(createHistory());
+			createHistory(patient, doctor);
 
 		} else {
 			// System.out.println("El paciente NO es nulo");
@@ -308,17 +377,17 @@ public class InitServiceImpl implements InitService {
 					.listDoctorbyPatient(patient.getId());
 			patientListDoctors.add(doctor);
 			patient.setDoctors(patientListDoctors);
+			patient.setUser(userRepository.findByIdPatient(patient.getId()));
 		}
 
 		// System.out.println(patient.toString());
 
 		return patient;
 	}
-	
 
-	private History createHistory() {
-		History history = new History();
-		history.setBackground(createBackground());
+	private Patient createHistory(Patient patient, Doctor doctor) {
+
+		patient.setBackgrounds(listBackgrounds());
 
 		int allergiesCant = (int) (Math.random() * 10), vaccinesCant = (int) (Math
 				.random() * 20), habitCant = (int) (Math.random() * 5);
@@ -339,23 +408,33 @@ public class InitServiceImpl implements InitService {
 			vaccines.add(createVaccine());
 		}
 
-		history.setAllergies(allergies);
-		history.setHabits(habits);
-		history.setVaccines(vaccines);
+		patient.setAllergies(allergies);
+		patient.setHabits(habits);
+		patient.setVaccines(vaccines);
+		patient.setConsults(listConsults(doctor));
 
-		return history;
+		return patient;
 	}
-	
 
-	private Background createBackground() {
+	private List<Background> listBackgrounds() {
+		List<Background> backgrounds = new ArrayList<>();
+
+		for (int i = 0; i < bgNames.length; i++) {
+			backgrounds.add(createBackground(bgNames[i]));
+		}
+
+		return backgrounds;
+	}
+
+	private Background createBackground(String name) {
 		Background background = new Background();
 
+		background.setName(name);
 		background
 				.setDescription(descriptions[(int) (Math.random() * descriptions.length)]);
 
 		return background;
 	}
-	
 
 	private Allergy createAllergy() {
 		Allergy allergy = new Allergy();
@@ -374,7 +453,6 @@ public class InitServiceImpl implements InitService {
 
 		return habit;
 	}
-	
 
 	private Vaccine createVaccine() {
 		Vaccine vaccine = new Vaccine();
@@ -384,7 +462,6 @@ public class InitServiceImpl implements InitService {
 
 		return vaccine;
 	}
-	
 
 	private List<Doctor> listDoctors(List<User> users) {
 
@@ -411,7 +488,6 @@ public class InitServiceImpl implements InitService {
 
 		return doctor;
 	}
-	
 
 	private List<User> listUsers() {
 		List<User> users = new ArrayList<User>();
@@ -433,7 +509,6 @@ public class InitServiceImpl implements InitService {
 
 		return users;
 	}
-	
 
 	private User createUser(String firstname, String lastname, String username,
 			String password, Post post) {
@@ -452,7 +527,6 @@ public class InitServiceImpl implements InitService {
 		user.setAddress(cities[((int) (Math.random() * cities.length))]);
 		return user;
 	}
-	
 
 	private List<Company> save(List<Company> companies) {
 		List<Company> salvadas = new ArrayList<>();
@@ -474,7 +548,6 @@ public class InitServiceImpl implements InitService {
 
 		return salvadas;
 	}
-	
 
 	private Company merge(Company company, List<CostCenter> costCenters,
 			List<Department> departments) {
@@ -482,7 +555,6 @@ public class InitServiceImpl implements InitService {
 		company.setCostCenters(costCenters);
 		return company;
 	}
-	
 
 	private List<CostCenter> listCostCenters(Company company) {
 		List<CostCenter> costCenters = new ArrayList<>();
@@ -494,7 +566,6 @@ public class InitServiceImpl implements InitService {
 
 		return costCenters;
 	}
-	
 
 	private CostCenter createCostCenter(String address, String phoneNumber,
 			Company company) {
@@ -506,7 +577,6 @@ public class InitServiceImpl implements InitService {
 
 		return costCenter;
 	}
-	
 
 	private List<Department> listDepartments(Company company) {
 		List<Department> departments = new ArrayList<>();
@@ -518,7 +588,6 @@ public class InitServiceImpl implements InitService {
 
 		return departments;
 	}
-	
 
 	private Department createDepartment(String name, String description,
 			Company company) {
@@ -530,7 +599,6 @@ public class InitServiceImpl implements InitService {
 
 		return department;
 	}
-	
 
 	private List<Company> listCompanies() {
 		List<Company> companies = new ArrayList<>();
@@ -542,7 +610,6 @@ public class InitServiceImpl implements InitService {
 
 		return companies;
 	}
-	
 
 	private Company createCompany(String name, String rif, String description) {
 		Company company = new Company();
@@ -553,7 +620,6 @@ public class InitServiceImpl implements InitService {
 
 		return company;
 	}
-	
 
 	private List<Post> listPost(List<Department> departments,
 			List<CostCenter> costCenters) {
@@ -578,7 +644,6 @@ public class InitServiceImpl implements InitService {
 
 		return posts;
 	}
-	
 
 	private Post createPost(String name, Department department,
 			List<CostCenter> costCenters) {
@@ -594,21 +659,112 @@ public class InitServiceImpl implements InitService {
 		return post;
 
 	}
-	
-	private List<VitalSign> listVitalSigns(){
-		List<VitalSign> vitalSigns = new ArrayList<>();
-		
-		for(int i = 0; i < vitalSignNames.length ; i ++){
-			vitalSigns.add(createVitalSign(vitalSignNames[i]));
+
+	private Consult saveConsult(Consult consult) {
+
+		/*
+		 * System.out.println("Guardando una Consulta\t" +
+		 * consult.getConsultDate() + " (" + consult.getPatient().getId() +
+		 * ")");
+		 */
+		Consult newConsult = consult;
+		SoapNote soapNote = consult.getSoapNote();
+		// List<VitalSign> vitalSigns = consult.getVitalSigns(), newVitalSigns =
+		// new ArrayList<>();
+
+		try {
+			consult.setSoapNote(soapNoteRepository.saveAndFlush(soapNote));
+			newConsult = consultRepository.saveAndFlush(consult);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("\t\t\tError en el guardado de la consulta");
 		}
-		
+
+		soapNote.setConsult(newConsult);
+		newConsult.setSoapNote(soapNote);
+
+		/*
+		 * for (VitalSign vitalSign : vitalSigns) {
+		 * vitalSign.setConsult(newConsult);
+		 * System.out.println("Guardando Vital Signs. " + vitalSign.getName() +
+		 * ", " + vitalSign.getDescripion()); System.out.println("Consulta: " +
+		 * vitalSign.getConsult().getId());
+		 * 
+		 * VitalSign newVitalSign = vitalSignRepository
+		 * .saveAndFlush(vitalSign); newVitalSigns.add(newVitalSign); }
+		 * 
+		 * newConsult.setVitalSigns(newVitalSigns);
+		 */
+		return newConsult;
+	}
+
+	private List<Consult> listConsults(Doctor doctor) {
+
+		List<Consult> consults = new ArrayList<>();
+		Consult newConsult = new Consult();
+
+		int cota = ((int) (Math.random() * 15)) + 5;
+
+		for (int i = 0; i < cota; i++) {
+			newConsult = createConsult();
+			newConsult.setDoctor(doctor);
+			consults.add(newConsult);
+		}
+
+		return consults;
+	}
+
+	private Consult createConsult() {
+
+		// System.out.println("Creando una Consulta");
+		Consult consult = new Consult();
+
+		long semanaEnMilis = 604800000, diaEnMilis = 86400000, horaEnMilis = 3600000;
+		Date today = new Date(), consultDate, dia, hora, semana;
+
+		semana = new Date((long) (Math.random() * 12) * semanaEnMilis);
+		dia = new Date((long) (Math.random() * 30) * diaEnMilis);
+		hora = new Date((long) (Math.random() * 24) * horaEnMilis);
+
+		consultDate = new Date(today.getTime() - semana.getTime()
+				- dia.getTime() - hora.getTime());
+
+		consult.setConsultDate(consultDate);
+		// System.out.println(consultDate.toString());
+		consult.setSoapNote(createSoapNote());
+
+		// consult.setVitalSigns(listVitalSigns());
+
+		return consult;
+	}
+
+	private SoapNote createSoapNote() {
+
+		SoapNote soapNote = new SoapNote();
+		soapNote.setObjective(objectives[(int) (Math.random() * objectives.length)]);
+		soapNote.setSubjective(subjectives[(int) (Math.random() * subjectives.length)]);
+		soapNote.setPlan(plans[(int) (Math.random() * plans.length)]);
+		soapNote.setComments(comments[(int) (Math.random() * comments.length)]);
+
+		return soapNote;
+
+	}
+
+	private List<VitalSign> listVitalSigns() {
+		List<VitalSign> vitalSigns = new ArrayList<>();
+
+		for (int i = 0; i < vitalSignNames.length; i++) {
+			vitalSigns.add(createVitalSign(vitalSignNames[i]));
+			// System.out.println(vitalSignNames[i]);
+		}
+
 		return vitalSigns;
 	}
-	
-	private VitalSign createVitalSign(String name){
+
+	private VitalSign createVitalSign(String name) {
 		VitalSign vitalSign = new VitalSign();
 		vitalSign.setName(name);
-		vitalSign.setDescripion(descriptions[(int)(Math.random()*descriptions.length)]);
+		vitalSign.setDescripion("NADA");
 		return vitalSign;
 	}
 }

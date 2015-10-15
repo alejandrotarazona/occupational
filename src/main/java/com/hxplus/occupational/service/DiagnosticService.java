@@ -12,6 +12,7 @@ public interface DiagnosticService {
 	public Diagnostic findById(Long id);
 	public List<Diagnostic> findAll();
 	public List<Diagnostic> findByPatientId(Long idPantient);
+	public List<Diagnostic> findByConsultId(Long idConsult);
 	public Diagnostic saveDiagnostic(DiagnosticRequest diagnosticRequest);
 	public Diagnostic updateDiagnostic(Long id, DiagnosticRequest diagnosticRequest);
 	public ResponseEntity<Object> deleteDiagnostic(Long id);

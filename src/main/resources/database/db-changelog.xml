@@ -124,20 +124,27 @@
 			baseTableName="user" constraintName="fk_user__post" onDelete="CASCADE"
 			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="post" />
 	</changeSet>
+
 	<changeSet id="6" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="history" />
+				<tableExists tableName="patient" />
 			</not>
 		</preConditions>
-		<createTable tableName="history">
+		<createTable tableName="patient">
 			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"
-					primaryKeyName="pk_history" />
+				<constraints primaryKey="true" nullable="false"
+					primaryKeyName="pk_patient" />
 			</column>
-			<column name="idbackground" type="BIGINT" />
+			<column name="iduser" type="BIGINT">
+				<constraints foreignKeyName="fk_patient__user"
+					referencedTableName="user" referencedColumnNames="id" unique="true"
+					nullable="false" />
+			</column>
+
 		</createTable>
 	</changeSet>
+
 	<changeSet id="7" author="hxplus">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -151,11 +158,11 @@
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="frecuency" type="VARCHAR(255)" />
-			<column name="idhistory" type="BIGINT" />
+			<column name="idpatient" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_habit__patient"
+					referencedTableName="patient" referencedColumnNames="id" />
+			</column>
 		</createTable>
-		<addForeignKeyConstraint constraintName="fk_habit__history"
-			referencedTableName="history" baseColumnNames="idhistory"
-			baseTableName="habit" referencedColumnNames="id" />
 	</changeSet>
 
 	<changeSet id="8" author="hxplus">
@@ -168,6 +175,10 @@
 			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_background" />
+			</column>
+			<column name="idpatient" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_background__patient"
+					referencedTableName="patient" referencedColumnNames="id" />
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
@@ -188,11 +199,11 @@
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
 			<column name="severity" type="VARCHAR(255)" />
-			<column name="idhistory" type="BIGINT" />
+			<column name="idpatient" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_allergy__patient"
+					referencedTableName="patient" referencedColumnNames="id" />
+			</column>
 		</createTable>
-		<addForeignKeyConstraint constraintName="fk_allergy__history"
-			referencedTableName="history" baseColumnNames="idhistory"
-			baseTableName="allergy" referencedColumnNames="id" />
 	</changeSet>
 
 	<changeSet id="10" author="hxplus">
@@ -208,34 +219,14 @@
 			</column>
 			<column name="name" type="VARCHAR(255)" />
 			<column name="potency" type="VARCHAR(255)" />
-			<column name="idhistory" type="BIGINT" />
+			<column name="idpatient" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_vaccine__patient"
+					referencedTableName="patient" referencedColumnNames="id" />
+			</column>
 		</createTable>
-		<addForeignKeyConstraint constraintName="fk_vaccine__history"
-			referencedTableName="history" baseColumnNames="idhistory"
-			baseTableName="vaccine" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="11" author="hxplus">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="patient" />
-			</not>
-		</preConditions>
-		<createTable tableName="patient">
-			<column name="id" type="BIGINT" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false"
-					primaryKeyName="pk_patient" />
-			</column>
-			<column name="iduser" type="BIGINT">
-				<constraints foreignKeyName="fk_patient__user"
-					referencedTableName="user" referencedColumnNames="id" unique="true"
-					nullable="false" />
-			</column>
-			<column name="idhistory" type="BIGINT">
-				<constraints unique="true" nullable="true" />													<!-- Recordar des-nullabilizar -->
-			</column>
-		</createTable>
-	</changeSet>
+
 
 	<changeSet id="12" author="hxplus">
 		<preConditions onFail="MARK_RAN">
@@ -287,11 +278,12 @@
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_soapnote" />
 			</column>
-			<column name="idconsult" type="BIGINT" />
+			<!--  column name="idconsult" type="BIGINT" /-->
 			<column name="subjective" type="VARCHAR(255)" />
 			<column name="objective" type="VARCHAR(255)" />
 			<column name="plan" type="VARCHAR(255)" />
 			<column name="comments" type="VARCHAR(255)" />
+			<column name="iddiagnostic" type="BIGINT" />
 		</createTable>
 	</changeSet>
 
@@ -327,6 +319,11 @@
 			<column name="details" type="VARCHAR(255)" />
 			<column name="idexam" type="BIGINT" />
 		</createTable>
+		<addForeignKeyConstraint referencedTableName="diagnostic"
+			referencedColumnNames="id" baseColumnNames="iddiagnostic" baseTableName="soapnote"
+			constraintName="fk_noapnote__diagnostic"/>
+					
+	
 	</changeSet>
 
 	<changeSet id="17" author="hxplus">
@@ -359,8 +356,8 @@
 			<column name="name" type="VARCHAR(255)" />
 			<column name="description" type="VARCHAR(255)" />
 			<column name="idlaboratory" type="BIGINT">
-				<constraints foreignKeyName="fk_drug__laboratory" referencedTableName="laboratory"
-				 referencedColumnNames="id"/>
+				<constraints foreignKeyName="fk_drug__laboratory"
+					referencedTableName="laboratory" referencedColumnNames="id" />
 			</column>
 		</createTable>
 	</changeSet>
@@ -455,9 +452,9 @@
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_consult" />
 			</column>
-			<column name="idhistory" type="BIGINT">
-				<constraints nullable="false" foreignKeyName="fk_consult__history"
-					referencedTableName="history" referencedColumnNames="id" />
+			<column name="idpatient" type="BIGINT">
+				<constraints nullable="false" foreignKeyName="fk_consult__patient"
+					referencedTableName="patient" referencedColumnNames="id" unique="false"/>
 			</column>
 			<column name="consultdate" type="DATETIME" />
 			<column name="idsoapnote" type="BIGINT" />

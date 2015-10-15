@@ -39,6 +39,12 @@ public class UserController {
 	public @ResponseBody List<User> listNoPatient(){
 		return userService.listNoPatients();
 	}
+	
+	@RequestMapping(value = "/patient/{idpatient}", method = RequestMethod.GET)
+	public @ResponseBody User getUserByPatient(@PathVariable("idpatient") Long idpatient){
+		return userService.fingByPatientId(idpatient);
+	}
+	
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public @ResponseBody

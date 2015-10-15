@@ -20,6 +20,13 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findOne(id);
 	}
 	
+	@Override
+	public User fingByPatientId(Long idpatient) {
+		return userRepository.findByIdPatient(idpatient);
+	}
+
+
+
 	public User saveUser(UserRequest userRequest){
 		return userRepository.saveAndFlush(fromReq(new User(), userRequest));
 	}

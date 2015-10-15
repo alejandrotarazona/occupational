@@ -55,10 +55,16 @@ public class ConsultServiceImpl implements ConsultService {
 	}
 	
 	
+	
+
+//	@Override
+//	public List<Consult> findAllByIdHistory(Long idHistory) {
+//		return consultRepository.finfAllByIdHistory(idHistory);
+//	}
 
 	@Override
-	public List<Consult> findAllByIdHistory(Long idHistory) {
-		return consultRepository.finfAllByIdHistory(idHistory);
+	public List<Consult> findByIdPatient(Long idPatient) {
+		return consultRepository.findByPatient(idPatient);
 	}
 
 	@Override
@@ -129,7 +135,7 @@ public class ConsultServiceImpl implements ConsultService {
 	private Consult fromReq(Consult consult, ConsultRequest consultRequest) {
 		consult.setConsultDate(consultRequest.getConsultDate());
 		consult.setDoctor(consultRequest.getDoctor());
-		consult.setHistory(consultRequest.getHistory());
+		consult.setPatient(consultRequest.getPatient());
 		consult.setRecieveExams(consultRequest.getRecieveExams());
 		consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest.getSoapNote()));
 		

@@ -10,6 +10,7 @@ import com.hxplus.occupational.request.UserRequest;
 public interface UserService {
 
 	public User findById(Long id);
+	public User fingByPatientId(Long idpatient);
 	public List<User> findAll();
 	public List<User> listNoPatients();
 	public User saveUser(UserRequest userRequest);

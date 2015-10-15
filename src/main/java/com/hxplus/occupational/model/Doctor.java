@@ -51,14 +51,14 @@ public class Doctor implements Serializable {
 	}
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinTable(name = "attends", joinColumns = { @JoinColumn(name = "iddoctor", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(referencedColumnName = "id", name = "idpatient") })
 	public List<Patient> getPatients() {
 		return patients;
 	}
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "doctor")
 	public List<Consult> getConsults() {
 		return consults;
 	}

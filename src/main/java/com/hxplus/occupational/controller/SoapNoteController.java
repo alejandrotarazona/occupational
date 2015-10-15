@@ -16,7 +16,7 @@ import com.hxplus.occupational.request.SoapNoteRequest;
 import com.hxplus.occupational.service.SoapNoteService;
 
 @Controller
-@RequestMapping(value="soapNote")
+@RequestMapping(value="soapnote")
 public class SoapNoteController {
 	@Autowired SoapNoteService soapNoteService;
 	

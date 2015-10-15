@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hxplus.occupational.model.Doctor;
-import com.hxplus.occupational.model.History;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.UserRepository;
@@ -20,7 +19,6 @@ public class PatientServiceImpl implements PatientService {
 
 	@Autowired PatientRepository patientRepository;
 	@Autowired UserRepository userRepository;
-	@Autowired HistoryService historyService;
 	@Autowired DoctorService doctorService;
 
 	@Override
@@ -74,11 +72,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	private Patient fromReq(Patient patient, PatientRequest patientRequest) {
-
-		if(patientRequest.getHistory() == null) System.out.println("HistoryRequest es Nula");
-		History history = historyService.saveHistory(patientRequest.getHistory());
-		patient.setHistory(history);
-		
+	
 		System.out.println("FromReq Terminado");
 		return patient;
 	}

@@ -11,11 +11,14 @@ import com.hxplus.occupational.model.Consult;
 
 @Repository
 public interface ConsultRepository extends JpaRepository<Consult, Long> {
+
+	@Query("select c from Consult c join c.patient p where p.id = (:idpatient)")
+	public List<Consult> findByPatient(@Param("idpatient") Long idPatient);
 	
-	@Query("select c "
-			+ "from Consult c "
-			+ "join c.history h "
-			+ "where h.id = (:id)")
-	public List<Consult> finfAllByIdHistory(@Param("id") Long idHistory);
+//	@Query("select c "
+//			+ "from Consult c "
+//			+ "join c.history h "
+//			+ "where h.id = (:id)")
+//	public List<Consult> finfAllByIdHistory(@Param("id") Long idHistory);
 
 }

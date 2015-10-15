@@ -20,7 +20,6 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 	DiagnosticRepository diagnosticRepository;
 	@Autowired
 	InstructionService instructionService;
-	
 
 	@Override
 	public Diagnostic findById(Long id) {
@@ -38,18 +37,25 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 	}
 
 	@Override
+	public List<Diagnostic> findByConsultId(Long idConsult) {
+		return diagnosticRepository.findByConsultId(idConsult);
+	}
+
+	@Override
 	public Diagnostic saveDiagnostic(DiagnosticRequest diagnosticRequest) {
-		Diagnostic diagnostic = diagnosticRepository.save(fromReq(new Diagnostic(),
-				diagnosticRequest));
-		
+		Diagnostic diagnostic = diagnosticRepository.save(fromReq(
+				new Diagnostic(), diagnosticRequest));
+
 		List<Instruction> instructions = new ArrayList<>();
-		
-		for(InstructionRequest instructionRequest : diagnosticRequest.getInstructions()){
-			instructions.add(instructionService.saveInstruction(instructionRequest));
+
+		for (InstructionRequest instructionRequest : diagnosticRequest
+				.getInstructions()) {
+			instructions.add(instructionService
+					.saveInstruction(instructionRequest));
 		}
-		
+
 		diagnostic.setInstructions(instructions);
-		
+
 		return diagnosticRepository.save(diagnostic);
 	}
 

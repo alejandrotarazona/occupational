@@ -1,5 +1,6 @@
 package com.hxplus.occupational.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -18,14 +19,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "consult")
-public class Consult {
+public class Consult implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1047944888325521959L;
 	private Long id;
-	private History history;
+	private Patient patient;
 	private Date consultDate;
 	private Doctor doctor;
 	private List<Prescription> prescriptions;
@@ -44,10 +51,11 @@ public class Consult {
 	}
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
-	@JoinColumn(name = "idhistory", referencedColumnName = "id")
-	public History getHistory() {
-		return history;
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "idpatient", referencedColumnName = "id")
+	@JsonBackReference
+	public Patient getPatient() {
+		return patient;
 	}
 
 	@Column(name = "consultdate")
@@ -55,30 +63,36 @@ public class Consult {
 		return consultDate;
 	}
 
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "iddoctor", referencedColumnName = "id")
+	@JsonBackReference
 	public Doctor getDoctor() {
 		return doctor;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
+	@JsonManagedReference
 	public List<Prescription> getPrescriptions() {
 		return prescriptions;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
+	@JsonManagedReference
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
+	@JsonManagedReference
 	public List<VitalSign> getVitalSigns() {
 		return vitalSigns;
 	}
 
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idsoapnote", referencedColumnName = "id")
 	public SoapNote getSoapNote() {
@@ -86,23 +100,27 @@ public class Consult {
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
+	@JsonManagedReference
 	public List<File> getFiles() {
 		return files;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "consult")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
+	@JsonManagedReference
 	public List<Diagnostic> getDiagnostics() {
 		return diagnostics;
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ordered")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "ordered")
+	@JsonManagedReference
 	public List<Exam> getRequestExams() {
 		return requestExams;
 	}
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "recieve_exam", joinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false, referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false, referencedColumnName = "id") })
 	public List<Exam> getRecieveExams() {
@@ -113,8 +131,8 @@ public class Consult {
 		this.id = id;
 	}
 
-	public void setHistory(History history) {
-		this.history = history;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 	public void setConsultDate(Date consultDate) {

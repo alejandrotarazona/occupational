@@ -1,13 +1,12 @@
 package com.hxplus.occupational.request;
 
-import com.hxplus.occupational.model.History;
-
+import com.hxplus.occupational.model.Patient;
 
 public class VaccineRequest {
 
 	private String name;
 	private String potency;
-	private History history;
+	private Patient patient;
 
 	public String getName() {
 		return name;
@@ -17,8 +16,8 @@ public class VaccineRequest {
 		return potency;
 	}
 
-	public History getHistory() {
-		return history;
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public void setName(String name) {
@@ -29,8 +28,8 @@ public class VaccineRequest {
 		this.potency = potency;
 	}
 
-	public void setHistory(History history) {
-		this.history = history;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 }

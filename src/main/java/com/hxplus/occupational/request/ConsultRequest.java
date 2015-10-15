@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.hxplus.occupational.model.Doctor;
 import com.hxplus.occupational.model.Exam;
-import com.hxplus.occupational.model.History;
+import com.hxplus.occupational.model.Patient;
 
 public class ConsultRequest {
 
 	private Date consultDate;
 	private Doctor doctor;
-	private History history;
+	private Patient patient;
 	private List<PrescriptionRequest> prescriptions;
 	private List<InstructionRequest> instructions;
 	private List<VitalSignRequest> vitalSigns;
@@ -29,8 +29,8 @@ public class ConsultRequest {
 		return doctor;
 	}
 
-	public History getHistory() {
-		return history;
+	public Patient getPatient() {
+		return patient;
 	}
 
 	public List<PrescriptionRequest> getPrescriptions() {
@@ -73,8 +73,8 @@ public class ConsultRequest {
 		this.doctor = doctor;
 	}
 
-	public void setHistory(History history) {
-		this.history = history;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 	public void setPrescriptions(List<PrescriptionRequest> prescriptions) {

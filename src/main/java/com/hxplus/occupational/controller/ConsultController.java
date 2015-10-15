@@ -30,9 +30,9 @@ public class ConsultController {
 		return consultService.findAll();
 	}
 	
-	@RequestMapping(value="/byhistory/{id}", method=RequestMethod.GET)
-	public @ResponseBody List<Consult> getConsults(@PathVariable("id") Long idHistory){
-		return consultService.findAllByIdHistory(idHistory);
+	@RequestMapping(value="/bypatient/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<Consult> getConsults(@PathVariable("id") Long idPatient){
+		return consultService.findByIdPatient(idPatient);
 	}
 	
 	@RequestMapping(value="",method=RequestMethod.POST)

@@ -97,14 +97,15 @@ public class User extends BaseEntity implements Serializable{
 	}
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcostcenter", referencedColumnName = "id")
+	@JsonBackReference
 	public CostCenter getWorks() {
 		return works;
 	}
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcompany", referencedColumnName = "id")
 	@JsonBackReference
 	public Company getEmployer() {
@@ -112,14 +113,15 @@ public class User extends BaseEntity implements Serializable{
 	}
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name="idpost", referencedColumnName = "id")
+	@JsonBackReference
 	public Post getPost(){
 		return post;
 	}
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="user")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE, mappedBy="user")
 	@JsonManagedReference
 	public List<Contract> getContracts() {
 		return contracts;

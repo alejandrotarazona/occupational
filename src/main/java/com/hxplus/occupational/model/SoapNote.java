@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "soapnote")
 public class SoapNote {
@@ -25,8 +27,8 @@ public class SoapNote {
 		return id;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idconsult", referencedColumnName = "id")
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "soapNote")
 	public Consult getConsult() {
 		return consult;
 	}
@@ -46,10 +48,14 @@ public class SoapNote {
 		return plan;
 	}
 
+	@Column(name = "comments")
 	public String getComments() {
 		return comments;
 	}
-
+	
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "iddiagnostic", referencedColumnName = "id")
 	public Diagnostic getDiagnostic() {
 		return diagnostic;
 	}

@@ -11,7 +11,8 @@ public interface ConsultService {
 
 	public Consult findById(Long id);
 	public List<Consult> findAll();
-	public List<Consult> findAllByIdHistory(Long idHistory);
+	public List<Consult> findByIdPatient(Long idPatient);
+	//public List<Consult> findAllByIdHistory(Long idHistory);
 	public Consult saveConsult(ConsultRequest consultRequest);
 	public Consult updateConsult(Long id, ConsultRequest consultRequest);
 	public ResponseEntity<Object> deleteConsult(Long id);
