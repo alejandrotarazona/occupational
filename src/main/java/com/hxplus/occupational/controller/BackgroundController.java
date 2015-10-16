@@ -30,6 +30,11 @@ public class BackgroundController {
 		return backgroundService.findAll();
 	}
 	
+	@RequestMapping(value="/bypatient/{idpatient}", method= RequestMethod.GET)
+	public @ResponseBody List<Background> listBackgroundsByPatient(@PathVariable("idpatient") Long idpatient){
+		return backgroundService.findByPatientId(idpatient);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Background createBackground(@RequestBody BackgroundRequest backgroundRequest){
 		return backgroundService.saveBackground(backgroundRequest);

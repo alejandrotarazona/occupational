@@ -26,6 +26,13 @@ public class BackgroundServiceImpl implements BackgroundService {
 	public List<Background> findAll() {
 		return backgroundRepository.findAll();
 	}
+	
+	
+
+	@Override
+	public List<Background> findByPatientId(Long idPatient) {
+		return backgroundRepository.findByPatientId(idPatient);
+	}
 
 	@Override
 	public Background saveBackground(BackgroundRequest backgroundRequest) {

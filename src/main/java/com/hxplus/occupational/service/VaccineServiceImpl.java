@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import com.hxplus.occupational.model.Vaccine;
 import com.hxplus.occupational.repositories.VaccineRepository;
 import com.hxplus.occupational.request.VaccineRequest;
+
 @Service
 public class VaccineServiceImpl implements VaccineService {
 
-	@Autowired VaccineRepository vaccineRepository;
-	
+	@Autowired
+	VaccineRepository vaccineRepository;
+
 	@Override
 	public Vaccine findById(Long id) {
 		return vaccineRepository.findOne(id);
@@ -26,8 +28,14 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
+	public List<Vaccine> findByPatientId(Long idPatient) {
+		return vaccineRepository.findByPatientId(idPatient);
+	}
+
+	@Override
 	public Vaccine saveVaccine(VaccineRequest vaccineRequest) {
-		return vaccineRepository.saveAndFlush(fromReq(new Vaccine(), vaccineRequest));
+		return vaccineRepository.saveAndFlush(fromReq(new Vaccine(),
+				vaccineRequest));
 	}
 
 	@Override
@@ -37,16 +45,17 @@ public class VaccineServiceImpl implements VaccineService {
 
 	@Override
 	public ResponseEntity<Object> deleteVaccine(Long id) {
-		try{
+		try {
 			vaccineRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		}catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Vaccine fromReq(Vaccine vaccine, VaccineRequest vaccineRequest){
+
+	private Vaccine fromReq(Vaccine vaccine, VaccineRequest vaccineRequest) {
 		vaccine.setName(vaccineRequest.getName());
 		vaccine.setPotency(vaccineRequest.getPotency());
 		vaccine.setPatient(vaccineRequest.getPatient());

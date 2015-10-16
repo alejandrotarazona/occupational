@@ -13,8 +13,9 @@ import com.hxplus.occupational.request.AllergyRequest;
 
 @Service
 public class AllergyServiceImpl implements AllergyService {
-	
-	@Autowired AllergyRepository allergyRepository;
+
+	@Autowired
+	AllergyRepository allergyRepository;
 
 	@Override
 	public Allergy findById(Long id) {
@@ -27,8 +28,14 @@ public class AllergyServiceImpl implements AllergyService {
 	}
 
 	@Override
+	public List<Allergy> findByPatientId(Long idPatient) {
+		return allergyRepository.findByPatientId(idPatient);
+	}
+
+	@Override
 	public Allergy saveAllergy(AllergyRequest allergyRequest) {
-		return allergyRepository.saveAndFlush(fromReq(new Allergy(), allergyRequest));
+		return allergyRepository.saveAndFlush(fromReq(new Allergy(),
+				allergyRequest));
 	}
 
 	@Override
@@ -38,16 +45,17 @@ public class AllergyServiceImpl implements AllergyService {
 
 	@Override
 	public ResponseEntity<Object> deleteAllergy(Long id) {
-		try{
+		try {
 			allergyRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Allergy fromReq(Allergy allergy, AllergyRequest allergyRequest){
+
+	private Allergy fromReq(Allergy allergy, AllergyRequest allergyRequest) {
 		allergy.setName(allergyRequest.getName());
 		allergy.setDescription(allergyRequest.getDescription());
 		allergy.setSeverity(allergyRequest.getSeverity());

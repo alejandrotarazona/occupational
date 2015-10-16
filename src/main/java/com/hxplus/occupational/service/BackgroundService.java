@@ -11,6 +11,7 @@ public interface BackgroundService {
 	
 	public Background findById(Long id);
 	public List<Background> findAll();
+	public List<Background> findByPatientId(Long idpatient);
 	public Background saveBackground(BackgroundRequest backgroundRequest);
 	public Background updateBackground(Long id, BackgroundRequest backgroundRequest);
 	public ResponseEntity<Object> deleteBackground(Long id);

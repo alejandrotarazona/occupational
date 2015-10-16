@@ -11,6 +11,7 @@ public interface AllergyService {
 
 	public Allergy findById(Long id);
 	public List<Allergy> findAll();
+	public List<Allergy> findByPatientId(Long idPatient);
 	public Allergy saveAllergy(AllergyRequest allergyRequest);
 	public Allergy updateAllergy(Long id, AllergyRequest allergyRequest);
 	public ResponseEntity<Object> deleteAllergy(Long id);

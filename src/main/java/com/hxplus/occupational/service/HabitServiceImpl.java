@@ -14,8 +14,9 @@ import com.hxplus.occupational.request.HabitRequest;
 @Service
 public class HabitServiceImpl implements HabitService {
 
-	@Autowired HabitRepository habitRepository;
-	
+	@Autowired
+	HabitRepository habitRepository;
+
 	@Override
 	public Habit findById(Long id) {
 		return habitRepository.findOne(id);
@@ -24,6 +25,11 @@ public class HabitServiceImpl implements HabitService {
 	@Override
 	public List<Habit> findAll() {
 		return habitRepository.findAll();
+	}
+
+	@Override
+	public List<Habit> findByPatientId(Long idPatient) {
+		return habitRepository.findByPatientId(idPatient);
 	}
 
 	@Override
@@ -39,16 +45,17 @@ public class HabitServiceImpl implements HabitService {
 	@Override
 	public ResponseEntity<Object> deleteHabit(Long id) {
 
-		try{
+		try {
 			habitRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	private Habit fromReq(Habit habit, HabitRequest habitRequest){
+	private Habit fromReq(Habit habit, HabitRequest habitRequest) {
 		habit.setName(habitRequest.getName());
 		habit.setFrecuency(habitRequest.getFrecuency());
 		habit.setPatient(habitRequest.getPatient());

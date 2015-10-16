@@ -30,6 +30,11 @@ public class HabitController {
 		return habitService.findAll();
 	}
 	
+	@RequestMapping(value="/bypatient/{idpatient}", method= RequestMethod.GET)
+	public @ResponseBody List<Habit> listBackgroundsByPatient(@PathVariable("idpatient") Long idpatient){
+		return habitService.findByPatientId(idpatient);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Habit createHabit(@RequestBody HabitRequest habitRequest){
 		return habitService.saveHabit(habitRequest);

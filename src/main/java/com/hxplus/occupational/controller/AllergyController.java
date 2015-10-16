@@ -30,6 +30,11 @@ public class AllergyController {
 		return allergyService.findAll();
 	}
 	
+	@RequestMapping(value="/bypatient/{idpatient}", method= RequestMethod.GET)
+	public @ResponseBody List<Allergy> listBackgroundsByPatient(@PathVariable("idpatient") Long idpatient){
+		return allergyService.findByPatientId(idpatient);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Allergy createAllergy(@RequestBody AllergyRequest allergyRequest){
 		return allergyService.saveAllergy(allergyRequest);

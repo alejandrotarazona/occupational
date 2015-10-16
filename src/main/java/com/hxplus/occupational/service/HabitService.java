@@ -11,6 +11,7 @@ public interface HabitService {
 	
 	public Habit findById(Long id);
 	public List<Habit> findAll();
+	public List<Habit> findByPatientId(Long idPatient);
 	public Habit saveHabit(HabitRequest habitRequest);
 	public Habit updateHabit(Long id, HabitRequest habitRequest);
 	public ResponseEntity<Object> deleteHabit(Long id);

@@ -30,6 +30,11 @@ public class VaccineController {
 		return vaccineService.findAll();
 	}
 	
+	@RequestMapping(value="/bypatient/{idpatient}", method= RequestMethod.GET)
+	public @ResponseBody List<Vaccine> listBackgroundsByPatient(@PathVariable("idpatient") Long idpatient){
+		return vaccineService.findByPatientId(idpatient);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Vaccine createVaccine(@RequestBody VaccineRequest vaccineRequest){
 		return vaccineService.saveVaccine(vaccineRequest);
