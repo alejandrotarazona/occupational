@@ -30,6 +30,11 @@ public class PrescriptionController {
 		return prescriptionService.findAll();
 	}
 	
+	@RequestMapping(value="/byconsult/{id}", method = RequestMethod.GET)
+	public @ResponseBody List<Prescription> getPrescriptions(@PathVariable("id") Long idConsult){
+		return prescriptionService.findByConsultId(idConsult);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Prescription createPrescription(@RequestBody PrescriptionRequest prescriptionRequest){
 		return prescriptionService.savePrescription(prescriptionRequest);

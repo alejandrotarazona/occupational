@@ -6,7 +6,7 @@ public class VitalSignRequest {
 	
 	private Consult consult;
 	private String name;
-	private String descripion;
+	private String description;
 
 	public Consult getConsult() {
 		return consult;
@@ -16,8 +16,8 @@ public class VitalSignRequest {
 		return name;
 	}
 
-	public String getDescripion() {
-		return descripion;
+	public String getDescription() {
+		return description;
 	}
 
 	public void setConsult(Consult consult) {
@@ -28,8 +28,8 @@ public class VitalSignRequest {
 		this.name = name;
 	}
 
-	public void setDescripion(String descripion) {
-		this.descripion = descripion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

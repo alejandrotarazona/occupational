@@ -25,6 +25,11 @@ public class IndicationServiceImpl implements IndicationService {
 	public List<Indication> findAll() {
 		return indicationRepository.findAll();
 	}
+	
+	@Override
+	public Indication findByPrescription(Long idPrescription) {
+		return indicationRepository.findByPrescriptionId(idPrescription);
+	}
 
 	@Override
 	public Indication saveIndication(IndicationRequest indicationRequest) {

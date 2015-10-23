@@ -30,6 +30,11 @@ public class InstructionController {
 		return instructionService.findAll();
 	}
 	
+	@RequestMapping(value="/byconsult/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<Instruction> getInstructions(@PathVariable("id") Long idConsult){
+		return instructionService.findByConsultId(idConsult);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Instruction createInstruction(@RequestBody InstructionRequest instructionRequest){
 		return instructionService.saveInstruction(instructionRequest);

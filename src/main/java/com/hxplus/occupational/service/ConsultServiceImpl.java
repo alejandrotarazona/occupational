@@ -1,6 +1,7 @@
 package com.hxplus.occupational.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +54,11 @@ public class ConsultServiceImpl implements ConsultService {
 	public List<Consult> findAll() {
 		return consultRepository.findAll();
 	}
-	
-	
-	
 
-//	@Override
-//	public List<Consult> findAllByIdHistory(Long idHistory) {
-//		return consultRepository.finfAllByIdHistory(idHistory);
-//	}
+	// @Override
+	// public List<Consult> findAllByIdHistory(Long idHistory) {
+	// return consultRepository.finfAllByIdHistory(idHistory);
+	// }
 
 	@Override
 	public List<Consult> findByIdPatient(Long idPatient) {
@@ -70,48 +68,82 @@ public class ConsultServiceImpl implements ConsultService {
 	@Override
 	public Consult saveConsult(ConsultRequest consultRequest) {
 		Consult consult = fromReq(new Consult(), consultRequest);
+		consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest
+				.getSoapNote()));
+		consult.setConsultDate(new Date());
 		consult = consultRepository.save(consult);
-		
-		List<Prescription> prescriptions = new ArrayList<>();
-		List<Instruction> instructions = new ArrayList<>();
+
+		List<Prescription> prescriptions = new ArrayList<>(); // check
+		List<Instruction> instructions = new ArrayList<>(); // check
 		List<VitalSign> vitalSigns = new ArrayList<>();
-		
+
 		List<File> files = new ArrayList<>();
-		List<Diagnostic> diagnostics = new ArrayList<>();
+		List<Diagnostic> diagnostics = new ArrayList<>(); // check
 		List<Exam> examsRequested = new ArrayList<>();
-		
-		
-		for(PrescriptionRequest prescriptionRequest : consultRequest.getPrescriptions()){
-			prescriptionRequest.setConsult(consult);
-			prescriptions.add(prescriptionService.savePrescription(prescriptionRequest));
+
+		try {
+			for (PrescriptionRequest prescriptionRequest : consultRequest
+					.getPrescriptions()) {
+				prescriptionRequest.setConsult(consult);
+				prescriptions.add(prescriptionService
+						.savePrescription(prescriptionRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No prescripciones");
 		}
-		
-		for(DiagnosticRequest diagnosticRequest : consultRequest.getDiagnostics()){
-			diagnosticRequest.setConsult(consult);
-			diagnostics.add(diagnosticService.saveDiagnostic(diagnosticRequest));
+
+		try {
+			for (DiagnosticRequest diagnosticRequest : consultRequest
+					.getDiagnostics()) {
+				diagnosticRequest.setConsult(consult);
+				diagnostics.add(diagnosticService
+						.saveDiagnostic(diagnosticRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No diagnósticos");
 		}
-		
-		for(InstructionRequest instructionRequest: consultRequest.getInstructions()){
-			instructionRequest.setConsult(consult);
-			instructionRequest.setDiagnostics(diagnostics);
-			instructions.add(instructionService.saveInstruction(instructionRequest));
+
+		try {
+			for (InstructionRequest instructionRequest : consultRequest
+					.getInstructions()) {
+				instructionRequest.setConsult(consult);
+				instructionRequest.setDiagnostics(diagnostics);
+				instructions.add(instructionService
+						.saveInstruction(instructionRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No instrucciones");
 		}
-		
-		for(VitalSignRequest vitalSignRequest: consultRequest.getVitalSigns()){
-			vitalSignRequest.setConsult(consult);
-			vitalSigns.add(vitalSignService.saveVitalSign(vitalSignRequest));
+
+		try {
+			for (VitalSignRequest vitalSignRequest : consultRequest
+					.getVitalSigns()) {
+				vitalSignRequest.setConsult(consult);
+				vitalSigns
+						.add(vitalSignService.saveVitalSign(vitalSignRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No signos vitales");
 		}
-		
-		for(FileRequest fileRequest : consultRequest.getFiles()){
-			fileRequest.setConsult(consult);
-			files.add(fileService.saveFile(fileRequest));
+
+		try {
+			for (FileRequest fileRequest : consultRequest.getFiles()) {
+				fileRequest.setConsult(consult);
+				files.add(fileService.saveFile(fileRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No archivos");
 		}
-		
-		for(ExamRequest examRequest : consultRequest.getRequestExams()){
-			examRequest.setOrdered(consult);
-			examsRequested.add(examService.saveExam(examRequest));
+
+		try {
+			for (ExamRequest examRequest : consultRequest.getRequestExams()) {
+				examRequest.setOrdered(consult);
+				examsRequested.add(examService.saveExam(examRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("No examenes solicitados");
 		}
-		
+
 		return consult;
 	}
 
@@ -137,8 +169,9 @@ public class ConsultServiceImpl implements ConsultService {
 		consult.setDoctor(consultRequest.getDoctor());
 		consult.setPatient(consultRequest.getPatient());
 		consult.setRecieveExams(consultRequest.getRecieveExams());
-		consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest.getSoapNote()));
-		
+
+		System.out.println("Paciente: " + consult.getPatient().getId());
+
 		return consult;
 	}
 

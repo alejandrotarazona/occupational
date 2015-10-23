@@ -37,6 +37,7 @@ public class Diagnostic implements Serializable {
 		return id;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idconsult", referencedColumnName = "id")
 	public Consult getConsult() {

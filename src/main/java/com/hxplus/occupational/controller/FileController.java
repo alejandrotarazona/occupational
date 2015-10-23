@@ -16,32 +16,50 @@ import com.hxplus.occupational.request.FileRequest;
 import com.hxplus.occupational.service.FileService;
 
 @Controller
-@RequestMapping(value="file")
+@RequestMapping(value = "file")
 public class FileController {
-	@Autowired FileService fileService;
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public @ResponseBody File getFile(@PathVariable("id") Long id){
+	@Autowired
+	FileService fileService;
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	File getFile(@PathVariable("id") Long id) {
 		return fileService.findById(id);
 	}
-	
-	@RequestMapping(value="", method= RequestMethod.GET)
-	public @ResponseBody List<File> getFiles(){
+
+	@RequestMapping(value = "/byexam/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	File getFileByExam(@PathVariable("id") Long idExam) {
+		return fileService.findByExam(idExam);
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public @ResponseBody
+	List<File> getFiles() {
 		return fileService.findAll();
 	}
-	
-	@RequestMapping(value="",method=RequestMethod.POST)
-	public @ResponseBody File createFile(@RequestBody FileRequest fileRequest){
+
+	@RequestMapping(value="/byconsult/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<File> getFilesByConsult(@PathVariable("id") Long idConsult){
+		return fileService.findByConsult(idConsult);
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public @ResponseBody
+	File createFile(@RequestBody FileRequest fileRequest) {
 		return fileService.saveFile(fileRequest);
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public @ResponseBody File updateFile(@PathVariable("id") Long id, @RequestBody FileRequest fileRequest){
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public @ResponseBody
+	File updateFile(@PathVariable("id") Long id,
+			@RequestBody FileRequest fileRequest) {
 		return fileService.updateFile(id, fileRequest);
 	}
-	
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<Object> deleteFile(@PathVariable("id") Long id){
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody
+	ResponseEntity<Object> deleteFile(@PathVariable("id") Long id) {
 		return fileService.deleteFile(id);
 	}
 }

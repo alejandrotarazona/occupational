@@ -22,8 +22,18 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
+	public File findByExam(Long idExam) {
+		return fileRepository.findByExamId(idExam);
+	}
+
+	@Override
 	public List<File> findAll() {
 		return fileRepository.findAll();
+	}
+
+	@Override
+	public List<File> findByConsult(Long idConsult) {
+		return fileRepository.findByConsultId(idConsult);
 	}
 
 	@Override

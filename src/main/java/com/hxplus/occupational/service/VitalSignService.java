@@ -11,6 +11,7 @@ public interface VitalSignService {
 	
 	public VitalSign findById(Long id);
 	public List<VitalSign> findAll();
+	public List<VitalSign> findByConsultId(Long idConsult);
 	public List<VitalSign> findAllNames();
 	public VitalSign saveVitalSign(VitalSignRequest vitalSignRequest);
 	public VitalSign updateVitalSign(Long id, VitalSignRequest vitalSignRequest);

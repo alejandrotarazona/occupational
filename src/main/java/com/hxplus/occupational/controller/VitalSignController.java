@@ -30,6 +30,11 @@ public class VitalSignController {
 		return vitalSignService.findAll();
 	}
 	
+	@RequestMapping(value="/byconsult/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<VitalSign> getVitalSignByConsult(@PathVariable("id") Long idConsult){
+		return vitalSignService.findByConsultId(idConsult);
+	}
+	
 	@RequestMapping(value="/names", method=RequestMethod.GET)
 	public @ResponseBody List<VitalSign> getVitalSignsNames(){
 		return vitalSignService.findAllNames();

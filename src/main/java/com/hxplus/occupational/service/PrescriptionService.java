@@ -11,6 +11,7 @@ public interface PrescriptionService {
 	
 	public Prescription findById(Long id);
 	public List<Prescription> findAll();
+	public List<Prescription> findByConsultId(Long idConsult);
 	public Prescription savePrescription(PrescriptionRequest prescriptionRequest);
 	public Prescription updatePrescription(Long id, PrescriptionRequest prescriptionRequest);
 	public ResponseEntity<Object> deletePrescription(Long id);

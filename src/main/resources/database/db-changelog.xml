@@ -30,6 +30,8 @@
 			<column name="rif" type="BIGINT" />
 			<column name="firstName" type="VARCHAR(255)" />
 			<column name="lastName" type="VARCHAR(255)" />
+			<column name="sex" type="VARCHAR(1)"/>
+			<column name="birthdate" type="DATETIME"/>
 			<column name="email" type="VARCHAR(255)" />
 			<column name="address" type="VARCHAR(255)" />
 			<column name="phoneNumber" type="VARCHAR(255)" />
@@ -257,7 +259,7 @@
 			</not>
 		</preConditions>
 		<createTable tableName="vitalsign">
-			<column name="id" type="BIGINT">
+			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_vitalsign" />
 			</column>
@@ -294,13 +296,13 @@
 			</not>
 		</preConditions>
 		<createTable tableName="file">
-			<column name="id" type="BIGINT">
+			<column name="id" type="BIGINT" autoIncrement="true">
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_file" />
 			</column>
 			<column name="idconsult" type="BIGINT"></column>
 			<column name="filename" type="VARCHAR(255)" />
-			<column name="file" type="BLOB" />
+			<column name="filedata" type="BLOB" />
 		</createTable>
 	</changeSet>
 
@@ -431,7 +433,7 @@
 					primaryKeyName="pk_exam" />
 			</column>
 			<column name="ordered" type="BIGINT" />
-			<column name="recieved" type="BIGINT" />
+			<!-- column name="recieved" type="BIGINT" /-->
 			<column name="type" type="VARCHAR(255)" />
 			<column name="results" type="BIGINT" />
 			<!-- Falta Lista de Diagnósticos -->
@@ -517,8 +519,8 @@
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_exam__recieve"
-			referencedTableName="exam" baseColumnNames="idexam" baseTableName="recieve_exam"
-			referencedColumnNames="id" />
+			referencedTableName="exam" baseColumnNames="idexam" 
+			baseTableName="recieve_exam" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_consult__recieve"
 			referencedTableName="consult" baseColumnNames="idconsult"
 			baseTableName="recieve_exam" referencedColumnNames="id" />

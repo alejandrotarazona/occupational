@@ -11,6 +11,7 @@ public interface IndicationService {
 
 	public Indication findById(Long id);
 	public List<Indication> findAll();
+	public Indication findByPrescription(Long idPrescription);
 	public Indication saveIndication(IndicationRequest indicationRequest);
 	public Indication updateIndication(Long id, IndicationRequest indicationRequest);
 	public ResponseEntity<Object> deleteIndication(Long id);

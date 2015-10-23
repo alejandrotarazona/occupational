@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "instruction")
@@ -36,6 +37,7 @@ public class Instruction {
 		return instruction;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idconsult", referencedColumnName = "id")
 	@JsonBackReference
@@ -43,6 +45,7 @@ public class Instruction {
 		return consult;
 	}
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "have_inst", inverseJoinColumns = @JoinColumn(name = "iddiagnstic", referencedColumnName = "idconsult"), joinColumns = @JoinColumn(name = "idinstruction", referencedColumnName = "id"))
 	public List<Diagnostic> getDiagnostics() {

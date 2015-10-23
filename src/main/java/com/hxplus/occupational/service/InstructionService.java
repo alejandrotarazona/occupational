@@ -12,6 +12,7 @@ public interface InstructionService {
 
 	public Instruction findById(Long id);
 	public List<Instruction> findAll();
+	public List<Instruction> findByConsultId(Long idConsult);
 	public Instruction saveInstruction(InstructionRequest instructionRequest);
 	public Instruction updateInstruction(Long id, InstructionRequest instructionRequest);
 	public ResponseEntity<Object> deleteInstruction(Long id);

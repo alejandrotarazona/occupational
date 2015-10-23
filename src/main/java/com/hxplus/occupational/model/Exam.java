@@ -1,6 +1,5 @@
 package com.hxplus.occupational.model;
 
-import java.io.File;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "exam")
@@ -31,14 +33,18 @@ public class Exam {
 		return id;
 	}
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idconsult", referencedColumnName = "id")
+	@JoinColumn(name = "ordered", referencedColumnName = "id")
 	public Consult getOrdered() {
 		return ordered;
 	}
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "recieve_exam", inverseJoinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false) }, joinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false) })
+	@JoinTable(name = "recieve_exam", 
+			joinColumns = { @JoinColumn(name = "idexam", referencedColumnName ="id", nullable = false, updatable = false)},
+			inverseJoinColumns = { @JoinColumn(name = "idconsult", referencedColumnName ="id", nullable = false, updatable = false) })
 	public List<Consult> getReceived() {
 		return received;
 	}
@@ -48,7 +54,8 @@ public class Exam {
 		return type;
 	}
 
-	@Column(name = "results")
+	@OneToOne
+	@JoinColumn(name = "results", referencedColumnName = "id")
 	public File getResults() {
 		return results;
 	}

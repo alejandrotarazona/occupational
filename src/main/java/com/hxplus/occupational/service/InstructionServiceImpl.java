@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.hxplus.occupational.model.Instruction;
 import com.hxplus.occupational.repositories.InstructionRepository;
 import com.hxplus.occupational.request.InstructionRequest;
+
 @Service
 public class InstructionServiceImpl implements InstructionService {
-	
-	@Autowired InstructionRepository instructionRepository;
+
+	@Autowired
+	InstructionRepository instructionRepository;
 
 	@Override
 	public Instruction findById(Long id) {
@@ -26,31 +28,43 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public Instruction saveInstruction(InstructionRequest instructionRequest) {
-		return instructionRepository.save(fromReq(new Instruction(), instructionRequest));
+	public List<Instruction> findByConsultId(Long idConsult) {
+		System.out.println("Consult ID: "+ idConsult);
+		List<Instruction> instructions = instructionRepository.findByConsultId(idConsult);
+		return instructions;
 	}
 
 	@Override
-	public Instruction updateInstruction(Long id, InstructionRequest instructionRequest) {
-		return instructionRepository.save(fromReq(findById(id), instructionRequest));
+	public Instruction saveInstruction(InstructionRequest instructionRequest) {
+		return instructionRepository.save(fromReq(new Instruction(),
+				instructionRequest));
+	}
+
+	@Override
+	public Instruction updateInstruction(Long id,
+			InstructionRequest instructionRequest) {
+		return instructionRepository.save(fromReq(findById(id),
+				instructionRequest));
 	}
 
 	@Override
 	public ResponseEntity<Object> deleteInstruction(Long id) {
-		try{
+		try {
 			instructionRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Instruction fromReq(Instruction instruction, InstructionRequest instructionRequest){
+
+	private Instruction fromReq(Instruction instruction,
+			InstructionRequest instructionRequest) {
 		instruction.setInstruction(instructionRequest.getInstruction());
 		instruction.setDiagnostics(instructionRequest.getDiagnostics());
 		instruction.setConsult(instructionRequest.getConsult());
-		
+
 		return instruction;
 	}
 }

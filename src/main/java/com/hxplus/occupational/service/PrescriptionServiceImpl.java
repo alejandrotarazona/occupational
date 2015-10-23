@@ -29,6 +29,11 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	public List<Prescription> findAll() {
 		return prescriptionRepository.findAll();
 	}
+	
+	@Override
+	public List<Prescription> findByConsultId(Long idConsult) {
+		return prescriptionRepository.findByConsultId(idConsult);
+	}
 
 	@Override
 	public Prescription savePrescription(PrescriptionRequest prescriptionRequest) {

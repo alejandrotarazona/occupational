@@ -47,14 +47,20 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 				new Diagnostic(), diagnosticRequest));
 
 		List<Instruction> instructions = new ArrayList<>();
+		
+		try{
+			for (InstructionRequest instructionRequest : diagnosticRequest
+					.getInstructions()) {
+				instructions.add(instructionService
+						.saveInstruction(instructionRequest));
+			}
 
-		for (InstructionRequest instructionRequest : diagnosticRequest
-				.getInstructions()) {
-			instructions.add(instructionService
-					.saveInstruction(instructionRequest));
+			diagnostic.setInstructions(instructions);			
+		} catch (Exception e){
+			System.out.println("No instrucciones");
+			return null;
 		}
 
-		diagnostic.setInstructions(instructions);
 
 		return diagnosticRepository.save(diagnostic);
 	}

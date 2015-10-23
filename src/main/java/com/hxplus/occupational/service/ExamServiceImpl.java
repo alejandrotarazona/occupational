@@ -7,13 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Exam;
 import com.hxplus.occupational.repositories.ExamRepository;
 import com.hxplus.occupational.request.ExamRequest;
+
 @Service
 public class ExamServiceImpl implements ExamService {
-	
-	@Autowired ExamRepository examRepository;
+
+	@Autowired
+	ExamRepository examRepository;
+	@Autowired
+	ConsultService consultService;
 
 	@Override
 	public Exam findById(Long id) {
@@ -23,6 +28,22 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public List<Exam> findAll() {
 		return examRepository.findAll();
+	}
+
+	@Override
+	public List<Exam> findPendingByPatient(Long idPatient) {
+		return examRepository.findPendingByPatientId(idPatient);
+	}
+
+	@Override
+	public List<Exam> findRequestedByConsult(Long idConsult) {
+		Consult consult = consultService.findById(idConsult);
+		return examRepository.findByOrdered(consult);
+	}
+
+	@Override
+	public List<Exam> findRecievedByConsult(Long idConsult) {
+		return examRepository.findByReceived(consultService.findById(idConsult));
 	}
 
 	@Override
@@ -37,19 +58,19 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public ResponseEntity<Object> deleteExam(Long id) {
-		try{
+		try {
 			examRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	private Exam fromReq(Exam exam, ExamRequest examRequest){
+
+	private Exam fromReq(Exam exam, ExamRequest examRequest) {
 		exam.setOrdered(examRequest.getOrdered());
 		exam.setReceived(examRequest.getReceived());
-		exam.setResults(examRequest.getResults());
 		exam.setType(examRequest.getType());
 		return exam;
 	}

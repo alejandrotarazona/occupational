@@ -1,6 +1,7 @@
 package com.hxplus.occupational.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends BaseEntity implements Serializable{
+public class User extends BaseEntity implements Serializable {
 
 	/**
 	 * 
@@ -37,6 +38,8 @@ public class User extends BaseEntity implements Serializable{
 	private Long rif;
 	private String firstName;
 	private String lastName;
+	private String sex;
+	private Date birthDate;
 	private String address;
 	private String phoneNumber;
 	private String email;
@@ -81,6 +84,14 @@ public class User extends BaseEntity implements Serializable{
 		return lastName;
 	}
 
+	public String getSex() {
+		return sex;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
 	@Column(name = "address")
 	public String getAddress() {
 		return address;
@@ -103,7 +114,7 @@ public class User extends BaseEntity implements Serializable{
 	public CostCenter getWorks() {
 		return works;
 	}
-	
+
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcompany", referencedColumnName = "id")
@@ -111,17 +122,17 @@ public class User extends BaseEntity implements Serializable{
 	public Company getEmployer() {
 		return employer;
 	}
-	
+
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-	@JoinColumn(name="idpost", referencedColumnName = "id")
+	@JoinColumn(name = "idpost", referencedColumnName = "id")
 	@JsonBackReference
-	public Post getPost(){
+	public Post getPost() {
 		return post;
 	}
-	
+
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE, mappedBy="user")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "user")
 	@JsonManagedReference
 	public List<Contract> getContracts() {
 		return contracts;
@@ -155,6 +166,14 @@ public class User extends BaseEntity implements Serializable{
 		this.lastName = lastName;
 	}
 
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -174,17 +193,17 @@ public class User extends BaseEntity implements Serializable{
 	public void setEmployer(Company employer) {
 		this.employer = employer;
 	}
-	
-	public void setPost(Post post){
+
+	public void setPost(Post post) {
 		this.post = post;
 	}
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
 	}
-	
-	public String toString(){
-		return "Id: "+id+"\n\tUsername: "+ username;
+
+	public String toString() {
+		return "Id: " + id + "\n\tUsername: " + username;
 	}
 
 }

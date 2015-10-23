@@ -30,6 +30,11 @@ public class IndicationController {
 		return indicationService.findAll();
 	}
 	
+	@RequestMapping(value="/byprescription/{id}", method=RequestMethod.GET)
+	public @ResponseBody Indication getIndicationsByPrescription(@PathVariable("id") Long idPrescription){
+		return indicationService.findByPrescription(idPrescription);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Indication createIndication(@RequestBody IndicationRequest indicationRequest){
 		return indicationService.saveIndication(indicationRequest);

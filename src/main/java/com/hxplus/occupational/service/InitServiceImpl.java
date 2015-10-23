@@ -3,7 +3,11 @@ package com.hxplus.occupational.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,12 +239,12 @@ public class InitServiceImpl implements InitService {
 			try {
 				guardados.add(savePatient(patient));
 			} catch (IllegalStateException ise) {
-				//System.out.println("\t\t\t" + ise.getLocalizedMessage());
-				//System.out.println("\t\t\tError guardando paciente. Procediendo a updatearlo");
+				// System.out.println("\t\t\t" + ise.getLocalizedMessage());
+				// System.out.println("\t\t\tError guardando paciente. Procediendo a updatearlo");
 				guardados.add(updatePatient(patient));
 			} catch (LazyInitializationException lie) {
-				//System.out.println("\t\t\t" + lie.getLocalizedMessage());
-				//System.out.println("\t\t\tError inicializando algo en el paciente. Procediendo a updatearlo");
+				// System.out.println("\t\t\t" + lie.getLocalizedMessage());
+				// System.out.println("\t\t\tError inicializando algo en el paciente. Procediendo a updatearlo");
 				guardados.add(updatePatient(patient));
 			}
 		}
@@ -496,6 +500,8 @@ public class InitServiceImpl implements InitService {
 		User ale = createUser("Alejandro", "Tarazona", "atarazona", "4242",
 				posts.get((int) (Math.random() * posts.size())));
 		ale.setId(Long.valueOf(1));
+		ale.setSex("M");
+		ale.setBirthDate(new GregorianCalendar(1989, 2, 10).getTime());
 		users.add(ale);
 
 		for (int i = 0; i < firstnames.length; i++) {
@@ -515,7 +521,13 @@ public class InitServiceImpl implements InitService {
 		User user = new User();
 		List<CostCenter> costCenters = costCenterRepository.findByPost(post);
 		Company company = companyRepository.findByPost(post);
+		String[] sex = { "M", "F" };
+		int o = (int) (Math.random() * 2);
+		int year = 1970 + ((int) (Math.random() * 46)), month = (int) (Math
+				.random() * 12), day = (int) (Math.random() * 30);
 
+		user.setBirthDate(new GregorianCalendar(year, month, day).getTime());
+		user.setSex(sex[o]);
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
 		user.setEmail(username + "@hxplus.com");
@@ -669,12 +681,19 @@ public class InitServiceImpl implements InitService {
 		 */
 		Consult newConsult = consult;
 		SoapNote soapNote = consult.getSoapNote();
+		List<VitalSign> vitalSigns = new ArrayList<>();
 		// List<VitalSign> vitalSigns = consult.getVitalSigns(), newVitalSigns =
 		// new ArrayList<>();
 
 		try {
 			consult.setSoapNote(soapNoteRepository.saveAndFlush(soapNote));
 			newConsult = consultRepository.saveAndFlush(consult);
+			vitalSigns = consult.getVitalSigns();
+			saveVitalSigns(newConsult, vitalSigns);
+		} catch (NullPointerException ex) {
+			System.out.println("Error de nulidad");
+			if (vitalSigns != null)
+				System.out.println("Nulidad en la lista de vitalsigns");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("\t\t\tError en el guardado de la consulta");
@@ -696,6 +715,18 @@ public class InitServiceImpl implements InitService {
 		 * newConsult.setVitalSigns(newVitalSigns);
 		 */
 		return newConsult;
+	}
+
+	private void saveVitalSigns(Consult consult, List<VitalSign> vitalSigns)
+			throws NullPointerException {
+		//System.out.println("\t\tConsulta: " +consult.getId());
+		for (VitalSign vitalSign : vitalSigns) {
+			//System.out.println("\t\tVitalSign: "+ vitalSign.getConsult().getId() + "\t"+ vitalSign.getName() + "\t" + vitalSign.getDescripion());
+			vitalSign.setConsult(consult);
+			vitalSign = vitalSignRepository.save(vitalSign);
+			//System.out.println("\t\tId: "+ vitalSign.getId());
+			vitalSignRepository.flush();
+		}
 	}
 
 	private List<Consult> listConsults(Doctor doctor) {
@@ -732,6 +763,7 @@ public class InitServiceImpl implements InitService {
 		consult.setConsultDate(consultDate);
 		// System.out.println(consultDate.toString());
 		consult.setSoapNote(createSoapNote());
+		consult.setVitalSigns(listVitalSigns(consult));
 
 		// consult.setVitalSigns(listVitalSigns());
 
@@ -750,11 +782,18 @@ public class InitServiceImpl implements InitService {
 
 	}
 
-	private List<VitalSign> listVitalSigns() {
+	private List<VitalSign> listVitalSigns(Consult consult) {
 		List<VitalSign> vitalSigns = new ArrayList<>();
+		Set<String> vitalSignsSet = new TreeSet<>();
 
-		for (int i = 0; i < vitalSignNames.length; i++) {
-			vitalSigns.add(createVitalSign(vitalSignNames[i]));
+		vitalSignsSet.addAll(Arrays.asList(vitalSignNames));
+		int cota = (int) (Math.random() * vitalSignNames.length)%7;
+		Iterator<String> it = vitalSignsSet.iterator();
+
+		for (int i = 0; i < cota && it.hasNext(); i++) {
+			VitalSign vitalSign = createVitalSign(it.next());
+			vitalSign.setConsult(consult);
+			vitalSigns.add(vitalSign);
 			// System.out.println(vitalSignNames[i]);
 		}
 
@@ -764,7 +803,7 @@ public class InitServiceImpl implements InitService {
 	private VitalSign createVitalSign(String name) {
 		VitalSign vitalSign = new VitalSign();
 		vitalSign.setName(name);
-		vitalSign.setDescripion("NADA");
+		vitalSign.setDescription("NADA");
 		return vitalSign;
 	}
 }

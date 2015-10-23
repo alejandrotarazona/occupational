@@ -30,6 +30,21 @@ public class ExamController {
 		return examService.findAll();
 	}
 	
+	@RequestMapping(value="/pending/bypatient/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<Exam> getPendingExams(@PathVariable("id") Long idPatient){
+		return examService.findPendingByPatient(idPatient);
+	}
+	
+	@RequestMapping(value="/requested/byconsult/{id}", method= RequestMethod.GET)
+	public @ResponseBody List<Exam> findRequestedByConsult(@PathVariable("id") Long idConsult){
+		return examService.findRequestedByConsult(idConsult);
+	}
+	
+	@RequestMapping(value="/received/byconsult/{id}", method= RequestMethod.GET)
+	public @ResponseBody List<Exam> findRecievedByConsult(@PathVariable("id") Long idConsult){
+		return examService.findRecievedByConsult(idConsult);
+	}
+	
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public @ResponseBody Exam createExam(@RequestBody ExamRequest examRequest){
 		return examService.saveExam(examRequest);

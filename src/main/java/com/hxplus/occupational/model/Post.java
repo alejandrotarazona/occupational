@@ -58,9 +58,8 @@ public class Post {
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "havepost", 
-	joinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false,referencedColumnName="id") }, 
-	inverseJoinColumns = { @JoinColumn(name = "idcostcenter", nullable = false, updatable = false, referencedColumnName= "id")}
-	)
+		joinColumns = { @JoinColumn(name = "idpost", nullable = false, updatable = false,referencedColumnName="id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "idcostcenter", nullable = false, updatable = false, referencedColumnName= "id")})
 	public List<CostCenter> getCostCenters() {
 		return costCenters;
 	}

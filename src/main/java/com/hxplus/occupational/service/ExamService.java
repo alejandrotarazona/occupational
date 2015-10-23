@@ -11,6 +11,9 @@ public interface ExamService {
 
 	public Exam findById(Long id);
 	public List<Exam> findAll();
+	public List<Exam> findPendingByPatient(Long idPatient);
+	public List<Exam> findRequestedByConsult(Long idConsult);
+	public List<Exam> findRecievedByConsult(Long idConsult);
 	public Exam saveExam(ExamRequest examRequest);
 	public Exam updateExam(Long id, ExamRequest examRequest);
 	public ResponseEntity<Object> deleteExam(Long id);
