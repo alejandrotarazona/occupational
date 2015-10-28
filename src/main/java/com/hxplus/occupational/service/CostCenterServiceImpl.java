@@ -31,13 +31,7 @@ public class CostCenterServiceImpl implements CostCenterService {
 
 	@Override
 	public CostCenter findByUserId(Long userId) {
-		CostCenter costCenter = costCenterRepository.findByUser(userService
-				.findById(userId));
-
-		System.out.println("Cost Center recuperado: " + costCenter.getId()
-				+ "\nDirección: " + costCenter.getAddress());
-
-		return costCenter;
+		return costCenterRepository.findByUser(userService.findById(userId));
 	}
 
 	@Override

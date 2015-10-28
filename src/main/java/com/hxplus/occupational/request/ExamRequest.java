@@ -3,13 +3,14 @@ package com.hxplus.occupational.request;
 import java.util.List;
 
 import com.hxplus.occupational.model.Consult;
+import com.hxplus.occupational.model.File;
 
 public class ExamRequest {
 
 	private Consult ordered;
 	private List<Consult> received;
 	private String type;
-	private FileRequest results;
+	private File results;
 
 	public Consult getOrdered() {
 		return ordered;
@@ -23,7 +24,7 @@ public class ExamRequest {
 		return type;
 	}
 
-	public FileRequest getResults() {
+	public File getResults() {
 		return results;
 	}
 
@@ -39,7 +40,7 @@ public class ExamRequest {
 		this.type = type;
 	}
 
-	public void setResults(FileRequest results) {
+	public void setResults(File results) {
 		this.results = results;
 	}
 

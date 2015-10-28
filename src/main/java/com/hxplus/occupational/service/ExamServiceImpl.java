@@ -53,7 +53,15 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public Exam updateExam(Long id, ExamRequest examRequest) {
-		return examRepository.save(fromReq(findById(id), examRequest));
+		
+		Exam exam = examRepository.findOne(id);
+		exam.setResults(examRequest.getResults());
+		
+		Exam newExam = examRepository.save(exam);
+		
+		System.out.println("Examen updateado:\n\tId: "+ newExam.getId() + "\n\tResults Id: " + newExam.getResults().getId());
+		
+		return newExam;
 	}
 
 	@Override

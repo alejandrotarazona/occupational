@@ -67,11 +67,17 @@ public class ConsultServiceImpl implements ConsultService {
 
 	@Override
 	public Consult saveConsult(ConsultRequest consultRequest) {
-		Consult consult = fromReq(new Consult(), consultRequest);
-		consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest
-				.getSoapNote()));
+		Consult consult = fromReq(new Consult(), consultRequest), newConsult;
+
+		try {
+			consult.setSoapNote(soapNoteService.saveSoapNote(consultRequest
+					.getSoapNote()));
+		} catch (Exception ex) {
+			System.out.println("Error en SOAPnote");
+		}
+
 		consult.setConsultDate(new Date());
-		consult = consultRepository.save(consult);
+		newConsult = consultRepository.save(consult);
 
 		List<Prescription> prescriptions = new ArrayList<>(); // check
 		List<Instruction> instructions = new ArrayList<>(); // check
@@ -79,12 +85,31 @@ public class ConsultServiceImpl implements ConsultService {
 
 		List<File> files = new ArrayList<>();
 		List<Diagnostic> diagnostics = new ArrayList<>(); // check
-		List<Exam> examsRequested = new ArrayList<>();
+		List<Exam> examsRequested = new ArrayList<>(), examsRecieved = new ArrayList<>();
+
+		try {
+			for (Exam exam : consultRequest.getRecieveExams()) {
+				List<Consult> recievedAt = new ArrayList<>();
+				recievedAt.add(newConsult);
+				exam.setReceived(recievedAt);
+				
+				ExamRequest examRequest = new ExamRequest();
+				examRequest.setReceived(recievedAt);
+				examRequest.setResults(exam.getResults());
+				
+				System.out.println("Examen:\n\tID: " + exam.getId()+ "\n\tResults ID: "+exam.getResults().getId());
+				
+				examsRecieved.add(examService.updateExam(exam.getId(), examRequest));
+			}
+		} catch (Exception ex) {
+			System.out.println("Error con los recibidos");
+			ex.printStackTrace();
+		}
 
 		try {
 			for (PrescriptionRequest prescriptionRequest : consultRequest
 					.getPrescriptions()) {
-				prescriptionRequest.setConsult(consult);
+				prescriptionRequest.setConsult(newConsult);
 				prescriptions.add(prescriptionService
 						.savePrescription(prescriptionRequest));
 			}
@@ -95,7 +120,7 @@ public class ConsultServiceImpl implements ConsultService {
 		try {
 			for (DiagnosticRequest diagnosticRequest : consultRequest
 					.getDiagnostics()) {
-				diagnosticRequest.setConsult(consult);
+				diagnosticRequest.setConsult(newConsult);
 				diagnostics.add(diagnosticService
 						.saveDiagnostic(diagnosticRequest));
 			}
@@ -106,7 +131,7 @@ public class ConsultServiceImpl implements ConsultService {
 		try {
 			for (InstructionRequest instructionRequest : consultRequest
 					.getInstructions()) {
-				instructionRequest.setConsult(consult);
+				instructionRequest.setConsult(newConsult);
 				instructionRequest.setDiagnostics(diagnostics);
 				instructions.add(instructionService
 						.saveInstruction(instructionRequest));
@@ -118,7 +143,7 @@ public class ConsultServiceImpl implements ConsultService {
 		try {
 			for (VitalSignRequest vitalSignRequest : consultRequest
 					.getVitalSigns()) {
-				vitalSignRequest.setConsult(consult);
+				vitalSignRequest.setConsult(newConsult);
 				vitalSigns
 						.add(vitalSignService.saveVitalSign(vitalSignRequest));
 			}
@@ -128,7 +153,7 @@ public class ConsultServiceImpl implements ConsultService {
 
 		try {
 			for (FileRequest fileRequest : consultRequest.getFiles()) {
-				fileRequest.setConsult(consult);
+				fileRequest.setConsult(newConsult);
 				files.add(fileService.saveFile(fileRequest));
 			}
 		} catch (Exception ex) {
@@ -137,14 +162,14 @@ public class ConsultServiceImpl implements ConsultService {
 
 		try {
 			for (ExamRequest examRequest : consultRequest.getRequestExams()) {
-				examRequest.setOrdered(consult);
+				examRequest.setOrdered(newConsult);
 				examsRequested.add(examService.saveExam(examRequest));
 			}
 		} catch (Exception ex) {
 			System.out.println("No examenes solicitados");
 		}
 
-		return consult;
+		return newConsult;
 	}
 
 	@Override

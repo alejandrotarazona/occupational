@@ -2,6 +2,7 @@ package com.hxplus.occupational.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,7 +55,7 @@ public class Exam {
 		return type;
 	}
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "results", referencedColumnName = "id")
 	public File getResults() {
 		return results;

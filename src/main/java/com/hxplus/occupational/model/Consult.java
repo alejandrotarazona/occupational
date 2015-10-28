@@ -121,7 +121,7 @@ public class Consult implements Serializable {
 	}
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinTable(name = "recieve_exam", 
 		joinColumns = { @JoinColumn(name = "idconsult", nullable = false, updatable = false, referencedColumnName = "id") }, 
 		inverseJoinColumns = { @JoinColumn(name = "idexam", nullable = false, updatable = false, referencedColumnName = "id") })

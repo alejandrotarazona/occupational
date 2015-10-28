@@ -29,9 +29,8 @@ public class InstructionServiceImpl implements InstructionService {
 
 	@Override
 	public List<Instruction> findByConsultId(Long idConsult) {
-		System.out.println("Consult ID: "+ idConsult);
-		List<Instruction> instructions = instructionRepository.findByConsultId(idConsult);
-		return instructions;
+//		System.out.println("Consult ID: "+ idConsult);
+		return instructionRepository.findByConsultId(idConsult);
 	}
 
 	@Override

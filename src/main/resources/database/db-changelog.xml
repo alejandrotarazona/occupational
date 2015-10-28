@@ -302,7 +302,7 @@
 			</column>
 			<column name="idconsult" type="BIGINT"></column>
 			<column name="filename" type="VARCHAR(255)" />
-			<column name="filedata" type="BLOB" />
+			<column name="filedata" type="LONGBLOB" />
 		</createTable>
 	</changeSet>
 

@@ -32,7 +32,7 @@ public class SoapNoteServiceImpl implements SoapNoteService {
 	@Override
 	public SoapNote saveSoapNote(SoapNoteRequest soapNoteRequest) {
 		return soapNoteRepository
-				.save(fromReq(new SoapNote(), soapNoteRequest));
+				.saveAndFlush(fromReq(new SoapNote(), soapNoteRequest));
 	}
 
 	@Override
