@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
 import com.hxplus.occupational.model.File;
 import com.hxplus.occupational.repositories.FileRepository;
@@ -17,8 +18,13 @@ public class FileServiceImpl implements FileService {
 	FileRepository fileRepository;
 
 	@Override
-	public File findById(Long id) {
-		return fileRepository.findOne(id);
+	public byte[] findById(Long id) {
+		byte[] bs = SerializationUtils.serialize(fileRepository.findOne(id));
+		
+		System.out.println("Byte Array:");
+		System.out.println(bs);
+		
+		return bs;
 	}
 
 	@Override
@@ -38,12 +44,18 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public File saveFile(FileRequest fileRequest) {
-		return fileRepository.save(fromReq(new File(), fileRequest));
+		File file = fromReq(new File(), fileRequest);
+		String path = "/home/atarazona/Documents/eclipse/",
+				absPath = file.getFile().getAbsolutePath(),
+				newPath = absPath.replace(path, "");
+		
+		
+		return fileRepository.save(file);
 	}
 
 	@Override
-	public File updateFile(Long id, FileRequest fileRequest) {
-		return fileRepository.save(fromReq(findById(id), fileRequest));
+	public File updateFile(Long id, FileRequest fileRequest) {		
+		return fileRepository.save(fromReq(fileRepository.findOne(id), fileRequest));
 	}
 
 	@Override
@@ -62,6 +74,7 @@ public class FileServiceImpl implements FileService {
 		file.setConsult(fileRequest.getConsult());
 		file.setFile(fileRequest.getFile());
 		file.setFileName(fileRequest.getFileName());
+		file.setType(fileRequest.getType());
 		return file;
 	}
 

@@ -9,7 +9,7 @@ import com.hxplus.occupational.request.FileRequest;
 
 public interface FileService {
 	
-	public File findById(Long id);
+	public byte[] findById(Long id);
 	public File findByExam(Long idExam);
 	public List<File> findAll();
 	public List<File> findByConsult(Long idConsult);

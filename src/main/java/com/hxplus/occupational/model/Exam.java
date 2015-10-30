@@ -55,7 +55,8 @@ public class Exam {
 		return type;
 	}
 
-	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "results", referencedColumnName = "id")
 	public File getResults() {
 		return results;

@@ -8,6 +8,7 @@ public class FileRequest {
 
 	private Consult consult;
 	private String fileName;
+	private String type;
 	private File file;
 
 	public Consult getConsult() {
@@ -16,6 +17,10 @@ public class FileRequest {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	public File getFile() {
@@ -28,6 +33,10 @@ public class FileRequest {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setFile(File file) {

@@ -39,7 +39,7 @@ public class Consult implements Serializable {
 	private List<Instruction> instructions;
 	private List<VitalSign> vitalSigns;
 	private SoapNote soapNote;
-	private List<File> files;
+	//private List<File> files;
 	private List<Diagnostic> diagnostics;
 	private List<Exam> requestExams;
 	private List<Exam> recieveExams;
@@ -99,13 +99,13 @@ public class Consult implements Serializable {
 		return soapNote;
 	}
 
-	@JsonIgnore
+/*	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
 	@JsonManagedReference
 	public List<File> getFiles() {
 		return files;
 	}
-
+*/
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "consult")
 	@JsonManagedReference
@@ -161,10 +161,10 @@ public class Consult implements Serializable {
 		this.soapNote = soapNote;
 	}
 
-	public void setFiles(List<File> files) {
+/*	public void setFiles(List<File> files) {
 		this.files = files;
 	}
-
+*/
 	public void setDiagnostics(List<Diagnostic> diagnostics) {
 		this.diagnostics = diagnostics;
 	}

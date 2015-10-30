@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Diagnostic;
 import com.hxplus.occupational.model.Exam;
-import com.hxplus.occupational.model.File;
 import com.hxplus.occupational.model.Instruction;
 import com.hxplus.occupational.model.Prescription;
 import com.hxplus.occupational.model.VitalSign;
@@ -20,7 +19,6 @@ import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.request.ConsultRequest;
 import com.hxplus.occupational.request.DiagnosticRequest;
 import com.hxplus.occupational.request.ExamRequest;
-import com.hxplus.occupational.request.FileRequest;
 import com.hxplus.occupational.request.InstructionRequest;
 import com.hxplus.occupational.request.PrescriptionRequest;
 import com.hxplus.occupational.request.VitalSignRequest;
@@ -83,7 +81,7 @@ public class ConsultServiceImpl implements ConsultService {
 		List<Instruction> instructions = new ArrayList<>(); // check
 		List<VitalSign> vitalSigns = new ArrayList<>();
 
-		List<File> files = new ArrayList<>();
+//		List<File> files = new ArrayList<>();
 		List<Diagnostic> diagnostics = new ArrayList<>(); // check
 		List<Exam> examsRequested = new ArrayList<>(), examsRecieved = new ArrayList<>();
 
@@ -97,7 +95,8 @@ public class ConsultServiceImpl implements ConsultService {
 				examRequest.setReceived(recievedAt);
 				examRequest.setResults(exam.getResults());
 				
-				System.out.println("Examen:\n\tID: " + exam.getId()+ "\n\tResults ID: "+exam.getResults().getId());
+				System.out.println("Examen:\n\tID: " + exam.getId());
+				System.out.println("\tResults ID: "+exam.getResults().getId());
 				
 				examsRecieved.add(examService.updateExam(exam.getId(), examRequest));
 			}
@@ -151,7 +150,7 @@ public class ConsultServiceImpl implements ConsultService {
 			System.out.println("No signos vitales");
 		}
 
-		try {
+/*		try {
 			for (FileRequest fileRequest : consultRequest.getFiles()) {
 				fileRequest.setConsult(newConsult);
 				files.add(fileService.saveFile(fileRequest));
@@ -159,7 +158,7 @@ public class ConsultServiceImpl implements ConsultService {
 		} catch (Exception ex) {
 			System.out.println("No archivos");
 		}
-
+*/
 		try {
 			for (ExamRequest examRequest : consultRequest.getRequestExams()) {
 				examRequest.setOrdered(newConsult);

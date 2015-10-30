@@ -20,6 +20,7 @@ import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.CostCenter;
 import com.hxplus.occupational.model.Department;
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Exam;
 import com.hxplus.occupational.model.Habit;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
@@ -34,6 +35,7 @@ import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.repositories.CostCenterRepository;
 import com.hxplus.occupational.repositories.DepartmentRepository;
 import com.hxplus.occupational.repositories.DoctorRepository;
+import com.hxplus.occupational.repositories.ExamRepository;
 import com.hxplus.occupational.repositories.HabitRepository;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.PostRepository;
@@ -74,7 +76,8 @@ public class InitServiceImpl implements InitService {
 	HabitRepository habitRepository;
 	@Autowired
 	ConsultRepository consultRepository;
-
+	@Autowired
+	ExamRepository examRepository;
 	@Autowired
 	SoapNoteRepository soapNoteRepository;
 	@Autowired
@@ -152,7 +155,9 @@ public class InitServiceImpl implements InitService {
 			plans = {
 					"Reina en mi espíritu una alegría admirable, muy parecida a las dulces alboradas de la primavera, de que gozo aquí con delicia. Estoy solo, y me felicito de vivir en este país, el m",
 					"Quiere la boca exhausta vid, kiwi, piña y fugaz jamón. Fabio me exige, sin tapujos, que añada cerveza al whisky. Jovencillo emponzoñado de whisky, ¡qué figurota exhibes! La cigüeña" },
-			comments = { "abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !\"§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !" };
+			comments = { "abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !\"§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !" },
+			examNames = { "Orina", "Placa de Tórax", "Perfil 20", "Tomografía",
+					"Plaquetas" };
 
 	@Override
 	public List<Company> initCompanies() {
@@ -688,6 +693,11 @@ public class InitServiceImpl implements InitService {
 		try {
 			consult.setSoapNote(soapNoteRepository.saveAndFlush(soapNote));
 			newConsult = consultRepository.saveAndFlush(consult);
+			
+			for(Exam exam : consult.getRequestExams()){
+				exam.setOrdered(newConsult);
+				saveExam(exam);
+			}
 			vitalSigns = consult.getVitalSigns();
 			saveVitalSigns(newConsult, vitalSigns);
 		} catch (NullPointerException ex) {
@@ -719,14 +729,41 @@ public class InitServiceImpl implements InitService {
 
 	private void saveVitalSigns(Consult consult, List<VitalSign> vitalSigns)
 			throws NullPointerException {
-		//System.out.println("\t\tConsulta: " +consult.getId());
+		// System.out.println("\t\tConsulta: " +consult.getId());
 		for (VitalSign vitalSign : vitalSigns) {
-			//System.out.println("\t\tVitalSign: "+ vitalSign.getConsult().getId() + "\t"+ vitalSign.getName() + "\t" + vitalSign.getDescripion());
+			// System.out.println("\t\tVitalSign: "+
+			// vitalSign.getConsult().getId() + "\t"+ vitalSign.getName() + "\t"
+			// + vitalSign.getDescripion());
 			vitalSign.setConsult(consult);
 			vitalSign = vitalSignRepository.save(vitalSign);
-			//System.out.println("\t\tId: "+ vitalSign.getId());
+			// System.out.println("\t\tId: "+ vitalSign.getId());
 			vitalSignRepository.flush();
 		}
+	}
+
+	private Exam saveExam(Exam exam){
+		return examRepository.saveAndFlush(exam);
+	}
+	
+	private List<Exam> listExams() {
+		List<Exam> exams = new ArrayList<>();
+		Set<String> namesSet = new TreeSet<>();
+		int cota = (int) (Math.random() * examNames.length);
+		
+		namesSet.addAll(Arrays.asList(examNames));
+		Iterator<String> it = namesSet.iterator();
+
+		for (int i = 0; i < cota && it.hasNext(); i++) {
+			exams.add(createExam(it.next()));
+		}
+
+		return exams;
+	}
+
+	private Exam createExam(String name) {
+		Exam exam = new Exam();
+		exam.setType(name);
+		return exam;
 	}
 
 	private List<Consult> listConsults(Doctor doctor) {
@@ -744,6 +781,7 @@ public class InitServiceImpl implements InitService {
 
 		return consults;
 	}
+	
 
 	private Consult createConsult() {
 
@@ -764,11 +802,13 @@ public class InitServiceImpl implements InitService {
 		// System.out.println(consultDate.toString());
 		consult.setSoapNote(createSoapNote());
 		consult.setVitalSigns(listVitalSigns(consult));
+		consult.setRequestExams(listExams());
 
 		// consult.setVitalSigns(listVitalSigns());
 
 		return consult;
 	}
+	
 
 	private SoapNote createSoapNote() {
 
@@ -787,7 +827,7 @@ public class InitServiceImpl implements InitService {
 		Set<String> vitalSignsSet = new TreeSet<>();
 
 		vitalSignsSet.addAll(Arrays.asList(vitalSignNames));
-		int cota = (int) (Math.random() * vitalSignNames.length)%7;
+		int cota = (int) (Math.random() * vitalSignNames.length) % 7;
 		Iterator<String> it = vitalSignsSet.iterator();
 
 		for (int i = 0; i < cota && it.hasNext(); i++) {
@@ -799,6 +839,7 @@ public class InitServiceImpl implements InitService {
 
 		return vitalSigns;
 	}
+	
 
 	private VitalSign createVitalSign(String name) {
 		VitalSign vitalSign = new VitalSign();

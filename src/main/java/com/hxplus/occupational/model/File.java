@@ -23,6 +23,7 @@ public class File implements Serializable{
 	private Long id;
 	private Consult consult;
 	private String fileName;
+	private String type;
 	private java.io.File file;
 
 	@Id
@@ -41,6 +42,11 @@ public class File implements Serializable{
 	public String getFileName() {
 		return fileName;
 	}
+	
+	@Column(name="type")
+	public String getType() {
+		return type;
+	}
 
 	@Column(name="filedata")
 	public java.io.File getFile() {
@@ -57,6 +63,10 @@ public class File implements Serializable{
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setFile(java.io.File file) {
