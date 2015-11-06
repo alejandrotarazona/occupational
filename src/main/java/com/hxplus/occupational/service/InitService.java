@@ -3,7 +3,10 @@ package com.hxplus.occupational.service;
 import java.util.List;
 
 import com.hxplus.occupational.model.Company;
+import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Drug;
+import com.hxplus.occupational.model.Laboratory;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.User;
@@ -15,5 +18,7 @@ public interface InitService {
 	public List<User> initUsers();
 	public List<Doctor> initDoctors();
 	public List<Patient> initPatients();
+	public List<Laboratory> initLaboratories();
+	public List<Drug> initDrugs();
 
 }

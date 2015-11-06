@@ -16,6 +16,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,12 +26,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 727003876867333544L;
 	private Long id;
 	private String username;
 	private String password;
@@ -47,6 +44,7 @@ public class User extends BaseEntity implements Serializable {
 	private Company employer;
 	private Post post;
 	private List<Contract> contracts;
+	private File photo;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -138,6 +136,13 @@ public class User extends BaseEntity implements Serializable {
 		return contracts;
 	}
 
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name="photo", referencedColumnName="id")
+	public File getPhoto() {
+		return photo;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -200,6 +205,10 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
+	}
+
+	public void setPhoto(File photo) {
+		this.photo = photo;
 	}
 
 	public String toString() {

@@ -57,6 +57,14 @@ public class ExamServiceImpl implements ExamService {
 		Exam exam = examRepository.findOne(id);
 		exam.setResults(examRequest.getResults());
 		
+		System.out.println("Update Exam");
+		System.out.println("Resultados de examRequest");
+		System.out.println(examRequest.getResults().getId());
+		System.out.println("Resultados de exam");
+		System.out.println(exam.getResults().getId());
+		
+		if(examRequest.getResults() == null) System.out.println("Los resultados son nulos");
+		
 		Exam newExam = examRepository.save(exam);
 		
 		System.out.println("Examen updateado:\n\tId: "+ newExam.getId() + "\n\tResults Id: " + newExam.getResults().getId());

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hxplus.occupational.model.Company;
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Drug;
+import com.hxplus.occupational.model.Laboratory;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.User;
@@ -31,6 +33,8 @@ public class Prueba {
 	public @ResponseBody List<Object> init(){
 		List<Object> objects = new ArrayList<>(); 
 		objects.addAll(initService.initCompanies());
+		objects.addAll(initService.initLaboratories());
+		objects.addAll(initService.initDrugs());
 		objects.addAll(initService.initPosts());
 		objects.addAll(initService.initUsers());
 		objects.addAll(initService.initDoctors());
@@ -41,6 +45,15 @@ public class Prueba {
 	@RequestMapping(value="initCompanies",method=RequestMethod.GET)
 	public @ResponseBody List<Company> initCompanies(){
 		return initService.initCompanies();
+	}
+	
+	@RequestMapping(value="initLaboratories",method=RequestMethod.GET)
+	public @ResponseBody List<Laboratory> initLaboratories(){
+		return initService.initLaboratories();
+	}
+	@RequestMapping(value="initDrugs",method=RequestMethod.GET)
+	public @ResponseBody List<Drug> initDrugs(){
+		return initService.initDrugs();
 	}
 	
 	@RequestMapping(value="initPosts" , method = RequestMethod.GET)

@@ -77,12 +77,11 @@ public class ConsultServiceImpl implements ConsultService {
 		consult.setConsultDate(new Date());
 		newConsult = consultRepository.save(consult);
 
-		List<Prescription> prescriptions = new ArrayList<>(); // check
-		List<Instruction> instructions = new ArrayList<>(); // check
+		List<Prescription> prescriptions = new ArrayList<>(); 
+		List<Instruction> instructions = new ArrayList<>(); 
 		List<VitalSign> vitalSigns = new ArrayList<>();
-
 //		List<File> files = new ArrayList<>();
-		List<Diagnostic> diagnostics = new ArrayList<>(); // check
+		List<Diagnostic> diagnostics = new ArrayList<>(); 
 		List<Exam> examsRequested = new ArrayList<>(), examsRecieved = new ArrayList<>();
 
 		try {
@@ -96,13 +95,14 @@ public class ConsultServiceImpl implements ConsultService {
 				examRequest.setResults(exam.getResults());
 				
 				System.out.println("Examen:\n\tID: " + exam.getId());
-				System.out.println("\tResults ID: "+exam.getResults().getId());
+				if(exam.getResults() != null) System.out.println("Id del resultado(archivo): " + exam.getResults().getId());
+				else System.out.println("El resultado es Nulo");
 				
 				examsRecieved.add(examService.updateExam(exam.getId(), examRequest));
 			}
 		} catch (Exception ex) {
 			System.out.println("Error con los recibidos");
-			ex.printStackTrace();
+			System.out.println("Solución, reenviar el formulario directo a update Exam.");
 		}
 
 		try {

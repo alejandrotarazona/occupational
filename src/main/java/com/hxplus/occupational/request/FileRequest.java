@@ -1,19 +1,11 @@
 package com.hxplus.occupational.request;
 
-import java.io.File;
-
-import com.hxplus.occupational.model.Consult;
 
 public class FileRequest {
 
-	private Consult consult;
 	private String fileName;
 	private String type;
-	private File file;
-
-	public Consult getConsult() {
-		return consult;
-	}
+	private byte[] data;
 
 	public String getFileName() {
 		return fileName;
@@ -23,12 +15,8 @@ public class FileRequest {
 		return type;
 	}
 
-	public File getFile() {
-		return file;
-	}
-
-	public void setConsult(Consult consult) {
-		this.consult = consult;
+	public byte[] getData() {
+		return data;
 	}
 
 	public void setFileName(String fileName) {
@@ -39,8 +27,8 @@ public class FileRequest {
 		this.type = type;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 }

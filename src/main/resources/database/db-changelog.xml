@@ -30,14 +30,15 @@
 			<column name="rif" type="BIGINT" />
 			<column name="firstName" type="VARCHAR(255)" />
 			<column name="lastName" type="VARCHAR(255)" />
-			<column name="sex" type="VARCHAR(1)"/>
-			<column name="birthdate" type="DATETIME"/>
+			<column name="sex" type="VARCHAR(1)" />
+			<column name="birthdate" type="DATETIME" />
 			<column name="email" type="VARCHAR(255)" />
 			<column name="address" type="VARCHAR(255)" />
 			<column name="phoneNumber" type="VARCHAR(255)" />
 			<column name="idpost" type="BIGINT" />
-			<column name="idcostcenter" type="BIGINT" /> <!-- works -->
+			<column name="idcostcenter" type="BIGINT" />
 			<column name="idcompany" type="BIGINT" />
+			<column name="photo" type="BIGINT" />
 		</createTable>
 	</changeSet>
 
@@ -280,7 +281,7 @@
 				<constraints nullable="false" primaryKey="true"
 					primaryKeyName="pk_soapnote" />
 			</column>
-			<!--  column name="idconsult" type="BIGINT" /-->
+			<!-- column name="idconsult" type="BIGINT" / -->
 			<column name="subjective" type="VARCHAR(255)" />
 			<column name="objective" type="VARCHAR(255)" />
 			<column name="plan" type="VARCHAR(255)" />
@@ -302,9 +303,13 @@
 			</column>
 			<column name="idconsult" type="BIGINT"></column>
 			<column name="filename" type="VARCHAR(255)" />
-			<column name="type" type="VARCHAR(60)"/>
+			<column name="type" type="VARCHAR(60)" />
 			<column name="filedata" type="LONGBLOB" />
 		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_user__file"
+			referencedTableName="file" baseColumnNames="photo" baseTableName="user"
+			referencedColumnNames="id" />
 	</changeSet>
 
 	<changeSet id="16" author="hxplus">
@@ -323,10 +328,10 @@
 			<column name="idexam" type="BIGINT" />
 		</createTable>
 		<addForeignKeyConstraint referencedTableName="diagnostic"
-			referencedColumnNames="id" baseColumnNames="iddiagnostic" baseTableName="soapnote"
-			constraintName="fk_noapnote__diagnostic"/>
-					
-	
+			referencedColumnNames="id" baseColumnNames="iddiagnostic"
+			baseTableName="soapnote" constraintName="fk_noapnote__diagnostic" />
+
+
 	</changeSet>
 
 	<changeSet id="17" author="hxplus">
@@ -434,7 +439,7 @@
 					primaryKeyName="pk_exam" />
 			</column>
 			<column name="ordered" type="BIGINT" />
-			<!-- column name="recieved" type="BIGINT" /-->
+			<!-- column name="recieved" type="BIGINT" / -->
 			<column name="type" type="VARCHAR(255)" />
 			<column name="results" type="BIGINT" />
 			<!-- Falta Lista de Diagnósticos -->
@@ -457,7 +462,7 @@
 			</column>
 			<column name="idpatient" type="BIGINT">
 				<constraints nullable="false" foreignKeyName="fk_consult__patient"
-					referencedTableName="patient" referencedColumnNames="id" unique="false"/>
+					referencedTableName="patient" referencedColumnNames="id" unique="false" />
 			</column>
 			<column name="consultdate" type="DATETIME" />
 			<column name="idsoapnote" type="BIGINT" />
@@ -520,8 +525,8 @@
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_exam__recieve"
-			referencedTableName="exam" baseColumnNames="idexam" 
-			baseTableName="recieve_exam" referencedColumnNames="id" />
+			referencedTableName="exam" baseColumnNames="idexam" baseTableName="recieve_exam"
+			referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="fk_consult__recieve"
 			referencedTableName="consult" baseColumnNames="idconsult"
 			baseTableName="recieve_exam" referencedColumnNames="id" />

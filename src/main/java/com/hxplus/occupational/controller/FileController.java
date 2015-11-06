@@ -3,7 +3,9 @@ package com.hxplus.occupational.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,25 +24,56 @@ public class FileController {
 	@Autowired
 	FileService fileService;
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=image/jpeg, image/jpg, image/png, image/gif")
-	public @ResponseBody ResponseEntity<byte[]> getFile(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	File getFile(@PathVariable("id") Long id) {
+		return fileService.findById(id);
+	}
+	
+	@RequestMapping(value="/exam/{id}", method= RequestMethod.GET)
+	public @ResponseBody
+	File getIdByExam(@PathVariable("id") Long idExam){
+		return fileService.findIdByExam(idExam);
+	}
 
-		System.out.println("File Controller");
+	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	ResponseEntity getImage(@PathVariable("id") Long id) {
+		File file = fileService.findById(id);
+
+		if (file == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("content-disposition",
+				"attachment; filename=" + file.getFileName());
+
+		String primaryType, subType;
 		
-		final byte[] file = fileService.findById(id);
 		try {
-			return new ResponseEntity<byte[]>(file, HttpStatus.OK);			
-		} catch (final Exception e) {
-			System.out.println("Error de transmisión");
-			System.out.println(e.getLocalizedMessage());
-			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			primaryType = file.getType().split("/")[0];
+			subType = file.getType().split("/")[1];
+		} catch (IndexOutOfBoundsException | NullPointerException ex) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		headers.setContentType( new MediaType(primaryType, subType) );
+
+        return new ResponseEntity<>(file.getData(), headers, HttpStatus.OK);
+
+
 	}
 
 	@RequestMapping(value = "/byexam/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	File getFileByExam(@PathVariable("id") Long idExam) {
 		return fileService.findByExam(idExam);
+	}
+	
+	@RequestMapping(value = "/byuser/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	File getFileByUser(@PathVariable("id") Long idUser) {
+		return fileService.findByUser(idUser);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -49,11 +82,11 @@ public class FileController {
 		return fileService.findAll();
 	}
 
-	@RequestMapping(value = "/byconsult/{id}", method = RequestMethod.GET)
-	public @ResponseBody
-	List<File> getFilesByConsult(@PathVariable("id") Long idConsult) {
-		return fileService.findByConsult(idConsult);
-	}
+//	@RequestMapping(value = "/byconsult/{id}", method = RequestMethod.GET)
+//	public @ResponseBody
+//	List<File> getFilesByConsult(@PathVariable("id") Long idConsult) {
+//		return fileService.findByConsult(idConsult);
+//	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public @ResponseBody

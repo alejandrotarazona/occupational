@@ -1,7 +1,5 @@
 package com.hxplus.occupational.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,22 +7,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="file")
-public class File implements Serializable{
+public class File{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8349015290213828971L;
+	
 	private Long id;
-	private Consult consult;
 	private String fileName;
 	private String type;
-	private java.io.File file;
+	private byte[] data;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,12 +27,6 @@ public class File implements Serializable{
 		return id;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idconsult",referencedColumnName="id")
-	public Consult getConsult() {
-		return consult;
-	}
-
 	@Column(name="filename")
 	public String getFileName() {
 		return fileName;
@@ -48,17 +37,14 @@ public class File implements Serializable{
 		return type;
 	}
 
+	@Lob
 	@Column(name="filedata")
-	public java.io.File getFile() {
-		return file;
+	public byte[] getData() {
+		return data;
 	}
 	
 	public void setId(Long id){
 		this.id = id;
-	}
-
-	public void setConsult(Consult consult) {
-		this.consult = consult;
 	}
 
 	public void setFileName(String fileName) {
@@ -69,8 +55,8 @@ public class File implements Serializable{
 		this.type = type;
 	}
 
-	public void setFile(java.io.File file) {
-		this.file = file;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 }

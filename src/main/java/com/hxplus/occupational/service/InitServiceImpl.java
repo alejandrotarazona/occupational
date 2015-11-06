@@ -1,5 +1,9 @@
 package com.hxplus.occupational.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,8 +24,11 @@ import com.hxplus.occupational.model.Consult;
 import com.hxplus.occupational.model.CostCenter;
 import com.hxplus.occupational.model.Department;
 import com.hxplus.occupational.model.Doctor;
+import com.hxplus.occupational.model.Drug;
 import com.hxplus.occupational.model.Exam;
+import com.hxplus.occupational.model.File;
 import com.hxplus.occupational.model.Habit;
+import com.hxplus.occupational.model.Laboratory;
 import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.model.Post;
 import com.hxplus.occupational.model.SoapNote;
@@ -35,8 +42,11 @@ import com.hxplus.occupational.repositories.ConsultRepository;
 import com.hxplus.occupational.repositories.CostCenterRepository;
 import com.hxplus.occupational.repositories.DepartmentRepository;
 import com.hxplus.occupational.repositories.DoctorRepository;
+import com.hxplus.occupational.repositories.DrugRepository;
 import com.hxplus.occupational.repositories.ExamRepository;
+import com.hxplus.occupational.repositories.FileRepository;
 import com.hxplus.occupational.repositories.HabitRepository;
+import com.hxplus.occupational.repositories.LaboratoryRepository;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.repositories.PostRepository;
 import com.hxplus.occupational.repositories.PrescriptionRepository;
@@ -84,6 +94,13 @@ public class InitServiceImpl implements InitService {
 	PrescriptionRepository prescriptionRepository;
 	@Autowired
 	VitalSignRepository vitalSignRepository;
+	
+	@Autowired
+	LaboratoryRepository laboratoryRepository;
+	@Autowired
+	DrugRepository drugRepository;
+	@Autowired
+	FileRepository fileRepository;
 
 	private final String[] companyNames = { "Polar", "Coca-Cola", "P&G",
 			"Palmolive", "Protinal", "SIDOR" },
@@ -157,7 +174,9 @@ public class InitServiceImpl implements InitService {
 					"Quiere la boca exhausta vid, kiwi, piña y fugaz jamón. Fabio me exige, sin tapujos, que añada cerveza al whisky. Jovencillo emponzoñado de whisky, ¡qué figurota exhibes! La cigüeña" },
 			comments = { "abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !\"§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !" },
 			examNames = { "Orina", "Placa de Tórax", "Perfil 20", "Tomografía",
-					"Plaquetas" };
+					"Plaquetas" }, 
+			labNames = {"Psizer", "Elmor", "Bayer", "Roche"},
+			drugNames = {"Acetaminofén", "Ibuprofeno", "Lidocaína", "Antibiótico"};
 
 	@Override
 	public List<Company> initCompanies() {
@@ -255,6 +274,46 @@ public class InitServiceImpl implements InitService {
 		}
 
 		return guardados;
+	}
+
+	@Override
+	public List<Laboratory> initLaboratories() {
+		List<Laboratory> laboratories = new ArrayList<Laboratory>();
+		int i = 0;
+		
+		for(String name : labNames){
+			Laboratory laboratory = new Laboratory();
+			i = (int)Math.random()*phoneNumbers.length;
+			laboratory.setName(name);
+			laboratory.setPhoneNumber(phoneNumbers[i]);
+			laboratories.add(laboratory);
+		}
+		
+		laboratoryRepository.save(laboratories);
+		laboratoryRepository.flush();
+		System.out.println("······································Laboratorios Guardados······································");
+		return laboratories;
+	}
+
+	@Override
+	public List<Drug> initDrugs() {
+		List<Drug> drugs = new ArrayList<>();
+		List<Laboratory> laboratories;
+		
+		for(String name : drugNames){
+			laboratories = laboratoryRepository.findAll();
+			Drug drug = new Drug();
+			drug.setName(name);
+			int drugLabs = (int) Math.random()*laboratories.size();
+			
+			for( int i = 0; i < drugLabs; i++){
+				drug.setLaboratory(laboratories.remove((int)Math.random()*laboratories.size()));
+				drugRepository.saveAndFlush(drug);
+			}			
+		}
+		
+		System.out.println("······································Medicamentos Guardados······································");
+		return drugs;
 	}
 
 	private Patient updatePatient(Patient patient) {
@@ -501,12 +560,16 @@ public class InitServiceImpl implements InitService {
 	private List<User> listUsers() {
 		List<User> users = new ArrayList<User>();
 		List<Post> posts = postRepository.findAll();
+		
 
+		
+				
 		User ale = createUser("Alejandro", "Tarazona", "atarazona", "4242",
 				posts.get((int) (Math.random() * posts.size())));
 		ale.setId(Long.valueOf(1));
 		ale.setSex("M");
 		ale.setBirthDate(new GregorianCalendar(1989, 2, 10).getTime());
+				
 		users.add(ale);
 
 		for (int i = 0; i < firstnames.length; i++) {
@@ -693,8 +756,8 @@ public class InitServiceImpl implements InitService {
 		try {
 			consult.setSoapNote(soapNoteRepository.saveAndFlush(soapNote));
 			newConsult = consultRepository.saveAndFlush(consult);
-			
-			for(Exam exam : consult.getRequestExams()){
+
+			for (Exam exam : consult.getRequestExams()) {
 				exam.setOrdered(newConsult);
 				saveExam(exam);
 			}
@@ -741,20 +804,16 @@ public class InitServiceImpl implements InitService {
 		}
 	}
 
-	private Exam saveExam(Exam exam){
+	private Exam saveExam(Exam exam) {
 		return examRepository.saveAndFlush(exam);
 	}
-	
+
 	private List<Exam> listExams() {
 		List<Exam> exams = new ArrayList<>();
-		Set<String> namesSet = new TreeSet<>();
-		int cota = (int) (Math.random() * examNames.length);
-		
-		namesSet.addAll(Arrays.asList(examNames));
-		Iterator<String> it = namesSet.iterator();
+		int cota = (int) (Math.random() * 2);
 
-		for (int i = 0; i < cota && it.hasNext(); i++) {
-			exams.add(createExam(it.next()));
+		for (int i = 0; i < cota; i++) {
+			exams.add(createExam(examNames[(int) (Math.random() * examNames.length)]));
 		}
 
 		return exams;
@@ -781,7 +840,6 @@ public class InitServiceImpl implements InitService {
 
 		return consults;
 	}
-	
 
 	private Consult createConsult() {
 
@@ -808,7 +866,6 @@ public class InitServiceImpl implements InitService {
 
 		return consult;
 	}
-	
 
 	private SoapNote createSoapNote() {
 
@@ -839,7 +896,6 @@ public class InitServiceImpl implements InitService {
 
 		return vitalSigns;
 	}
-	
 
 	private VitalSign createVitalSign(String name) {
 		VitalSign vitalSign = new VitalSign();

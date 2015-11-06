@@ -1,6 +1,5 @@
 package com.hxplus.occupational.request;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hxplus.occupational.model.Company;
