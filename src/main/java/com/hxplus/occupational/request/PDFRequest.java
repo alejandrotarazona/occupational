@@ -1,17 +1,26 @@
 package com.hxplus.occupational.request;
 
-import java.util.Map;
+import com.hxplus.occupational.model.Consult;
 
 public class PDFRequest {
 
-	Map<String, Object> map;
+	String[] toPrint;
+	Consult consult;
 
-	public Map<String, Object> getMap() {
-		return map;
+	public String[] getToPrint() {
+		return toPrint;
 	}
 
-	public void setMap(Map<String, Object> map) {
-		this.map = map;
+	public Consult getConsult() {
+		return consult;
+	}
+
+	public void setToPrint(String[] toPrint) {
+		this.toPrint = toPrint;
+	}
+
+	public void setConsult(Consult consult) {
+		this.consult = consult;
 	}
 
 }

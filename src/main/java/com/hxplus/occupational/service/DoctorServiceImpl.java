@@ -12,22 +12,29 @@ import com.hxplus.occupational.model.Patient;
 import com.hxplus.occupational.repositories.DoctorRepository;
 import com.hxplus.occupational.repositories.PatientRepository;
 import com.hxplus.occupational.request.DoctorRequest;
+
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
-	@Autowired DoctorRepository doctorRepository;
-	@Autowired PatientRepository patientRepository;
+	@Autowired
+	DoctorRepository doctorRepository;
+	@Autowired
+	PatientRepository patientRepository;
 
 	@Override
 	public Doctor findById(Long id) {
 		return doctorRepository.findOne(id);
 	}
-	
+
 	@Override
-	public Doctor findByUserId(Long idUser){
+	public Doctor findByUserId(Long idUser) {
 		return doctorRepository.findByUser(idUser);
 	}
-	
+
+	@Override
+	public Doctor findByConsultId(Long consultId) {
+		return doctorRepository.findByConsultId(consultId);
+	}
 
 	@Override
 	public List<Doctor> findAll() {
@@ -46,32 +53,35 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public ResponseEntity<Object> deleteDoctor(Long id) {
-		try{
+		try {
 			doctorRepository.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
-		} catch (Exception ex) { 
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return new ResponseEntity<Object>(ex.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(ex.getLocalizedMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@Override
 	public Doctor addPatient(Long idDoctor, Long idPatient) {
 		Doctor doctor = doctorRepository.findOne(idDoctor);
 		Patient patient = patientRepository.findOne(idPatient);
-		
-		List<Patient> patients = patientRepository.listPatientsByDoctor(idDoctor);
+
+		List<Patient> patients = patientRepository
+				.listPatientsByDoctor(idDoctor);
 		patients.add(patient);
 		doctor.setPatients(patients);
-		
-		System.out.println("Guardando un nuevo paciente:\n" + patient.toString());
-		
+
+		System.out.println("Guardando un nuevo paciente:\n"
+				+ patient.toString());
+
 		doctorRepository.saveAndFlush(doctor);
-		
+
 		return doctor;
 	}
 
-	private Doctor fromReq(Doctor doctor, DoctorRequest doctorRequest){
+	private Doctor fromReq(Doctor doctor, DoctorRequest doctorRequest) {
 		doctor.setUser(doctorRequest.getUser());
 		doctor.setRegNumber(doctorRequest.getRegNumber());
 		doctor.setPatients(doctorRequest.getPatients());

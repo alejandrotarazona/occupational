@@ -14,6 +14,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	
 	@Query("SELECT p FROM Patient p INNER JOIN p.user u WHERE u.id = (:id)")
 	public Patient findByUser(@Param("id") Long idUser);
+	
+	@Query("select p from Consult c join c.patient p where c.id = (:idconsult)")
+	public Patient findByConsultId(@Param("idconsult") Long idConsult);
 
 	@Query("SELECT DISTINCT d.patients " 
 			+ "FROM Doctor as d "

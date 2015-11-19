@@ -17,9 +17,12 @@ import com.hxplus.occupational.request.PatientRequest;
 @Service
 public class PatientServiceImpl implements PatientService {
 
-	@Autowired PatientRepository patientRepository;
-	@Autowired UserRepository userRepository;
-	@Autowired DoctorService doctorService;
+	@Autowired
+	PatientRepository patientRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	DoctorService doctorService;
 
 	@Override
 	public Patient findById(Long id) {
@@ -32,24 +35,30 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
+	public Patient findByConsultId(Long idConsult) {
+		return patientRepository.findByConsultId(idConsult);
+	}
+
+	@Override
 	public List<Patient> listByDoctor(Long iddoctor) {
 		return patientRepository.listPatientsByDoctor(iddoctor);
 	}
 
 	@Override
-	public Patient savePatient(Long idUser, Long idDoctor, PatientRequest patientRequest) {
-		
-		Patient patient = fromReq(new Patient(), patientRequest); // Guarda la historia completa.
-		
+	public Patient savePatient(Long idUser, Long idDoctor,
+			PatientRequest patientRequest) {
+
+		Patient patient = fromReq(new Patient(), patientRequest); 
+
 		patient.setUser(userRepository.findOne(idUser));
-		
+
 		Doctor doctor = doctorService.findByUserId(idDoctor);
 		List<Doctor> doctors = new ArrayList<>();
 		doctors.add(doctor);
-		
+
 		patient.setDoctors(doctors);
-		
-		patientRepository.saveAndFlush(patient);				// Guarda un nuevo paciente
+
+		patientRepository.saveAndFlush(patient); // Guarda un nuevo paciente
 
 		return patient;
 	}
@@ -72,7 +81,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	private Patient fromReq(Patient patient, PatientRequest patientRequest) {
-	
+
 		System.out.println("FromReq Terminado");
 		return patient;
 	}

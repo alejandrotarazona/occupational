@@ -23,5 +23,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 			+ "WHERE p.id = (:id) "
 			+ "ORDER BY u.lastName ASC, u.firstName ASC")
 	public List<Doctor> listDoctorbyPatient(@Param("id") Long idpatient);
+	
+	@Query("select d from Consult c join c.doctor d where c.id = (:idconsult)")
+	public Doctor findByConsultId(@Param("idconsult") Long consultId);
 
 }
