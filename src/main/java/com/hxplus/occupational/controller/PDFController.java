@@ -21,5 +21,10 @@ public class PDFController {
 	public @ResponseBody ResponseEntity<byte[]> downloadInform(@RequestBody PDFRequest pdfRequest){
 		return downloadService.downloadInform(pdfRequest);
 	}
+	
+	@RequestMapping(value="/rest", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<byte[]> downloadRest(@RequestBody PDFRequest pdfRequest){
+		return downloadService.downloadRest(pdfRequest);
+	}
 
 }

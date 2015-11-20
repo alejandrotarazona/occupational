@@ -95,6 +95,103 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 	}
 
+	@Override
+	public ResponseEntity<byte[]> downloadRest(PDFRequest pdfRequest) {
+		String content = "El empleado tiene un reposo de "
+				+ pdfRequest.getRestDays() + " días a partir del";
+		Consult consult = consultService.findById(pdfRequest.getConsult()
+				.getId());
+
+		try {
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			String filename = "Rest_"
+					+ (consult.getConsultDate().toString().substring(0, 10))
+					+ ".pdf";
+			headers.setContentDispositionFormData(filename, filename);
+			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+			byte[] contents = printRest(content, consult).toByteArray();
+
+			return new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			System.out.println("");
+			System.out.println("");
+			return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (DocumentException ex) {
+			System.out
+					.println("Error de documento " + ex.getLocalizedMessage());
+			ex.printStackTrace();
+			System.out.println("");
+			System.out.println("");
+			return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception ex) {
+			System.out.println("Error generando el archivo PDF "
+					+ ex.getLocalizedMessage());
+			ex.printStackTrace();
+			System.out.println("");
+			System.out.println("");
+			return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	private ByteArrayOutputStream printRest(String content, Consult consult)
+			throws DocumentException, NullPointerException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		Document document = new Document(PageSize.A4);
+
+		PdfWriter.getInstance(document, baos);
+
+		document.open();
+
+		Calendar calendar = Calendar.getInstance();
+		Chunk[] chunk = {
+				new Chunk("RESPOSO MÉDICO\n", new Font(
+						Font.FontFamily.TIMES_ROMAN, 24, Font.ITALIC)),
+				new Chunk(calendar.get(Calendar.DATE) + "/"
+						+ (calendar.get(Calendar.MONTH)+1) + "/"
+						+ calendar.get(Calendar.YEAR), new Font(
+						Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL)) };
+
+		Paragraph topHeader = new Paragraph(chunk[0]);
+		topHeader.add(chunk[1]);
+		topHeader.setAlignment(Paragraph.ALIGN_CENTER);
+		document.add(topHeader);
+
+		/* Encabezado del documento */
+		for (Paragraph paragraph : createDocumentHeader(consult)) {
+			document.add(paragraph);
+		}
+
+		// add a couple of blank lines
+		document.add(Chunk.NEWLINE);
+		document.add(Chunk.NEWLINE);
+
+		/* Resto del documento aquí */
+
+		calendar.setTime(consult.getConsultDate());
+		document.add(new Paragraph(content + " " + calendar.get(Calendar.DATE)
+				+ "/" + (calendar.get(Calendar.MONTH)+1) + "/"
+				+ calendar.get(Calendar.YEAR)));
+
+		// add a couple of blank lines
+		document.add(Chunk.NEWLINE);
+		document.add(Chunk.NEWLINE);
+
+		/* Pie de página */
+		for (Paragraph paragraph : createDocumentFooter(consult)) {
+			document.add(paragraph);
+		}
+
+		document.close();
+
+		return baos;
+	}
+
 	private ByteArrayOutputStream printInform(String[] clausules,
 			Consult consult) throws DocumentException, NullPointerException {
 
@@ -111,7 +208,7 @@ public class DownloadServiceImpl implements DownloadService {
 				new Chunk("IMFORME MÉDICO\n", new Font(
 						Font.FontFamily.TIMES_ROMAN, 24, Font.ITALIC)),
 				new Chunk(calendar.get(Calendar.DATE) + "/"
-						+ calendar.get(Calendar.MONTH) + "/"
+						+ (calendar.get(Calendar.MONTH)+1) + "/"
 						+ calendar.get(Calendar.YEAR), new Font(
 						Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL)) };
 
@@ -195,17 +292,20 @@ public class DownloadServiceImpl implements DownloadService {
 	}
 
 	private List<Paragraph> createDocumentFooter(Consult consult) {
-		List<Paragraph> paragraphs = new ArrayList<>();		
-		
+		List<Paragraph> paragraphs = new ArrayList<>();
+
 		Chunk[] chunks = {
-			new Chunk("                                            ",new Font(Font.FontFamily.TIMES_ROMAN,24,Font.ITALIC)),
-			new Chunk(doctor.getUser().getFirstName() + " " + doctor.getUser().getLastName(), new Font(Font.FontFamily.TIMES_ROMAN,12,Font.ITALIC)),
-			new Chunk("Registrado con el nro: " + doctor.getRegNumber(),new Font(Font.FontFamily.TIMES_ROMAN,12,Font.ITALIC))
-		};
-		
+				new Chunk("                                            ",
+						new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.ITALIC)),
+				new Chunk(doctor.getUser().getFirstName() + " "
+						+ doctor.getUser().getLastName(), new Font(
+						Font.FontFamily.TIMES_ROMAN, 12, Font.ITALIC)),
+				new Chunk("Registrado con el nro: " + doctor.getRegNumber(),
+						new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.ITALIC)) };
+
 		chunks[0].setUnderline(0.2f, -2f);
-		
-		for(Chunk chunk : chunks){
+
+		for (Chunk chunk : chunks) {
 			Paragraph paragraph = new Paragraph(chunk);
 			paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 			paragraphs.add(paragraph);
@@ -224,18 +324,21 @@ public class DownloadServiceImpl implements DownloadService {
 		calendar.setTime(consult.getConsultDate());
 		paragraphs.add(new Paragraph("Fecha de la consulta: "
 				+ calendar.get(Calendar.DATE) + "/"
-				+ calendar.get(Calendar.MONTH) + "/"
-				+ calendar.get(Calendar.YEAR)));
+				+ (calendar.get(Calendar.MONTH)+1) + "/"
+				+ calendar.get(Calendar.YEAR),new Font(Font.FontFamily.TIMES_ROMAN,12,Font.BOLD)));
+		
+		paragraphs.add(new Paragraph(Chunk.NEWLINE));
 
 		if (soapNote != null && listClausules.contains("objective")) {
-			paragraphs.add(new Paragraph("Se pudo observar:"));
+			paragraphs.add(new Paragraph("Se pudo observar:",new Font(Font.FontFamily.TIMES_ROMAN,14,Font.BOLDITALIC)));
 			paragraphs.add(new Paragraph(soapNote.getObjective()));
 		}
 
 		List<Diagnostic> diagnostics = diagnosticService
 				.findByConsultId(consult.getId());
 		if (listClausules.contains("diagnostics")) {
-			paragraphs.add(new Paragraph("Diagnóstico(s):"));
+			paragraphs.add(new Paragraph(Chunk.NEWLINE));
+			paragraphs.add(new Paragraph("Diagnóstico(s):",new Font(Font.FontFamily.TIMES_ROMAN,14,Font.BOLDITALIC)));
 
 			for (Diagnostic diagnostic : diagnostics) {
 				paragraphs.add(new Paragraph("\t-" + diagnostic.getDetails()));
@@ -247,7 +350,8 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 
 		if (listClausules.contains("plan")) {
-			paragraphs.add(new Paragraph("Plan:"));
+			paragraphs.add(new Paragraph(Chunk.NEWLINE));
+			paragraphs.add(new Paragraph("Plan:",new Font(Font.FontFamily.TIMES_ROMAN,14,Font.BOLDITALIC)));
 
 			if (soapNote.getPlan() == null)
 				paragraphs.add(new Paragraph(
@@ -256,7 +360,8 @@ public class DownloadServiceImpl implements DownloadService {
 		}
 
 		if (listClausules.contains("comments")) {
-			paragraphs.add(new Paragraph("Comentarios adicionales:"));
+			paragraphs.add(new Paragraph(Chunk.NEWLINE));
+			paragraphs.add(new Paragraph("Comentarios adicionales:",new Font(Font.FontFamily.TIMES_ROMAN,14,Font.BOLDITALIC)));
 			if (soapNote.getComments() == null)
 				paragraphs.add(new Paragraph("No hay comentarios adicionales"));
 			paragraphs.add(new Paragraph(soapNote.getComments()));

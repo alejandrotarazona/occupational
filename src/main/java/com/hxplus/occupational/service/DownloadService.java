@@ -8,5 +8,6 @@ import com.hxplus.occupational.request.PDFRequest;
 public interface DownloadService {
 	
 	public ResponseEntity<byte[]> downloadInform(PDFRequest consult);
+	public ResponseEntity<byte[]> downloadRest(PDFRequest pdfRequest);
 
 }
